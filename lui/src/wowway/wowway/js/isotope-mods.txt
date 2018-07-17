@@ -1,0 +1,29 @@
+
+    _processStyleQueue : function( $elems, callback ) {
+      // are we animating the layout arrangement?
+      // use plugin-ish syntax for css or animate
+      var styleFn = !this.isLaidOut ? 'css' : (
+            this.isUsingJQueryAnimation ? 'animate' : 'css'
+          ),
+          animOpts = this.options.animationOptions,
+          onLayout = this.options.onLayout,
+          objStyleFn, processor,
+          triggerCallbackNow, callbackFn;
+
+      /* Source Edit -> Start */
+     if($elems.hasClass('disable-resize') && this.element.hasClass('disable-resize-parent')) {
+          styleFn = 'css';
+      }
+      /* Source Edit -> End */
+
+
+////////////////////////////
+
+
+    resize : function() {
+      if ( this[ '_' + this.options.layoutMode + 'ResizeChanged' ]() ) {
+        if(!this.element.hasClass('disable-resize-parent')) {
+            this.reLayout();
+        }
+      }
+    },
