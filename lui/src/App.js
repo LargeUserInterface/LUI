@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+// import './App.css';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Photos from './components/Photos';
@@ -15,19 +15,16 @@ import App8 from './components/App8';
 
 const styles = {
   mainContainer: {
-    width: '98%',
-    height: '98%',
+    width: '100vw',
+    height: '100vh',
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column'
   },
 
-  topBar: {
-  
-  },
-
-  appsContainer: {
-
+  rowContainer: {
+    width: '100%',
+    height: '50%',
   },
 
   appIcon: {
@@ -56,32 +53,28 @@ class App extends Component {
           <TopBar />
         </Grid> */}
 
-        <Grid className={classes.appsContainer} container spacing={0}>
-            <Grid className={classes.appIcon} item xs={3} cl>
-              <Photos />
-            </Grid>
-            <Grid className={classes.photos} item xs={3} cl>
-              <App2 />
-            </Grid>
-            <Grid className={classes.photos} item xs={3} cl>
-              <App3 />
-            </Grid>
-            <Grid className={classes.photos} item xs={3} cl>
-              <App4 />
-            </Grid>
-            <Grid className={classes.photos} item xs={3} cl>
-              <App5 />
-            </Grid>
-            <Grid className={classes.photos} item xs={3} cl>
-              <App6 />
-            </Grid>
-            <Grid className={classes.photos} item xs={3} cl>
-              <App7 />
-            </Grid>
-            <Grid className={classes.photos} item xs={3} cl>
-              <App8 />
-            </Grid>
+        <Grid className={classes.rowContainer} container>
+          <Grid className={classes.appIcon} item xs={4} cl>
+            <Photos />
+          </Grid>
+          <Grid className={classes.appIcon} item xs={4} cl>
+            <App2 />
+          </Grid>
+          <Grid className={classes.appIcon} item xs={4} cl>
+            <App3 />
+          </Grid>
+        </Grid>
 
+        <Grid className={classes.rowContainer} container>
+          <Grid className={classes.appIcon} item xs={4} cl>
+            <App4 />
+          </Grid>
+          <Grid className={classes.appIcon} item xs={4} cl>
+            <App5 />
+          </Grid>
+          <Grid className={classes.appIcon} item xs={4} cl>
+            <App6 />
+          </Grid>
         </Grid>
       </Grid>
     );

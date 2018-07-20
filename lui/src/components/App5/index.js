@@ -6,15 +6,15 @@ const styles = theme => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        // minWidth: 300,
         width: '100%',
+        height: '100%'
     },
     image: {
         position: 'relative',
-        height: 200,
+        height: '100%',
         [theme.breakpoints.down('xs')]: {
             width: '100% !important', // Overrides inline-style
-            height: 100,
+            // height: 100,
         },
         '&:hover, &$focusVisible': {
             zIndex: 1,
