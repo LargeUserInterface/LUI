@@ -5,11 +5,11 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   container: {
-    width: '95%',
-    height: '95%',
+    width: '100%',
+    height: '100%',
     position: 'absolute',
     margin: 'auto',
-    padding: '30px',
+    padding: '0px',
     backgroundColor: '#FFF',
     listStyle: 'none',
     overflow: 'none',
@@ -21,7 +21,7 @@ const styles = {
     width: '25%',
     verticalAlign: 'middle',
     boxSizing: 'border-box',
-    padding: '10px',
+    padding: '20px',
     position: 'relative',
   },
 
