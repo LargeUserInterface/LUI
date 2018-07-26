@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import VideosApp from './VideosApp';
 
 const styles = theme => ({
     root: {
@@ -9,6 +10,7 @@ const styles = theme => ({
         width: '100%',
         height: '100%'
     },
+
     image: {
         position: 'relative',
         height: '100%',
@@ -76,12 +78,12 @@ const styles = theme => ({
 });
 
 const image = {
-    url: '',
-    title: 'App2',
+    url: 'https://marketingland.com/wp-content/ml-loads/2015/08/movie-film-video-production-ss-1920-800x450.jpg',
+    title: 'Videos',
     width: '100%',
 };
 
-class App2 extends Component {
+class Videos extends Component {
 
     constructor(props) {
         super(props);
@@ -89,6 +91,12 @@ class App2 extends Component {
         this.state = {
             clicked: false
         };
+    }
+
+    handleClick = () => {
+        this.setState({
+            clicked: true
+        });
     }
 
     render() {
@@ -112,7 +120,7 @@ class App2 extends Component {
                         }}
                     />
                     <span className={classes.imageBackdrop} />
-                    <span className={classes.imageButton}>
+                    <span className={classes.imageButton} onClick={() => this.handleClick()} >
                         <Typography
                             component="span"
                             variant="subheading"
@@ -127,11 +135,10 @@ class App2 extends Component {
             );
         } else {
             return (
-                <div> placeholder </div>
+                <VideosApp />
             );
         }
     }
 }
 
-export default withStyles(styles)(App2);
-
+export default withStyles(styles)(Videos);
