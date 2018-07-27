@@ -1,0 +1,36 @@
+.attachment-50x50.wp-post-image {
+	border-radius: 5px;
+}
+.compat-field-video-desc input, .video-desc input {
+	display: none;
+}
+.compat-field-video-desc .field, .video-desc .field {
+  float: left;
+  width: 100%;
+}
+.compat-field-video-desc strong, .video-desc strong {
+  display: block;
+  float: left;
+  font-size: 14px;
+  width: 100%;
+}
+.compat-field-video-desc .help, .video-desc .help {
+	font-style: normal;
+}
+#set-post-thumbnail img {
+  border-radius: 3px;
+  height: auto;
+  max-width: 100%;
+}
+#menu-posts-portfolio .wp-menu-image:before, #menu-posts-gallery .wp-menu-image:before {
+  content: "\f115" !important;
+}
+body #menu-posts-portfolio .wp-menu-image, body #menu-posts-gallery .wp-menu-image {
+  background: none !important;
+}
+#krown-popup {
+  background: #fff !important;
+}
+#option-tree-options-layouts-form {
+  display: none;
+}

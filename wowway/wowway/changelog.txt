@@ -1,0 +1,240 @@
+*** WowWay Changelog ***
+
+10 January 2018 - Version 2.1.4
+
+	* Fixed an issue with videos in WordPress 4.9.1
+
+2 August 2017 - Version 2.1.3
+
+	* Fixed various bugs
+
+14 July 2016 - Version 2.1.2
+
+	* Added support for the new Google Maps API
+
+1 March 2016 - 2.1.1
+
+	* Fixed an issue with galleries in Firefox / WP 4.2
+
+12 December 2015 - 2.1
+
+	* Fixed an issue related to pagination in WP 4.4
+
+11 December 2015 - 2.0.9
+
+	* Fixed some issues related to latest WordPress versions
+
+7 July 2015 - 2.0.8
+
+	* Fixed a security issue
+	* Enabled the use of theme shortcodes inside portfolio items
+	* Added a fail safe against Envato API issues (fixed admin login problems)
+
+23 January 2015 - 2.0.7
+
+	* Fixed an issue related to self hosted videos in WP 4.1
+	* Fixed a scrolling issue on mobile devices
+
+22 December 2014 - 2.0.6
+
+	* Fixed a critical error from last update
+
+20 December 2014 - 2.0.5
+
+	* Added WP 4.1 compatibility
+	* Fixed some other minor styling bugs
+	* Added changelog view in the backend
+
+18 September 2014 - 2.0.4
+
+	* Improved retina support
+	* Fixed an issue regarding Google Analytics
+	* Updated the child theme to support multiple portfolios
+
+16 August 2014 - 2.0.3
+
+	* Fixed various bugs including the sidebar behavior on mobile devices
+
+16 July 2014 - 2.0.2
+
+	* Fixed various bugs regarding portfolio projects scrolling and resizing, plus other simple style tweaks
+	* Updated Google Fonts list
+
+8 May 2014 - 2.0.1
+
+	* Fixed the "closing project" bug
+	* Fixed "jump in view" bug in Chrome
+	* Fixed various style related bugs
+	* Removed the twitter & social widgets (replaced by shortcodes)
+
+26 April 2014 - 2.0
+
+	* Complete code rewrite
+	* Improved portfolio management (drag&drop galleries are now available)
+	* Improved animations speed
+	* Added the option to choose modal window size per project
+	* Added the option to choose gallery resizing per project
+	* Added high resolution (retina) compatibility
+	* Added much more flexibility for grid thumbnails, regarding size, opacity and hover style
+	* Added support for the WP Theme Customizer and increased the number of available customization options
+	* Replaced the sliders with the awesome Swiper Slider
+	* Improved support for child themes and multiple portfolios
+	* Improved project sharing
+	* Integrated Google Analytics into AJAX portfolio
+	* Refreshed .po/.mo files
+	* Multiple categories per project are now supported
+	* Added more shortcodes
+	* Added password protected galleries
+	* Replaced the old hash method with the new History API
+	* Replaced the embedded shortcodes with Krown Shortcodes Plugin
+	* Replaced the embedded portfolio with Krown Portfolio Plugin
+
+15 August 2013 - 1.9.4
+	
+	* Replaced the self hosted video player once and for all, with the mediaelement.js one, having a custom built skin
+	* Made theme 100% compatible with WordPress 3.6
+
+13 July 2013 - 1.9.3
+	
+	* Replaced the self hosted video player with a better one (all over again)
+	* Fixed twitter widget (now works with the 1.1 of the API)
+
+3 February 2013 - 1.9.1
+	
+	* Improved gallery image resizing/cropping and created a new option to fit all images
+	* Replaced the self hosted video player with a better one
+
+30 January 2013 - 1.9
+	
+	* Added theme options for a custom color, custom(via Google) fonts and custom css
+	* Improved the functionality of the contact form
+	* Added a fail safe for playing multiple videos at once in the portfolio slider
+	* Fixed some IE8 issues
+
+22 January 2013 - 1.8.4
+
+	* Fixed paginated portfolio issues
+
+2 January 2013 - 1.8.3
+
+	* Fixed more WordPress 3.5 issues
+
+28 December 2012 - 1.8.2
+
+	* Fixed some bugs with the menus
+
+13 December 2012 - 1.8.1
+
+	* Added WordPress 3.5 compatibility
+
+4 December 2012 - 1.8
+
+	* Added the option link pages from the main portfolio grid
+
+26 November 2012 - 1.7
+
+	* Added the option to have automatic updates via WordPress Dashboard
+	* Made tabs & toggles to work inside project pages
+	* Fixed gallery filtering order
+	* Fixed multiple toggles/tabs on a page issue
+	* Fixed some other bugs
+
+15 October 2012 - 1.6.3
+
+	* Fixed the twitter widget to work with the new API
+	* Fixed some other bugs
+
+5 October 2012 - 1.6.2
+
+	* Fixed some minor bugs
+
+2 October 2012 - 1.6.1
+
+	* Fixed iPhone header issue
+	* Fixed self hosted videos playing in Chrome
+	* Fixed other bugs & issues occuring in IE8 and PC browsers with various restriction addons(such as AdBlock)
+
+25 September 2012 - 1.6
+
+	* Added the option to choose a location(header/footer) for the Anaylitics scripts
+	* Disabled self hosted videos fullscreen button due to theme incompatibility issues
+	* Fixed paginated portfolio search issues
+	* Fixed facebook like button issues
+	* Fixed other minor bugs
+
+17 August 2012 - 1.5.2
+
+	* Fixed a bug regarding blog slider images not displaying on Chrome/Safari
+
+9 August 2012 - 1.5.1
+
+	* Fixed memory bug when selecting a new category while a project is opened
+	* Fixed portfolio pagination for small screens
+
+1 August 2012 - 1.5
+
+	* Added self hosted videos support for projects
+	* Added a paginated portfolio page template(which also gives you the possibility to use multiple categories on a project)
+	* Fixed the project window closing - when you click any category, the project/gallery will close, and i've also added "modal" feature for the project window
+	* Fixed iPhone "forever closed" menu isssue
+	* Fixed Safari "never opening" projects
+	* Other small bugs were "smashed" in the process of this update :)
+
+28 June 2012 - 1.3
+
+	* Added a new page template - Fullscreen Video
+	* Added another widget area, at the bottom of the sidebar
+	* Added submenu pages(not filters) to mobile navigation menu
+	* Added portfolio/gallery filters to admin panel
+	* Fixed sharing issues
+	* Fixed other minor bugs
+
+11 June 2012 - 1.2.1
+
+	* Fixed some minor bugs
+
+9 June 2012 - 1.2
+
+	* Made the phone widget number callable
+	* Added basic touch & swipe functionalities for touchscreen devices
+	* Added scrollbar support for project pages
+	* Added 8 more social icons
+	* Added password protected projects
+	* Added scroll top top functionality after filtering projects
+	* Added scroll back to viewed items after closing project window
+	* Added the ability to have sharing options in the projects page
+
+29 May 2012 - 1.1.5
+
+	* Made a layered PNG file for the sprites
+	* Fixed menu category filtering
+	* Fixed the 'jump to top' feature when opening projects on a mobile device
+	* Worked on some other small bugs
+
+26 May 2012 - 1.1.3
+
+	* Fixed menu backgrounds bug
+	* Changed position of custom css
+	* Disabled backgrounds options for portfolio & gallery pages
+
+23 May 2012 - 1.1
+	
+	* Social media links open now in a new tab
+	* Back to top link(on mobile devices) fixed B
+	* Fixed favicon and initial # issue
+	* Added the ability to disable sidebar autohide
+	* Added the option to center the posts & pages
+	* Added the option to fit all portrait images from the fullscreen slideshows
+	* Added the ability to link directly to portfolio categories
+	* Added a custom.css in which you can add custom css rules, that will not be overwritten by future updates
+	* Created a new twitter widget that you can put in the footer
+	* Created a new page template featuring a fullscreen slideshow
+	* Created a new blog layout template, featuring full width posts & thumbs
+
+19 May 2012 - 1.0.1
+	
+	* Fixed double portfolio issue
+
+18 May 2012 - 1.0
+	
+	* First Release

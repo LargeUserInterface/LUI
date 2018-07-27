@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta charset="UTF-8"><style type="text/css">/*
+ * Bootstrap v2.2.1
+ *
+ * Copyright 2012 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ */
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+a:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+a:hover,
+a:active {
+  outline: 0;
+}
+button,
+input,
+select,
+textarea {
+  margin: 0;
+  font-size: 100%;
+  vertical-align: middle;
+}
+button,
+input {
+  *overflow: visible;
+  line-height: normal;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333;
+  background-color: #fff;
+}
+a {
+  color: #08c;
+  text-decoration: none;
+}
+a:hover {
+  color: #005580;
+  text-decoration: underline;
+}
+.row {
+  margin-left: -20px;
+  *zoom: 1;
+}
+.row:before,
+.row:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.row:after {
+  clear: both;
+}
+[class*="span"] {
+  float: left;
+  min-height: 1px;
+  margin-left: 20px;
+}
+.container,
+.navbar-static-top .container,
+.navbar-fixed-top .container,
+.navbar-fixed-bottom .container {
+  width: 940px;
+}
+.span12 {
+  width: 940px;
+}
+.span11 {
+  width: 860px;
+}
+.span10 {
+  width: 780px;
+}
+.span9 {
+  width: 700px;
+}
+.span8 {
+  width: 620px;
+}
+.span7 {
+  width: 540px;
+}
+.span6 {
+  width: 460px;
+}
+.span5 {
+  width: 380px;
+}
+.span4 {
+  width: 300px;
+}
+.span3 {
+  width: 220px;
+}
+.span2 {
+  width: 140px;
+}
+.span1 {
+  width: 60px;
+}
+[class*="span"].pull-right,
+.row-fluid [class*="span"].pull-right {
+  float: right;
+}
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  *zoom: 1;
+}
+.container:before,
+.container:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.container:after {
+  clear: both;
+}
+p {
+  margin: 0 0 10px;
+}
+.lead {
+  margin-bottom: 20px;
+  font-size: 21px;
+  font-weight: 200;
+  line-height: 30px;
+}
+small {
+  font-size: 85%;
+}
+h1 {
+  margin: 10px 0;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 20px;
+  color: inherit;
+  text-rendering: optimizelegibility;
+}
+h1 small {
+  font-weight: normal;
+  line-height: 1;
+  color: #999;
+}
+h1 {
+  line-height: 40px;
+}
+h1 {
+  font-size: 38.5px;
+}
+h1 small {
+  font-size: 24.5px;
+}
+body {
+  margin-top: 90px;
+}
+.header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  margin-left: -480px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding-top: 10px;
+  z-index: 10;
+}
+.footer {
+  color: #ddd;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 20px;
+}
+.footer a {
+  color: #ccc;
+  text-decoration: underline;
+}
+.the-icons {
+  font-size: 14px;
+  line-height: 24px;
+}
+.switch {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  color: #666;
+}
+.switch input {
+  margin-right: 0.3em;
+}
+.codesOn .i-name {
+  display: none;
+}
+.codesOn .i-code {
+  display: inline;
+}
+.i-code {
+  display: none;
+}
+</style>
+    <link rel="stylesheet" href="css/fontello.css">
+    <link rel="stylesheet" href="css/animation.css">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="css/fontello-ie7.css">
+    <![endif]-->
+    <script>
+      function toggleCodes(on) {
+        var obj = document.getElementById('icons');
+        
+        if (on) {
+          obj.className += ' codesOn';
+        } else {
+          obj.className = obj.className.replace(' codesOn', '');
+        }
+      }
+      
+    </script>
+  </head>
+  <body>
+    <div class="container header">
+      <h1>
+        fontello
+         <small>font demo</small>
+      </h1>
+      <label class="switch">
+        <input type="checkbox" onclick="toggleCodes(this.checked)">show codes
+      </label>
+    </div>
+    <div id="icons" class="container">
+      <div class="row">
+        <div title="Code: 0xe86e" class="the-icons span3"><i class="krown-iconabout_us"></i> <span class="i-name">krown-iconabout_us</span><span class="i-code">0xe86e</span></div>
+        <div title="Code: 0xe886" class="the-icons span3"><i class="krown-iconcomment-alt"></i> <span class="i-name">krown-iconcomment-alt</span><span class="i-code">0xe886</span></div>
+        <div title="Code: 0xe86c" class="the-icons span3"><i class="krown-iconcontacts"></i> <span class="i-name">krown-iconcontacts</span><span class="i-code">0xe86c</span></div>
+        <div title="Code: 0xe86b" class="the-icons span3"><i class="krown-iconelements"></i> <span class="i-name">krown-iconelements</span><span class="i-code">0xe86b</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe86a" class="the-icons span3"><i class="krown-iconservices"></i> <span class="i-name">krown-iconservices</span><span class="i-code">0xe86a</span></div>
+        <div title="Code: 0xe869" class="the-icons span3"><i class="krown-iconskills"></i> <span class="i-name">krown-iconskills</span><span class="i-code">0xe869</span></div>
+        <div title="Code: 0xe868" class="the-icons span3"><i class="krown-iconsettings"></i> <span class="i-name">krown-iconsettings</span><span class="i-code">0xe868</span></div>
+        <div title="Code: 0xe867" class="the-icons span3"><i class="krown-iconbubble"></i> <span class="i-name">krown-iconbubble</span><span class="i-code">0xe867</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe866" class="the-icons span3"><i class="krown-icontag-2"></i> <span class="i-name">krown-icontag-2</span><span class="i-code">0xe866</span></div>
+        <div title="Code: 0xe865" class="the-icons span3"><i class="krown-iconcase"></i> <span class="i-name">krown-iconcase</span><span class="i-code">0xe865</span></div>
+        <div title="Code: 0xe864" class="the-icons span3"><i class="krown-iconshare-1"></i> <span class="i-name">krown-iconshare-1</span><span class="i-code">0xe864</span></div>
+        <div title="Code: 0xe863" class="the-icons span3"><i class="krown-iconarrow_left"></i> <span class="i-name">krown-iconarrow_left</span><span class="i-code">0xe863</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe862" class="the-icons span3"><i class="krown-iconarrow_right"></i> <span class="i-name">krown-iconarrow_right</span><span class="i-code">0xe862</span></div>
+        <div title="Code: 0xe861" class="the-icons span3"><i class="krown-icongrid"></i> <span class="i-name">krown-icongrid</span><span class="i-code">0xe861</span></div>
+        <div title="Code: 0xe860" class="the-icons span3"><i class="krown-icongallery-1"></i> <span class="i-name">krown-icongallery-1</span><span class="i-code">0xe860</span></div>
+        <div title="Code: 0xe85e" class="the-icons span3"><i class="krown-icondate"></i> <span class="i-name">krown-icondate</span><span class="i-code">0xe85e</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe8bd" class="the-icons span3"><i class="krown-iconcart_add"></i> <span class="i-name">krown-iconcart_add</span><span class="i-code">0xe8bd</span></div>
+        <div title="Code: 0xe8bc" class="the-icons span3"><i class="krown-iconlist"></i> <span class="i-name">krown-iconlist</span><span class="i-code">0xe8bc</span></div>
+        <div title="Code: 0xe8ba" class="the-icons span3"><i class="krown-iconresponsive_nav_icon(1)"></i> <span class="i-name">krown-iconresponsive_nav_icon(1)</span><span class="i-code">0xe8ba</span></div>
+        <div title="Code: 0xe8be" class="the-icons span3"><i class="krown-iconcart-1"></i> <span class="i-name">krown-iconcart-1</span><span class="i-code">0xe8be</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe8a6" class="the-icons span3"><i class="krown-iconemo-happy"></i> <span class="i-name">krown-iconemo-happy</span><span class="i-code">0xe8a6</span></div>
+        <div title="Code: 0xe8a7" class="the-icons span3"><i class="krown-iconemo-wink"></i> <span class="i-name">krown-iconemo-wink</span><span class="i-code">0xe8a7</span></div>
+        <div title="Code: 0xe8a8" class="the-icons span3"><i class="krown-iconemo-wink2"></i> <span class="i-name">krown-iconemo-wink2</span><span class="i-code">0xe8a8</span></div>
+        <div title="Code: 0xe8a9" class="the-icons span3"><i class="krown-iconemo-unhappy"></i> <span class="i-name">krown-iconemo-unhappy</span><span class="i-code">0xe8a9</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe8aa" class="the-icons span3"><i class="krown-iconemo-sleep"></i> <span class="i-name">krown-iconemo-sleep</span><span class="i-code">0xe8aa</span></div>
+        <div title="Code: 0xe8b2" class="the-icons span3"><i class="krown-iconemo-thumbsup"></i> <span class="i-name">krown-iconemo-thumbsup</span><span class="i-code">0xe8b2</span></div>
+        <div title="Code: 0xe8b7" class="the-icons span3"><i class="krown-iconemo-surprised"></i> <span class="i-name">krown-iconemo-surprised</span><span class="i-code">0xe8b7</span></div>
+        <div title="Code: 0xe8b6" class="the-icons span3"><i class="krown-iconemo-tongue"></i> <span class="i-name">krown-iconemo-tongue</span><span class="i-code">0xe8b6</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe8b3" class="the-icons span3"><i class="krown-iconemo-coffee"></i> <span class="i-name">krown-iconemo-coffee</span><span class="i-code">0xe8b3</span></div>
+        <div title="Code: 0xe8b5" class="the-icons span3"><i class="krown-iconemo-sunglasses"></i> <span class="i-name">krown-iconemo-sunglasses</span><span class="i-code">0xe8b5</span></div>
+        <div title="Code: 0xe8ac" class="the-icons span3"><i class="krown-iconemo-displeased"></i> <span class="i-name">krown-iconemo-displeased</span><span class="i-code">0xe8ac</span></div>
+        <div title="Code: 0xe8ab" class="the-icons span3"><i class="krown-iconemo-beer"></i> <span class="i-name">krown-iconemo-beer</span><span class="i-code">0xe8ab</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe8ad" class="the-icons span3"><i class="krown-iconemo-grin"></i> <span class="i-name">krown-iconemo-grin</span><span class="i-code">0xe8ad</span></div>
+        <div title="Code: 0xe8ae" class="the-icons span3"><i class="krown-iconemo-angry"></i> <span class="i-name">krown-iconemo-angry</span><span class="i-code">0xe8ae</span></div>
+        <div title="Code: 0xe8af" class="the-icons span3"><i class="krown-iconemo-saint"></i> <span class="i-name">krown-iconemo-saint</span><span class="i-code">0xe8af</span></div>
+        <div title="Code: 0xe8b0" class="the-icons span3"><i class="krown-iconemo-cry"></i> <span class="i-name">krown-iconemo-cry</span><span class="i-code">0xe8b0</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe8b1" class="the-icons span3"><i class="krown-iconemo-squint"></i> <span class="i-name">krown-iconemo-squint</span><span class="i-code">0xe8b1</span></div>
+        <div title="Code: 0xe8b4" class="the-icons span3"><i class="krown-iconemo-laugh"></i> <span class="i-name">krown-iconemo-laugh</span><span class="i-code">0xe8b4</span></div>
+        <div title="Code: 0xe888" class="the-icons span3"><i class="krown-iconspin4 animate-spin"></i> <span class="i-name">krown-iconspin4</span><span class="i-code">0xe888</span></div>
+        <div title="Code: 0xe887" class="the-icons span3"><i class="krown-iconspin6 animate-spin"></i> <span class="i-name">krown-iconspin6</span><span class="i-code">0xe887</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe880" class="the-icons span3"><i class="krown-iconfirefox"></i> <span class="i-name">krown-iconfirefox</span><span class="i-code">0xe880</span></div>
+        <div title="Code: 0xe881" class="the-icons span3"><i class="krown-iconchrome"></i> <span class="i-name">krown-iconchrome</span><span class="i-code">0xe881</span></div>
+        <div title="Code: 0xe882" class="the-icons span3"><i class="krown-iconopera"></i> <span class="i-name">krown-iconopera</span><span class="i-code">0xe882</span></div>
+        <div title="Code: 0xe883" class="the-icons span3"><i class="krown-iconie"></i> <span class="i-name">krown-iconie</span><span class="i-code">0xe883</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe884" class="the-icons span3"><i class="krown-iconcrown"></i> <span class="i-name">krown-iconcrown</span><span class="i-code">0xe884</span></div>
+        <div title="Code: 0x2605" class="the-icons span3"><i class="krown-iconstar"></i> <span class="i-name">krown-iconstar</span><span class="i-code">0x2605</span></div>
+        <div title="Code: 0xe85f" class="the-icons span3"><i class="krown-iconcamera-alt"></i> <span class="i-name">krown-iconcamera-alt</span><span class="i-code">0xe85f</span></div>
+        <div title="Code: 0x2713" class="the-icons span3"><i class="krown-iconok"></i> <span class="i-name">krown-iconok</span><span class="i-code">0x2713</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x2715" class="the-icons span3"><i class="krown-iconcancel"></i> <span class="i-name">krown-iconcancel</span><span class="i-code">0x2715</span></div>
+        <div title="Code: 0x2b" class="the-icons span3"><i class="krown-iconplus"></i> <span class="i-name">krown-iconplus</span><span class="i-code">0x2b</span></div>
+        <div title="Code: 0x2d" class="the-icons span3"><i class="krown-iconminus"></i> <span class="i-name">krown-iconminus</span><span class="i-code">0x2d</span></div>
+        <div title="Code: 0x2302" class="the-icons span3"><i class="krown-iconhome"></i> <span class="i-name">krown-iconhome</span><span class="i-code">0x2302</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf517" class="the-icons span3"><i class="krown-iconlink"></i> <span class="i-name">krown-iconlink</span><span class="i-code">0xf517</span></div>
+        <div title="Code: 0xe70a" class="the-icons span3"><i class="krown-iconeye"></i> <span class="i-name">krown-iconeye</span><span class="i-code">0xe70a</span></div>
+        <div title="Code: 0x2691" class="the-icons span3"><i class="krown-iconflag"></i> <span class="i-name">krown-iconflag</span><span class="i-code">0x2691</span></div>
+        <div title="Code: 0xe86f" class="the-icons span3"><i class="krown-iconthumbs-up-alt"></i> <span class="i-name">krown-iconthumbs-up-alt</span><span class="i-code">0xe86f</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe870" class="the-icons span3"><i class="krown-iconthumbs-down-alt"></i> <span class="i-name">krown-iconthumbs-down-alt</span><span class="i-code">0xe870</span></div>
+        <div title="Code: 0xf4e5" class="the-icons span3"><i class="krown-icondownload"></i> <span class="i-name">krown-icondownload</span><span class="i-code">0xf4e5</span></div>
+        <div title="Code: 0xf4e4" class="the-icons span3"><i class="krown-iconupload"></i> <span class="i-name">krown-iconupload</span><span class="i-code">0xf4e4</span></div>
+        <div title="Code: 0xf0ed" class="the-icons span3"><i class="krown-icondownload-cloud"></i> <span class="i-name">krown-icondownload-cloud</span><span class="i-code">0xf0ed</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf0ee" class="the-icons span3"><i class="krown-iconupload-cloud"></i> <span class="i-name">krown-iconupload-cloud</span><span class="i-code">0xf0ee</span></div>
+        <div title="Code: 0xf112" class="the-icons span3"><i class="krown-iconreply"></i> <span class="i-name">krown-iconreply</span><span class="i-code">0xf112</span></div>
+        <div title="Code: 0x27a6" class="the-icons span3"><i class="krown-iconforward"></i> <span class="i-name">krown-iconforward</span><span class="i-code">0x27a6</span></div>
+        <div title="Code: 0xf10d" class="the-icons span3"><i class="krown-iconquote-left"></i> <span class="i-name">krown-iconquote-left</span><span class="i-code">0xf10d</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf10e" class="the-icons span3"><i class="krown-iconquote-right"></i> <span class="i-name">krown-iconquote-right</span><span class="i-code">0xf10e</span></div>
+        <div title="Code: 0xe800" class="the-icons span3"><i class="krown-iconpencil-1"></i> <span class="i-name">krown-iconpencil-1</span><span class="i-code">0xe800</span></div>
+        <div title="Code: 0xe871" class="the-icons span3"><i class="krown-icongamepad"></i> <span class="i-name">krown-icongamepad</span><span class="i-code">0xe871</span></div>
+        <div title="Code: 0xe720" class="the-icons span3"><i class="krown-iconchat"></i> <span class="i-name">krown-iconchat</span><span class="i-code">0xe720</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf0f3" class="the-icons span3"><i class="krown-iconbell-alt"></i> <span class="i-name">krown-iconbell-alt</span><span class="i-code">0xf0f3</span></div>
+        <div title="Code: 0xe724" class="the-icons span3"><i class="krown-iconlocation"></i> <span class="i-name">krown-iconlocation</span><span class="i-code">0xe724</span></div>
+        <div title="Code: 0xf4de" class="the-icons span3"><i class="krown-iconphone"></i> <span class="i-name">krown-iconphone</span><span class="i-code">0xf4de</span></div>
+        <div title="Code: 0x2699" class="the-icons span3"><i class="krown-iconcog"></i> <span class="i-name">krown-iconcog</span><span class="i-code">0x2699</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf527" class="the-icons span3"><i class="krown-iconwrench"></i> <span class="i-name">krown-iconwrench</span><span class="i-code">0xf527</span></div>
+        <div title="Code: 0xf4c5" class="the-icons span3"><i class="krown-iconcalendar"></i> <span class="i-name">krown-iconcalendar</span><span class="i-code">0xf4c5</span></div>
+        <div title="Code: 0xe740" class="the-icons span3"><i class="krown-iconlogin"></i> <span class="i-name">krown-iconlogin</span><span class="i-code">0xe740</span></div>
+        <div title="Code: 0xe741" class="the-icons span3"><i class="krown-iconlogout"></i> <span class="i-name">krown-iconlogout</span><span class="i-code">0xe741</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x1f50a" class="the-icons span3"><i class="krown-iconvolume-up"></i> <span class="i-name">krown-iconvolume-up</span><span class="i-code">0x1f50a</span></div>
+        <div title="Code: 0xf3a7" class="the-icons span3"><i class="krown-iconheadphones"></i> <span class="i-name">krown-iconheadphones</span><span class="i-code">0xf3a7</span></div>
+        <div title="Code: 0xf0eb" class="the-icons span3"><i class="krown-iconlightbulb"></i> <span class="i-name">krown-iconlightbulb</span><span class="i-code">0xf0eb</span></div>
+        <div title="Code: 0xf6ab" class="the-icons span3"><i class="krown-iconblock"></i> <span class="i-name">krown-iconblock</span><span class="i-code">0xf6ab</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe744" class="the-icons span3"><i class="krown-iconresize-full"></i> <span class="i-name">krown-iconresize-full</span><span class="i-code">0xe744</span></div>
+        <div title="Code: 0xf0b2" class="the-icons span3"><i class="krown-iconresize-full-alt"></i> <span class="i-name">krown-iconresize-full-alt</span><span class="i-code">0xf0b2</span></div>
+        <div title="Code: 0xe746" class="the-icons span3"><i class="krown-iconresize-small"></i> <span class="i-name">krown-iconresize-small</span><span class="i-code">0xe746</span></div>
+        <div title="Code: 0x2b0c" class="the-icons span3"><i class="krown-iconresize-vertical"></i> <span class="i-name">krown-iconresize-vertical</span><span class="i-code">0x2b0c</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x2b0d" class="the-icons span3"><i class="krown-iconresize-horizontal"></i> <span class="i-name">krown-iconresize-horizontal</span><span class="i-code">0x2b0d</span></div>
+        <div title="Code: 0xf047" class="the-icons span3"><i class="krown-iconmove"></i> <span class="i-name">krown-iconmove</span><span class="i-code">0xf047</span></div>
+        <div title="Code: 0xe758" class="the-icons span3"><i class="krown-icondown-circle2"></i> <span class="i-name">krown-icondown-circle2</span><span class="i-code">0xe758</span></div>
+        <div title="Code: 0xe75b" class="the-icons span3"><i class="krown-iconup-circle2"></i> <span class="i-name">krown-iconup-circle2</span><span class="i-code">0xe75b</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe88e" class="the-icons span3"><i class="krown-icondown-open-1"></i> <span class="i-name">krown-icondown-open-1</span><span class="i-code">0xe88e</span></div>
+        <div title="Code: 0xe88c" class="the-icons span3"><i class="krown-iconleft-open-1"></i> <span class="i-name">krown-iconleft-open-1</span><span class="i-code">0xe88c</span></div>
+        <div title="Code: 0xe88b" class="the-icons span3"><i class="krown-iconright-open-1"></i> <span class="i-name">krown-iconright-open-1</span><span class="i-code">0xe88b</span></div>
+        <div title="Code: 0xe88d" class="the-icons span3"><i class="krown-iconup-open-1"></i> <span class="i-name">krown-iconup-open-1</span><span class="i-code">0xe88d</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x27f3" class="the-icons span3"><i class="krown-iconcw"></i> <span class="i-name">krown-iconcw</span><span class="i-code">0x27f3</span></div>
+        <div title="Code: 0xf3c9" class="the-icons span3"><i class="krown-iconaward"></i> <span class="i-name">krown-iconaward</span><span class="i-code">0xf3c9</span></div>
+        <div title="Code: 0xf108" class="the-icons span3"><i class="krown-icondesktop"></i> <span class="i-name">krown-icondesktop</span><span class="i-code">0xf108</span></div>
+        <div title="Code: 0xf109" class="the-icons span3"><i class="krown-iconlaptop"></i> <span class="i-name">krown-iconlaptop</span><span class="i-code">0xf109</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe777" class="the-icons span3"><i class="krown-iconinbox"></i> <span class="i-name">krown-iconinbox</span><span class="i-code">0xe777</span></div>
+        <div title="Code: 0xf30e" class="the-icons span3"><i class="krown-iconglobe"></i> <span class="i-name">krown-iconglobe</span><span class="i-code">0xf30e</span></div>
+        <div title="Code: 0x2601" class="the-icons span3"><i class="krown-iconcloud"></i> <span class="i-name">krown-iconcloud</span><span class="i-code">0x2601</span></div>
+        <div title="Code: 0x2602" class="the-icons span3"><i class="krown-iconumbrella"></i> <span class="i-name">krown-iconumbrella</span><span class="i-code">0x2602</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x2708" class="the-icons span3"><i class="krown-iconflight"></i> <span class="i-name">krown-iconflight</span><span class="i-code">0x2708</span></div>
+        <div title="Code: 0xf342" class="the-icons span3"><i class="krown-iconleaf"></i> <span class="i-name">krown-iconleaf</span><span class="i-code">0xf342</span></div>
+        <div title="Code: 0xf4bc" class="the-icons span3"><i class="krown-iconbriefcase"></i> <span class="i-name">krown-iconbriefcase</span><span class="i-code">0xf4bc</span></div>
+        <div title="Code: 0xe78e" class="the-icons span3"><i class="krown-iconoff"></i> <span class="i-name">krown-iconoff</span><span class="i-code">0xe78e</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe78f" class="the-icons span3"><i class="krown-iconroad"></i> <span class="i-name">krown-iconroad</span><span class="i-code">0xe78f</span></div>
+        <div title="Code: 0xf4d5" class="the-icons span3"><i class="krown-iconbook"></i> <span class="i-name">krown-iconbook</span><span class="i-code">0xf4d5</span></div>
+        <div title="Code: 0xe793" class="the-icons span3"><i class="krown-iconajust"></i> <span class="i-name">krown-iconajust</span><span class="i-code">0xe793</span></div>
+        <div title="Code: 0xe794" class="the-icons span3"><i class="krown-icontint"></i> <span class="i-name">krown-icontint</span><span class="i-code">0xe794</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x2731" class="the-icons span3"><i class="krown-iconasterisk"></i> <span class="i-name">krown-iconasterisk</span><span class="i-code">0x2731</span></div>
+        <div title="Code: 0xf381" class="the-icons span3"><i class="krown-icongift"></i> <span class="i-name">krown-icongift</span><span class="i-code">0xf381</span></div>
+        <div title="Code: 0xf525" class="the-icons span3"><i class="krown-iconfire"></i> <span class="i-name">krown-iconfire</span><span class="i-code">0xf525</span></div>
+        <div title="Code: 0xf511" class="the-icons span3"><i class="krown-iconkey"></i> <span class="i-name">krown-iconkey</span><span class="i-code">0xf511</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe813" class="the-icons span3"><i class="krown-iconrocket-1"></i> <span class="i-name">krown-iconrocket-1</span><span class="i-code">0xe813</span></div>
+        <div title="Code: 0xf0a3" class="the-icons span3"><i class="krown-iconcertificate"></i> <span class="i-name">krown-iconcertificate</span><span class="i-code">0xf0a3</span></div>
+        <div title="Code: 0xf0b0" class="the-icons span3"><i class="krown-iconfilter"></i> <span class="i-name">krown-iconfilter</span><span class="i-code">0xf0b0</span></div>
+        <div title="Code: 0xf0c3" class="the-icons span3"><i class="krown-iconbeaker"></i> <span class="i-name">krown-iconbeaker</span><span class="i-code">0xf0c3</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf0d0" class="the-icons span3"><i class="krown-iconmagic"></i> <span class="i-name">krown-iconmagic</span><span class="i-code">0xf0d0</span></div>
+        <div title="Code: 0xf69a" class="the-icons span3"><i class="krown-icontruck"></i> <span class="i-name">krown-icontruck</span><span class="i-code">0xf69a</span></div>
+        <div title="Code: 0xe874" class="the-icons span3"><i class="krown-iconeuro"></i> <span class="i-name">krown-iconeuro</span><span class="i-code">0xe874</span></div>
+        <div title="Code: 0xe872" class="the-icons span3"><i class="krown-iconpound"></i> <span class="i-name">krown-iconpound</span><span class="i-code">0xe872</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe873" class="the-icons span3"><i class="krown-icondollar"></i> <span class="i-name">krown-icondollar</span><span class="i-code">0xe873</span></div>
+        <div title="Code: 0xf528" class="the-icons span3"><i class="krown-iconhammer"></i> <span class="i-name">krown-iconhammer</span><span class="i-code">0xf528</span></div>
+        <div title="Code: 0xf0e4" class="the-icons span3"><i class="krown-icongauge"></i> <span class="i-name">krown-icongauge</span><span class="i-code">0xf0e4</span></div>
+        <div title="Code: 0xf0e8" class="the-icons span3"><i class="krown-iconsitemap"></i> <span class="i-name">krown-iconsitemap</span><span class="i-code">0xf0e8</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf0fc" class="the-icons span3"><i class="krown-iconbeer"></i> <span class="i-name">krown-iconbeer</span><span class="i-code">0xf0fc</span></div>
+        <div title="Code: 0xe875" class="the-icons span3"><i class="krown-iconextinguisher"></i> <span class="i-name">krown-iconextinguisher</span><span class="i-code">0xe875</span></div>
+        <div title="Code: 0xe876" class="the-icons span3"><i class="krown-iconpagelines"></i> <span class="i-name">krown-iconpagelines</span><span class="i-code">0xe876</span></div>
+        <div title="Code: 0xe812" class="the-icons span3"><i class="krown-iconxing"></i> <span class="i-name">krown-iconxing</span><span class="i-code">0xe812</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x266b" class="the-icons span3"><i class="krown-iconnote-beamed"></i> <span class="i-name">krown-iconnote-beamed</span><span class="i-code">0x266b</span></div>
+        <div title="Code: 0xf50d" class="the-icons span3"><i class="krown-iconsearch"></i> <span class="i-name">krown-iconsearch</span><span class="i-code">0xf50d</span></div>
+        <div title="Code: 0xf526" class="the-icons span3"><i class="krown-iconflashlight"></i> <span class="i-name">krown-iconflashlight</span><span class="i-code">0xf526</span></div>
+        <div title="Code: 0xe807" class="the-icons span3"><i class="krown-iconheart-1"></i> <span class="i-name">krown-iconheart-1</span><span class="i-code">0xe807</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe804" class="the-icons span3"><i class="krown-iconuser-1"></i> <span class="i-name">krown-iconuser-1</span><span class="i-code">0xe804</span></div>
+        <div title="Code: 0xe805" class="the-icons span3"><i class="krown-iconusers-1"></i> <span class="i-name">krown-iconusers-1</span><span class="i-code">0xe805</span></div>
+        <div title="Code: 0x1f3ac" class="the-icons span3"><i class="krown-iconvideo"></i> <span class="i-name">krown-iconvideo</span><span class="i-code">0x1f3ac</span></div>
+        <div title="Code: 0xe80d" class="the-icons span3"><i class="krown-iconpicture-1"></i> <span class="i-name">krown-iconpicture-1</span><span class="i-code">0xe80d</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x1f4f7" class="the-icons span3"><i class="krown-iconcamera"></i> <span class="i-name">krown-iconcamera</span><span class="i-code">0x1f4f7</span></div>
+        <div title="Code: 0xe80e" class="the-icons span3"><i class="krown-iconplus-1"></i> <span class="i-name">krown-iconplus-1</span><span class="i-code">0xe80e</span></div>
+        <div title="Code: 0xe80f" class="the-icons span3"><i class="krown-iconminus-1"></i> <span class="i-name">krown-iconminus-1</span><span class="i-code">0xe80f</span></div>
+        <div title="Code: 0x1f517" class="the-icons span3"><i class="krown-iconlink-1"></i> <span class="i-name">krown-iconlink-1</span><span class="i-code">0x1f517</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf44d" class="the-icons span3"><i class="krown-iconthumbs-up"></i> <span class="i-name">krown-iconthumbs-up</span><span class="i-code">0xf44d</span></div>
+        <div title="Code: 0xf44e" class="the-icons span3"><i class="krown-iconthumbs-down"></i> <span class="i-name">krown-iconthumbs-down</span><span class="i-code">0xf44e</span></div>
+        <div title="Code: 0x275e" class="the-icons span3"><i class="krown-iconquote"></i> <span class="i-name">krown-iconquote</span><span class="i-code">0x275e</span></div>
+        <div title="Code: 0x2712" class="the-icons span3"><i class="krown-iconfeather"></i> <span class="i-name">krown-iconfeather</span><span class="i-code">0x2712</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe716" class="the-icons span3"><i class="krown-iconprint"></i> <span class="i-name">krown-iconprint</span><span class="i-code">0xe716</span></div>
+        <div title="Code: 0xf514" class="the-icons span3"><i class="krown-iconbell"></i> <span class="i-name">krown-iconbell</span><span class="i-code">0xf514</span></div>
+        <div title="Code: 0xe728" class="the-icons span3"><i class="krown-iconcompass"></i> <span class="i-name">krown-iconcompass</span><span class="i-code">0xe728</span></div>
+        <div title="Code: 0x1f4d6" class="the-icons span3"><i class="krown-iconbook-open"></i> <span class="i-name">krown-iconbook-open</span><span class="i-code">0x1f4d6</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe73a" class="the-icons span3"><i class="krown-iconrss"></i> <span class="i-name">krown-iconrss</span><span class="i-code">0xe73a</span></div>
+        <div title="Code: 0x2692" class="the-icons span3"><i class="krown-icontools"></i> <span class="i-name">krown-icontools</span><span class="i-code">0x2692</span></div>
+        <div title="Code: 0xe73c" class="the-icons span3"><i class="krown-iconshare"></i> <span class="i-name">krown-iconshare</span><span class="i-code">0xe73c</span></div>
+        <div title="Code: 0xe73d" class="the-icons span3"><i class="krown-iconbasket"></i> <span class="i-name">krown-iconbasket</span><span class="i-code">0xe73d</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf45c" class="the-icons span3"><i class="krown-iconbag"></i> <span class="i-name">krown-iconbag</span><span class="i-code">0xf45c</span></div>
+        <div title="Code: 0x1f4c5" class="the-icons span3"><i class="krown-iconcalendar-1"></i> <span class="i-name">krown-iconcalendar-1</span><span class="i-code">0x1f4c5</span></div>
+        <div title="Code: 0xf3a4" class="the-icons span3"><i class="krown-iconmic"></i> <span class="i-name">krown-iconmic</span><span class="i-code">0xf3a4</span></div>
+        <div title="Code: 0xf507" class="the-icons span3"><i class="krown-iconmute"></i> <span class="i-name">krown-iconmute</span><span class="i-code">0xf507</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf50a" class="the-icons span3"><i class="krown-iconsound"></i> <span class="i-name">krown-iconsound</span><span class="i-code">0xf50a</span></div>
+        <div title="Code: 0x23f3" class="the-icons span3"><i class="krown-iconhourglass"></i> <span class="i-name">krown-iconhourglass</span><span class="i-code">0x23f3</span></div>
+        <div title="Code: 0xf4a1" class="the-icons span3"><i class="krown-iconlamp"></i> <span class="i-name">krown-iconlamp</span><span class="i-code">0xf4a1</span></div>
+        <div title="Code: 0xe877" class="the-icons span3"><i class="krown-iconblock-1"></i> <span class="i-name">krown-iconblock-1</span><span class="i-code">0xe877</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe88a" class="the-icons span3"><i class="krown-icondown-open"></i> <span class="i-name">krown-icondown-open</span><span class="i-code">0xe88a</span></div>
+        <div title="Code: 0xe75d" class="the-icons span3"><i class="krown-iconleft-open"></i> <span class="i-name">krown-iconleft-open</span><span class="i-code">0xe75d</span></div>
+        <div title="Code: 0xe75e" class="the-icons span3"><i class="krown-iconright-open"></i> <span class="i-name">krown-iconright-open</span><span class="i-code">0xe75e</span></div>
+        <div title="Code: 0xe889" class="the-icons span3"><i class="krown-iconup-open"></i> <span class="i-name">krown-iconup-open</span><span class="i-code">0xe889</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe762" class="the-icons span3"><i class="krown-iconright-open-mini"></i> <span class="i-name">krown-iconright-open-mini</span><span class="i-code">0xe762</span></div>
+        <div title="Code: 0xf3a8" class="the-icons span3"><i class="krown-iconpalette"></i> <span class="i-name">krown-iconpalette</span><span class="i-code">0xf3a8</span></div>
+        <div title="Code: 0xe86d" class="the-icons span3"><i class="krown-iconblog"></i> <span class="i-name">krown-iconblog</span><span class="i-code">0xe86d</span></div>
+        <div title="Code: 0xf50b" class="the-icons span3"><i class="krown-iconbattery"></i> <span class="i-name">krown-iconbattery</span><span class="i-code">0xf50b</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf4f1" class="the-icons span3"><i class="krown-iconmobile"></i> <span class="i-name">krown-iconmobile</span><span class="i-code">0xf4f1</span></div>
+        <div title="Code: 0xe776" class="the-icons span3"><i class="krown-iconnetwork"></i> <span class="i-name">krown-iconnetwork</span><span class="i-code">0xe776</span></div>
+        <div title="Code: 0xe801" class="the-icons span3"><i class="krown-iconglobe-1"></i> <span class="i-name">krown-iconglobe-1</span><span class="i-code">0xe801</span></div>
+        <div title="Code: 0xe803" class="the-icons span3"><i class="krown-iconflash-1"></i> <span class="i-name">krown-iconflash-1</span><span class="i-code">0xe803</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x263d" class="the-icons span3"><i class="krown-iconmoon"></i> <span class="i-name">krown-iconmoon</span><span class="i-code">0x263d</span></div>
+        <div title="Code: 0xe79b" class="the-icons span3"><i class="krown-iconpaper-plane"></i> <span class="i-name">krown-iconpaper-plane</span><span class="i-code">0xe79b</span></div>
+        <div title="Code: 0xe79a" class="the-icons span3"><i class="krown-iconbrush"></i> <span class="i-name">krown-iconbrush</span><span class="i-code">0xe79a</span></div>
+        <div title="Code: 0xe802" class="the-icons span3"><i class="krown-iconmagnet-1"></i> <span class="i-name">krown-iconmagnet-1</span><span class="i-code">0xe802</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf53e" class="the-icons span3"><i class="krown-iconchart-area"></i> <span class="i-name">krown-iconchart-area</span><span class="i-code">0xf53e</span></div>
+        <div title="Code: 0x2707" class="the-icons span3"><i class="krown-icontape"></i> <span class="i-name">krown-icontape</span><span class="i-code">0x2707</span></div>
+        <div title="Code: 0xf393" class="the-icons span3"><i class="krown-icongraduation-cap"></i> <span class="i-name">krown-icongraduation-cap</span><span class="i-code">0xf393</span></div>
+        <div title="Code: 0xf4cb" class="the-icons span3"><i class="krown-iconclipboard"></i> <span class="i-name">krown-iconclipboard</span><span class="i-code">0xf4cb</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf4e3" class="the-icons span3"><i class="krown-iconmegaphone"></i> <span class="i-name">krown-iconmegaphone</span><span class="i-code">0xf4e3</span></div>
+        <div title="Code: 0xe756" class="the-icons span3"><i class="krown-iconbucket"></i> <span class="i-name">krown-iconbucket</span><span class="i-code">0xe756</span></div>
+        <div title="Code: 0xe757" class="the-icons span3"><i class="krown-iconthermometer"></i> <span class="i-name">krown-iconthermometer</span><span class="i-code">0xe757</span></div>
+        <div title="Code: 0xf680" class="the-icons span3"><i class="krown-iconrocket"></i> <span class="i-name">krown-iconrocket</span><span class="i-code">0xf680</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe80b" class="the-icons span3"><i class="krown-icongithub"></i> <span class="i-name">krown-icongithub</span><span class="i-code">0xe80b</span></div>
+        <div title="Code: 0xe808" class="the-icons span3"><i class="krown-iconflickr"></i> <span class="i-name">krown-iconflickr</span><span class="i-code">0xe808</span></div>
+        <div title="Code: 0xf306" class="the-icons span3"><i class="krown-iconvimeo"></i> <span class="i-name">krown-iconvimeo</span><span class="i-code">0xf306</span></div>
+        <div title="Code: 0xf309" class="the-icons span3"><i class="krown-icontwitter"></i> <span class="i-name">krown-icontwitter</span><span class="i-code">0xf309</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe809" class="the-icons span3"><i class="krown-iconfacebook-squared"></i> <span class="i-name">krown-iconfacebook-squared</span><span class="i-code">0xe809</span></div>
+        <div title="Code: 0xe80a" class="the-icons span3"><i class="krown-icongplus"></i> <span class="i-name">krown-icongplus</span><span class="i-code">0xe80a</span></div>
+        <div title="Code: 0xf312" class="the-icons span3"><i class="krown-iconpinterest"></i> <span class="i-name">krown-iconpinterest</span><span class="i-code">0xf312</span></div>
+        <div title="Code: 0xf315" class="the-icons span3"><i class="krown-icontumblr"></i> <span class="i-name">krown-icontumblr</span><span class="i-code">0xf315</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf318" class="the-icons span3"><i class="krown-iconlinkedin"></i> <span class="i-name">krown-iconlinkedin</span><span class="i-code">0xf318</span></div>
+        <div title="Code: 0xf31e" class="the-icons span3"><i class="krown-iconstumbleupon"></i> <span class="i-name">krown-iconstumbleupon</span><span class="i-code">0xf31e</span></div>
+        <div title="Code: 0xf321" class="the-icons span3"><i class="krown-iconlastfm"></i> <span class="i-name">krown-iconlastfm</span><span class="i-code">0xf321</span></div>
+        <div title="Code: 0xe89e" class="the-icons span3"><i class="krown-iconinstagram-1"></i> <span class="i-name">krown-iconinstagram-1</span><span class="i-code">0xe89e</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf333" class="the-icons span3"><i class="krown-iconevernote"></i> <span class="i-name">krown-iconevernote</span><span class="i-code">0xf333</span></div>
+        <div title="Code: 0xf345" class="the-icons span3"><i class="krown-iconpicasa"></i> <span class="i-name">krown-iconpicasa</span><span class="i-code">0xf345</span></div>
+        <div title="Code: 0xf34e" class="the-icons span3"><i class="krown-iconbehance"></i> <span class="i-name">krown-iconbehance</span><span class="i-code">0xf34e</span></div>
+        <div title="Code: 0xf351" class="the-icons span3"><i class="krown-icongoogle-circles"></i> <span class="i-name">krown-icongoogle-circles</span><span class="i-code">0xf351</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x270e" class="the-icons span3"><i class="krown-iconpencil"></i> <span class="i-name">krown-iconpencil</span><span class="i-code">0x270e</span></div>
+        <div title="Code: 0xe8a4" class="the-icons span3"><i class="krown-iconstopwatch"></i> <span class="i-name">krown-iconstopwatch</span><span class="i-code">0xe8a4</span></div>
+        <div title="Code: 0xe8a3" class="the-icons span3"><i class="krown-iconlightbulb-2"></i> <span class="i-name">krown-iconlightbulb-2</span><span class="i-code">0xe8a3</span></div>
+        <div title="Code: 0x1f4f1" class="the-icons span3"><i class="krown-iconmobile-1"></i> <span class="i-name">krown-iconmobile-1</span><span class="i-code">0x1f4f1</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe87e" class="the-icons span3"><i class="krown-iconglobe-alt"></i> <span class="i-name">krown-iconglobe-alt</span><span class="i-code">0xe87e</span></div>
+        <div title="Code: 0xe852" class="the-icons span3"><i class="krown-icondrizzle"></i> <span class="i-name">krown-icondrizzle</span><span class="i-code">0xe852</span></div>
+        <div title="Code: 0xe851" class="the-icons span3"><i class="krown-iconsnow"></i> <span class="i-name">krown-iconsnow</span><span class="i-code">0xe851</span></div>
+        <div title="Code: 0xe855" class="the-icons span3"><i class="krown-iconleaf-1"></i> <span class="i-name">krown-iconleaf-1</span><span class="i-code">0xe855</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe853" class="the-icons span3"><i class="krown-icontemperatire"></i> <span class="i-name">krown-icontemperatire</span><span class="i-code">0xe853</span></div>
+        <div title="Code: 0x1f4c8" class="the-icons span3"><i class="krown-iconchart"></i> <span class="i-name">krown-iconchart</span><span class="i-code">0x1f4c8</span></div>
+        <div title="Code: 0x1f4ca" class="the-icons span3"><i class="krown-iconchart-bar"></i> <span class="i-name">krown-iconchart-bar</span><span class="i-code">0x1f4ca</span></div>
+        <div title="Code: 0xe7a2" class="the-icons span3"><i class="krown-iconchart-pie-1"></i> <span class="i-name">krown-iconchart-pie-1</span><span class="i-code">0xe7a2</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe879" class="the-icons span3"><i class="krown-iconscissors"></i> <span class="i-name">krown-iconscissors</span><span class="i-code">0xe879</span></div>
+        <div title="Code: 0xe87a" class="the-icons span3"><i class="krown-iconwine"></i> <span class="i-name">krown-iconwine</span><span class="i-code">0xe87a</span></div>
+        <div title="Code: 0xe87c" class="the-icons span3"><i class="krown-iconcoffee"></i> <span class="i-name">krown-iconcoffee</span><span class="i-code">0xe87c</span></div>
+        <div title="Code: 0xe87b" class="the-icons span3"><i class="krown-iconbeer-1"></i> <span class="i-name">krown-iconbeer-1</span><span class="i-code">0xe87b</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe87d" class="the-icons span3"><i class="krown-iconanchor-outline"></i> <span class="i-name">krown-iconanchor-outline</span><span class="i-code">0xe87d</span></div>
+        <div title="Code: 0xe854" class="the-icons span3"><i class="krown-icontree"></i> <span class="i-name">krown-icontree</span><span class="i-code">0xe854</span></div>
+        <div title="Code: 0xe878" class="the-icons span3"><i class="krown-iconlooped-square-interest"></i> <span class="i-name">krown-iconlooped-square-interest</span><span class="i-code">0xe878</span></div>
+        <div title="Code: 0xe811" class="the-icons span3"><i class="krown-iconeye-1"></i> <span class="i-name">krown-iconeye-1</span><span class="i-code">0xe811</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe80c" class="the-icons span3"><i class="krown-iconcomment-1"></i> <span class="i-name">krown-iconcomment-1</span><span class="i-code">0xe80c</span></div>
+        <div title="Code: 0xe850" class="the-icons span3"><i class="krown-iconplay"></i> <span class="i-name">krown-iconplay</span><span class="i-code">0xe850</span></div>
+        <div title="Code: 0xe87f" class="the-icons span3"><i class="krown-iconumbrella-1"></i> <span class="i-name">krown-iconumbrella-1</span><span class="i-code">0xe87f</span></div>
+        <div title="Code: 0x2709" class="the-icons span3"><i class="krown-iconmail"></i> <span class="i-name">krown-iconmail</span><span class="i-code">0x2709</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe810" class="the-icons span3"><i class="krown-iconcancel-1"></i> <span class="i-name">krown-iconcancel-1</span><span class="i-code">0xe810</span></div>
+        <div title="Code: 0xe8b9" class="the-icons span3"><i class="krown-iconbasket-alt"></i> <span class="i-name">krown-iconbasket-alt</span><span class="i-code">0xe8b9</span></div>
+        <div title="Code: 0xe7b1" class="the-icons span3"><i class="krown-icontablet"></i> <span class="i-name">krown-icontablet</span><span class="i-code">0xe7b1</span></div>
+        <div title="Code: 0xe88f" class="the-icons span3"><i class="krown-iconcloud-2"></i> <span class="i-name">krown-iconcloud-2</span><span class="i-code">0xe88f</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe890" class="the-icons span3"><i class="krown-iconcloud-flash"></i> <span class="i-name">krown-iconcloud-flash</span><span class="i-code">0xe890</span></div>
+        <div title="Code: 0xe891" class="the-icons span3"><i class="krown-iconcloud-flash-alt"></i> <span class="i-name">krown-iconcloud-flash-alt</span><span class="i-code">0xe891</span></div>
+        <div title="Code: 0xe892" class="the-icons span3"><i class="krown-icondrizzle-1"></i> <span class="i-name">krown-icondrizzle-1</span><span class="i-code">0xe892</span></div>
+        <div title="Code: 0xe893" class="the-icons span3"><i class="krown-iconrain"></i> <span class="i-name">krown-iconrain</span><span class="i-code">0xe893</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe894" class="the-icons span3"><i class="krown-iconwindy"></i> <span class="i-name">krown-iconwindy</span><span class="i-code">0xe894</span></div>
+        <div title="Code: 0xe895" class="the-icons span3"><i class="krown-iconwindy-rain"></i> <span class="i-name">krown-iconwindy-rain</span><span class="i-code">0xe895</span></div>
+        <div title="Code: 0xe896" class="the-icons span3"><i class="krown-iconsnow-1"></i> <span class="i-name">krown-iconsnow-1</span><span class="i-code">0xe896</span></div>
+        <div title="Code: 0xe897" class="the-icons span3"><i class="krown-iconsnow-alt"></i> <span class="i-name">krown-iconsnow-alt</span><span class="i-code">0xe897</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe898" class="the-icons span3"><i class="krown-iconsnow-heavy"></i> <span class="i-name">krown-iconsnow-heavy</span><span class="i-code">0xe898</span></div>
+        <div title="Code: 0xe899" class="the-icons span3"><i class="krown-iconhail"></i> <span class="i-name">krown-iconhail</span><span class="i-code">0xe899</span></div>
+        <div title="Code: 0xe89a" class="the-icons span3"><i class="krown-iconclouds"></i> <span class="i-name">krown-iconclouds</span><span class="i-code">0xe89a</span></div>
+        <div title="Code: 0xe89b" class="the-icons span3"><i class="krown-iconclouds-flash"></i> <span class="i-name">krown-iconclouds-flash</span><span class="i-code">0xe89b</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe8a2" class="the-icons span3"><i class="krown-iconheart-broken"></i> <span class="i-name">krown-iconheart-broken</span><span class="i-code">0xe8a2</span></div>
+        <div title="Code: 0xe815" class="the-icons span3"><i class="krown-iconuser-male"></i> <span class="i-name">krown-iconuser-male</span><span class="i-code">0xe815</span></div>
+        <div title="Code: 0xe816" class="the-icons span3"><i class="krown-iconclock-2"></i> <span class="i-name">krown-iconclock-2</span><span class="i-code">0xe816</span></div>
+        <div title="Code: 0xf025" class="the-icons span3"><i class="krown-iconccw"></i> <span class="i-name">krown-iconccw</span><span class="i-code">0xf025</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf046" class="the-icons span3"><i class="krown-iconvector-pencil"></i> <span class="i-name">krown-iconvector-pencil</span><span class="i-code">0xf046</span></div>
+        <div title="Code: 0xe817" class="the-icons span3"><i class="krown-iconfire-station"></i> <span class="i-name">krown-iconfire-station</span><span class="i-code">0xe817</span></div>
+        <div title="Code: 0xe856" class="the-icons span3"><i class="krown-icongiraffe"></i> <span class="i-name">krown-icongiraffe</span><span class="i-code">0xe856</span></div>
+        <div title="Code: 0xe81e" class="the-icons span3"><i class="krown-icongrocery-store"></i> <span class="i-name">krown-icongrocery-store</span><span class="i-code">0xe81e</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe81f" class="the-icons span3"><i class="krown-iconharbor"></i> <span class="i-name">krown-iconharbor</span><span class="i-code">0xe81f</span></div>
+        <div title="Code: 0xe820" class="the-icons span3"><i class="krown-iconheliport"></i> <span class="i-name">krown-iconheliport</span><span class="i-code">0xe820</span></div>
+        <div title="Code: 0xe831" class="the-icons span3"><i class="krown-iconreligious-jewish"></i> <span class="i-name">krown-iconreligious-jewish</span><span class="i-code">0xe831</span></div>
+        <div title="Code: 0xe834" class="the-icons span3"><i class="krown-iconschool"></i> <span class="i-name">krown-iconschool</span><span class="i-code">0xe834</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe836" class="the-icons span3"><i class="krown-iconskiing"></i> <span class="i-name">krown-iconskiing</span><span class="i-code">0xe836</span></div>
+        <div title="Code: 0xe838" class="the-icons span3"><i class="krown-iconswimming"></i> <span class="i-name">krown-iconswimming</span><span class="i-code">0xe838</span></div>
+        <div title="Code: 0xe89c" class="the-icons span3"><i class="krown-iconaim"></i> <span class="i-name">krown-iconaim</span><span class="i-code">0xe89c</span></div>
+        <div title="Code: 0x23" class="the-icons span3"><i class="krown-icondelicious"></i> <span class="i-name">krown-icondelicious</span><span class="i-code">0x23</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0x3b" class="the-icons span3"><i class="krown-icondigg"></i> <span class="i-name">krown-icondigg</span><span class="i-code">0x3b</span></div>
+        <div title="Code: 0x55" class="the-icons span3"><i class="krown-iconyoutube"></i> <span class="i-name">krown-iconyoutube</span><span class="i-code">0x55</span></div>
+        <div title="Code: 0x5d" class="the-icons span3"><i class="krown-iconemail"></i> <span class="i-name">krown-iconemail</span><span class="i-code">0x5d</span></div>
+        <div title="Code: 0xe8a5" class="the-icons span3"><i class="krown-iconsteam"></i> <span class="i-name">krown-iconsteam</span><span class="i-code">0xe8a5</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe8a0" class="the-icons span3"><i class="krown-icondropbox"></i> <span class="i-name">krown-icondropbox</span><span class="i-code">0xe8a0</span></div>
+        <div title="Code: 0xe89f" class="the-icons span3"><i class="krown-iconsoundcloud"></i> <span class="i-name">krown-iconsoundcloud</span><span class="i-code">0xe89f</span></div>
+        <div title="Code: 0xe8b8" class="the-icons span3"><i class="krown-iconcart"></i> <span class="i-name">krown-iconcart</span><span class="i-code">0xe8b8</span></div>
+        <div title="Code: 0xe89d" class="the-icons span3"><i class="krown-iconinstagram"></i> <span class="i-name">krown-iconinstagram</span><span class="i-code">0xe89d</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe885" class="the-icons span3"><i class="krown-iconfacebook"></i> <span class="i-name">krown-iconfacebook</span><span class="i-code">0xe885</span></div>
+        <div title="Code: 0xe8a1" class="the-icons span3"><i class="krown-icongroup"></i> <span class="i-name">krown-icongroup</span><span class="i-code">0xe8a1</span></div>
+        <div title="Code: 0xe814" class="the-icons span3"><i class="krown-iconth"></i> <span class="i-name">krown-iconth</span><span class="i-code">0xe814</span></div>
+        <div title="Code: 0xe8bb" class="the-icons span3"><i class="krown-iconeye-4"></i> <span class="i-name">krown-iconeye-4</span><span class="i-code">0xe8bb</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe806" class="the-icons span3"><i class="krown-icontag-1"></i> <span class="i-name">krown-icontag-1</span><span class="i-code">0xe806</span></div>
+        <div title="Code: 0xe818" class="the-icons span3"><i class="krown-icontags-1"></i> <span class="i-name">krown-icontags-1</span><span class="i-code">0xe818</span></div>
+        <div title="Code: 0xe068" class="the-icons span3"><i class="krown-iconpencil-2"></i> <span class="i-name">krown-iconpencil-2</span><span class="i-code">0xe068</span></div>
+        <div title="Code: 0xe065" class="the-icons span3"><i class="krown-iconphone-1"></i> <span class="i-name">krown-iconphone-1</span><span class="i-code">0xe065</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe033" class="the-icons span3"><i class="krown-iconvolume"></i> <span class="i-name">krown-iconvolume</span><span class="i-code">0xe033</span></div>
+        <div title="Code: 0xe0f5" class="the-icons span3"><i class="krown-iconbook-1"></i> <span class="i-name">krown-iconbook-1</span><span class="i-code">0xe0f5</span></div>
+        <div title="Code: 0xe85c" class="the-icons span3"><i class="krown-iconfire-2"></i> <span class="i-name">krown-iconfire-2</span><span class="i-code">0xe85c</span></div>
+        <div title="Code: 0xe85d" class="the-icons span3"><i class="krown-iconmagnet"></i> <span class="i-name">krown-iconmagnet</span><span class="i-code">0xe85d</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe859" class="the-icons span3"><i class="krown-iconmegaphone-2"></i> <span class="i-name">krown-iconmegaphone-2</span><span class="i-code">0xe859</span></div>
+        <div title="Code: 0xe858" class="the-icons span3"><i class="krown-iconhdd"></i> <span class="i-name">krown-iconhdd</span><span class="i-code">0xe858</span></div>
+        <div title="Code: 0xe857" class="the-icons span3"><i class="krown-iconkey-2"></i> <span class="i-name">krown-iconkey-2</span><span class="i-code">0xe857</span></div>
+        <div title="Code: 0xe85a" class="the-icons span3"><i class="krown-iconmale"></i> <span class="i-name">krown-iconmale</span><span class="i-code">0xe85a</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe85b" class="the-icons span3"><i class="krown-iconfemale"></i> <span class="i-name">krown-iconfemale</span><span class="i-code">0xe85b</span></div>
+        <div title="Code: 0xe0c5" class="the-icons span3"><i class="krown-icondigg-1"></i> <span class="i-name">krown-icondigg-1</span><span class="i-code">0xe0c5</span></div>
+        <div title="Code: 0xe0c2" class="the-icons span3"><i class="krown-icondribbble"></i> <span class="i-name">krown-icondribbble</span><span class="i-code">0xe0c2</span></div>
+        <div title="Code: 0xe037" class="the-icons span3"><i class="krown-iconskype"></i> <span class="i-name">krown-iconskype</span><span class="i-code">0xe037</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe819" class="the-icons span3"><i class="krown-iconmusic"></i> <span class="i-name">krown-iconmusic</span><span class="i-code">0xe819</span></div>
+        <div title="Code: 0xe81a" class="the-icons span3"><i class="krown-iconsearch-1"></i> <span class="i-name">krown-iconsearch-1</span><span class="i-code">0xe81a</span></div>
+        <div title="Code: 0xe81b" class="the-icons span3"><i class="krown-iconmail-1"></i> <span class="i-name">krown-iconmail-1</span><span class="i-code">0xe81b</span></div>
+        <div title="Code: 0xe81c" class="the-icons span3"><i class="krown-iconheart"></i> <span class="i-name">krown-iconheart</span><span class="i-code">0xe81c</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe81d" class="the-icons span3"><i class="krown-iconstar-1"></i> <span class="i-name">krown-iconstar-1</span><span class="i-code">0xe81d</span></div>
+        <div title="Code: 0xe821" class="the-icons span3"><i class="krown-iconuser"></i> <span class="i-name">krown-iconuser</span><span class="i-code">0xe821</span></div>
+        <div title="Code: 0xe824" class="the-icons span3"><i class="krown-iconvideocam"></i> <span class="i-name">krown-iconvideocam</span><span class="i-code">0xe824</span></div>
+        <div title="Code: 0xe822" class="the-icons span3"><i class="krown-iconcamera-1"></i> <span class="i-name">krown-iconcamera-1</span><span class="i-code">0xe822</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe823" class="the-icons span3"><i class="krown-iconphoto"></i> <span class="i-name">krown-iconphoto</span><span class="i-code">0xe823</span></div>
+        <div title="Code: 0xe825" class="the-icons span3"><i class="krown-iconattach"></i> <span class="i-name">krown-iconattach</span><span class="i-code">0xe825</span></div>
+        <div title="Code: 0xe826" class="the-icons span3"><i class="krown-iconlock"></i> <span class="i-name">krown-iconlock</span><span class="i-code">0xe826</span></div>
+        <div title="Code: 0xe829" class="the-icons span3"><i class="krown-iconeye-2"></i> <span class="i-name">krown-iconeye-2</span><span class="i-code">0xe829</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe827" class="the-icons span3"><i class="krown-icontag"></i> <span class="i-name">krown-icontag</span><span class="i-code">0xe827</span></div>
+        <div title="Code: 0xe828" class="the-icons span3"><i class="krown-iconthumbs-up-1"></i> <span class="i-name">krown-iconthumbs-up-1</span><span class="i-code">0xe828</span></div>
+        <div title="Code: 0xe82a" class="the-icons span3"><i class="krown-iconpencil-3"></i> <span class="i-name">krown-iconpencil-3</span><span class="i-code">0xe82a</span></div>
+        <div title="Code: 0xe82b" class="the-icons span3"><i class="krown-iconcomment-2"></i> <span class="i-name">krown-iconcomment-2</span><span class="i-code">0xe82b</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe83f" class="the-icons span3"><i class="krown-iconlocation-1"></i> <span class="i-name">krown-iconlocation-1</span><span class="i-code">0xe83f</span></div>
+        <div title="Code: 0xe83e" class="the-icons span3"><i class="krown-iconcup"></i> <span class="i-name">krown-iconcup</span><span class="i-code">0xe83e</span></div>
+        <div title="Code: 0xe83d" class="the-icons span3"><i class="krown-icontrash"></i> <span class="i-name">krown-icontrash</span><span class="i-code">0xe83d</span></div>
+        <div title="Code: 0xe83b" class="the-icons span3"><i class="krown-icondoc"></i> <span class="i-name">krown-icondoc</span><span class="i-code">0xe83b</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe83a" class="the-icons span3"><i class="krown-iconnote"></i> <span class="i-name">krown-iconnote</span><span class="i-code">0xe83a</span></div>
+        <div title="Code: 0xe83c" class="the-icons span3"><i class="krown-iconcog-1"></i> <span class="i-name">krown-iconcog-1</span><span class="i-code">0xe83c</span></div>
+        <div title="Code: 0xe839" class="the-icons span3"><i class="krown-iconparams"></i> <span class="i-name">krown-iconparams</span><span class="i-code">0xe839</span></div>
+        <div title="Code: 0xe837" class="the-icons span3"><i class="krown-iconcalendar-2"></i> <span class="i-name">krown-iconcalendar-2</span><span class="i-code">0xe837</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe835" class="the-icons span3"><i class="krown-iconsound-1"></i> <span class="i-name">krown-iconsound-1</span><span class="i-code">0xe835</span></div>
+        <div title="Code: 0xe833" class="the-icons span3"><i class="krown-iconclock"></i> <span class="i-name">krown-iconclock</span><span class="i-code">0xe833</span></div>
+        <div title="Code: 0xe832" class="the-icons span3"><i class="krown-iconlightbulb-1"></i> <span class="i-name">krown-iconlightbulb-1</span><span class="i-code">0xe832</span></div>
+        <div title="Code: 0xe830" class="the-icons span3"><i class="krown-icontv"></i> <span class="i-name">krown-icontv</span><span class="i-code">0xe830</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe82f" class="the-icons span3"><i class="krown-icondesktop-1"></i> <span class="i-name">krown-icondesktop-1</span><span class="i-code">0xe82f</span></div>
+        <div title="Code: 0xe82e" class="the-icons span3"><i class="krown-iconmobile-2"></i> <span class="i-name">krown-iconmobile-2</span><span class="i-code">0xe82e</span></div>
+        <div title="Code: 0xe82d" class="the-icons span3"><i class="krown-iconcd"></i> <span class="i-name">krown-iconcd</span><span class="i-code">0xe82d</span></div>
+        <div title="Code: 0xe82c" class="the-icons span3"><i class="krown-iconinbox-1"></i> <span class="i-name">krown-iconinbox-1</span><span class="i-code">0xe82c</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe840" class="the-icons span3"><i class="krown-iconglobe-2"></i> <span class="i-name">krown-iconglobe-2</span><span class="i-code">0xe840</span></div>
+        <div title="Code: 0xe841" class="the-icons span3"><i class="krown-iconcloud-1"></i> <span class="i-name">krown-iconcloud-1</span><span class="i-code">0xe841</span></div>
+        <div title="Code: 0xe842" class="the-icons span3"><i class="krown-iconpaper-plane-1"></i> <span class="i-name">krown-iconpaper-plane-1</span><span class="i-code">0xe842</span></div>
+        <div title="Code: 0xe843" class="the-icons span3"><i class="krown-iconfire-1"></i> <span class="i-name">krown-iconfire-1</span><span class="i-code">0xe843</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe844" class="the-icons span3"><i class="krown-icongraduation-cap-1"></i> <span class="i-name">krown-icongraduation-cap-1</span><span class="i-code">0xe844</span></div>
+        <div title="Code: 0xe845" class="the-icons span3"><i class="krown-iconmegaphone-1"></i> <span class="i-name">krown-iconmegaphone-1</span><span class="i-code">0xe845</span></div>
+        <div title="Code: 0xe846" class="the-icons span3"><i class="krown-icondatabase"></i> <span class="i-name">krown-icondatabase</span><span class="i-code">0xe846</span></div>
+        <div title="Code: 0xe847" class="the-icons span3"><i class="krown-iconkey-1"></i> <span class="i-name">krown-iconkey-1</span><span class="i-code">0xe847</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe848" class="the-icons span3"><i class="krown-iconbeaker-1"></i> <span class="i-name">krown-iconbeaker-1</span><span class="i-code">0xe848</span></div>
+        <div title="Code: 0xe849" class="the-icons span3"><i class="krown-icontruck-1"></i> <span class="i-name">krown-icontruck-1</span><span class="i-code">0xe849</span></div>
+        <div title="Code: 0xe84a" class="the-icons span3"><i class="krown-iconmoney"></i> <span class="i-name">krown-iconmoney</span><span class="i-code">0xe84a</span></div>
+        <div title="Code: 0xe84b" class="the-icons span3"><i class="krown-iconfood"></i> <span class="i-name">krown-iconfood</span><span class="i-code">0xe84b</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xe84d" class="the-icons span3"><i class="krown-iconshop"></i> <span class="i-name">krown-iconshop</span><span class="i-code">0xe84d</span></div>
+        <div title="Code: 0xe84c" class="the-icons span3"><i class="krown-icondiamond"></i> <span class="i-name">krown-icondiamond</span><span class="i-code">0xe84c</span></div>
+        <div title="Code: 0xe84f" class="the-icons span3"><i class="krown-icont-shirt"></i> <span class="i-name">krown-icont-shirt</span><span class="i-code">0xe84f</span></div>
+        <div title="Code: 0xe84e" class="the-icons span3"><i class="krown-iconwallet"></i> <span class="i-name">krown-iconwallet</span><span class="i-code">0xe84e</span></div>
+      </div>
+      <div class="row">
+        <div title="Code: 0xf3c6" class="the-icons span3"><i class="krown-icontrophy"></i> <span class="i-name">krown-icontrophy</span><span class="i-code">0xf3c6</span></div>
+      </div>
+    </div>
+    <div class="container footer">Generated by <a href="http://fontello.com">fontello.com</a></div>
+  </body>
+</html>

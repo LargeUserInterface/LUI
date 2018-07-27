@@ -1,0 +1,81 @@
+<wpml-config>
+    <custom-fields>
+        <custom-field action="ignore">pp_gallery_slider</custom-field>
+        <custom-field action="ignore">krown_project_m_width</custom-field>
+        <custom-field action="ignore">krown_project_m_height</custom-field>
+        <custom-field action="ignore">krown_project_m_slider_width</custom-field>
+        <custom-field action="ignore">rb_post_pass</custom-field>
+        <custom-field action="ignore">rb_post_url_d</custom-field>
+        <custom-field action="ignore">krown_project_custom_target</custom-field>
+        <custom-field action="ignore">krown_project_fit</custom-field>
+        <custom-field action="ignore">rb_post_backgrounda</custom-field>
+        <custom-field action="ignore">krown_post_header</custom-field>
+        <custom-field action="ignore">rb_post_height</custom-field>
+        <custom-field action="ignore">krown_iframe</custom-field>
+        <custom-field action="ignore">krown_show_map</custom-field>
+        <custom-field action="ignore">krown_map_zoom</custom-field>
+        <custom-field action="ignore">krown_map_style</custom-field>
+        <custom-field action="ignore">krown_map_lat</custom-field>
+        <custom-field action="ignore">krown_map_long</custom-field>
+        <custom-field action="ignore">krown_map_marker</custom-field>
+        <custom-field action="ignore">rb_video_1</custom-field>
+        <custom-field action="ignore">rb_video_2</custom-field>
+        <custom-field action="ignore">rb_video_poster</custom-field>
+        <custom-field action="ignore">krown_slider_resize</custom-field>
+        <custom-field action="ignore">krown_slider_autoplay</custom-field>
+        <custom-field action="ignore">krown_slider_text</custom-field>
+        <custom-field action="ignore">krown_slider_share</custom-field>
+        <custom-field action="translate">krown_c_title_1</custom-field>
+        <custom-field action="translate">krown_c_phone</custom-field>
+        <custom-field action="translate">krown_c_email</custom-field>
+        <custom-field action="translate">krown_c_address</custom-field>
+        <custom-field action="translate">krown_c_title_2</custom-field>
+        <custom-field action="translate">krown_f_sendto</custom-field>
+        <custom-field action="translate">krown_f_name</custom-field>
+        <custom-field action="translate">krown_f_email</custom-field>
+        <custom-field action="translate">krown_f_message</custom-field>
+        <custom-field action="translate">krown_f_submit</custom-field>
+        <custom-field action="translate">krown_f_error</custom-field>
+        <custom-field action="translate">krown_f_success</custom-field>
+        <custom-field action="translate">krown_map_img</custom-field>
+    </custom-fields>
+    <custom-types>
+        <custom-type translate="1">portfolio</custom-type>
+        <custom-type translate="1">gallery</custom-type>
+    </custom-types>    
+    <language-switcher-settings>
+        <key name="icl_lang_sel_config">
+            <key name="font-current-normal">#444444</key>
+            <key name="font-current-hover">#000000</key>
+            <key name="background-current-normal">#ffffff</key>
+            <key name="background-current-hover">#eeeeee</key>
+            <key name="font-other-normal">#444444</key>
+            <key name="font-other-hover">#000000</key>
+            <key name="background-other-normal">#ffffff</key>
+            <key name="background-other-hover">#eeeeee</key>
+            <key name="border">#cdcdcd</key>
+        </key>
+        <key name="icl_lang_sel_footer_config">
+            <key name="font-current-normal">#444444</key>
+            <key name="font-current-hover">#000000</key>
+            <key name="background-current-normal">#ffffff</key>
+            <key name="background-current-hover">#eeeeee</key>
+            <key name="font-other-normal">#444444</key>
+            <key name="font-other-hover">#000000</key>
+            <key name="background-other-normal">#ffffff</key>
+            <key name="background-other-hover">#eeeeee</key>
+            <key name="border">#cdcdcd</key>
+        </key>    
+        <key name="icl_language_switcher_sidebar">0</key>  
+        <key name="icl_widget_title_show">0</key>
+        <key name="icl_lang_sel_type">dropdown</key>
+        <key name="icl_lso_link_empty">0</key>
+        <key name="icl_lso_flags">0</key>
+        <key name="icl_lso_native_lang">1</key>
+        <key name="icl_lso_display_lang">1</key>
+        <key name="icl_lang_sel_footer">0</key>
+        <key name="icl_post_availability">0</key>
+        <key name="icl_post_availability_position">below</key>
+        <key name="icl_post_availability_text">This post is also available in: %s</key>    
+    </language-switcher-settings>    
+</wpml-config>
