@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 import PhotosApp from './PhotosApp';
 
 const styles = theme => ({
@@ -17,21 +19,35 @@ const styles = theme => ({
         [theme.breakpoints.down('xs')]: {
             width: '100% !important', // Overrides inline-style
         },
-        '&:hover, &$focusVisible': {
-            zIndex: 1,
-            '& $imageBackdrop': {
-                opacity: 0.15,
-            },
-            '& $imageMarked': {
-                opacity: 0,
-            },
-            '& $imageTitle': {
-                border: '4px solid currentColor',
-            },
+        // '&:hover, &$focusVisible': {
+        //     zIndex: 1,
+        //     '& $imageBackdrop': {
+        //         opacity: 0.15,
+        //     },
+        //     '& $imageMarked': {
+        //         opacity: 0,
+        //     },
+        //     '& $imageTitle': {
+        //         border: '4px solid currentColor',
+        //     },
+        // },
+    },
+
+    hoverd: {
+        zIndex: 1,
+        '& $imageBackdrop': {
+            opacity: 0.15,
+        },
+        '& $imageMarked': {
+            opacity: 0,
+        },
+        '& $imageTitle': {
+            border: '4px solid currentColor',
         },
     },
 
     focusVisible: {},
+
     imageButton: {
         position: 'absolute',
         left: 0,
@@ -100,15 +116,20 @@ class Photos extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, hovered, clicked } = this.props;
+        console.log(hovered, clicked);
 
-        if (!this.state.clicked) {
+        if (this.props.clicked) {
+            return (
+                <PhotosApp />
+            );
+        } else {
             // icon 
             return (
                 <ButtonBase
                     focusRipple
                     key={image.title}
-                    className={classes.image}
+                    className={this.props.hovered? classNames(classes.image, classes.hoverd) : classes.image}
                     focusVisibleClassName={classes.focusVisible}
                     style={{
                         width: image.width,
@@ -134,13 +155,19 @@ class Photos extends Component {
                     </span>
                 </ButtonBase>
             );
-        } else {
-            return (
-                <PhotosApp />
-            );
         }
     }
 }
+
+Photos.propTypes = {
+    hovered: PropTypes.bool,
+    clicked: PropTypes.bool,
+};
+
+Photos.defaultProps = {
+    hovered: false,
+    clicked: false
+};
 
 export default withStyles(styles)(Photos);
 

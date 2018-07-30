@@ -15,7 +15,7 @@ const styles = {
         position: 'absolute',
         height: '100%',
         width: '100%',
-        zIndex: 1
+        zIndex: 10
     }
 
 };
@@ -43,16 +43,17 @@ class Leap extends React.Component {
 
         setInterval(() => {
             if (this.props.main) {
-                // console.log(this.state.indexFinger);
                 // clicking
                 if(this.state.indexFinger.vel < -300 && this.state.hovered){
-                    console.log("CLICKED", this.state.hovered);
+                    // console.log("CLICKED", this.state.hovered);
                     this.setState({clicked: this.state.hovered})
-                } else {
+                    this.props.handleClick(this.state.hovered);
+                } else { // hovering
                     const hovered = this.checkHover();
                     if (hovered) {
-                        console.log("HOVERING", hovered);
+                        // console.log("HOVERING", hovered);
                         this.setState({hovered});
+                        this.props.handleHover(hovered);
                     }
                 }
             } else {
@@ -124,5 +125,21 @@ class Leap extends React.Component {
         )
     }
 }
+
+
+Leap.propTypes = {
+    cards: PropTypes.array,
+    main: PropTypes.bool,
+    handleHover: PropTypes.func,
+    handleClick: PropTypes.func,
+};
+
+// TODO: better default values
+Leap.defaultProps = {
+    cards: [],
+    main: true,
+    handleHover: () => {},
+    handleClick: false
+};
 
 export default withStyles(styles)(Leap);

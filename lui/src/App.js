@@ -24,8 +24,6 @@ const styles = {
     flexDirection: 'column'
   },
 
-  canvas: {},
-
   rowContainer: {
     width: '100%',
     height: '50%',
@@ -40,7 +38,8 @@ class App extends Component {
     this.state = {
       cards: [],
       main: true,
-      current: ""
+      hovered: "",
+      clicked: ""
     };
   }
 
@@ -49,36 +48,54 @@ class App extends Component {
     this.setState({ cards })
   }
 
+  handleHover = (card) => {
+    // console.log("HOVER", card);
+    this.setState({hovered: card})
+  }
+
+  handleClick = (card) => {
+    // console.log("CLICK", card);
+    this.setState({
+      clicked: card,
+      main: false
+    })
+  }
+
   render() {
     const { classes } = this.props;
 
     return (
       <div>
-        <Leap className={classes.canvas} cards={this.state.cards} main={this.state.main}> </Leap>
+        <Leap 
+          cards={this.state.cards} 
+          main={this.state.main}
+          handleHover = {this.handleHover}
+          handleClick = {this.handleClick}
+        /> 
 
         <Grid className={classes.mainContainer} container spacing={24}>
 
           <Grid className={classes.rowContainer} container>
             <Grid ref="card1" item xs={4} >
-              <Photos />
+              <Photos hovered = {this.state.hovered == "card1"} clicked = {this.state.clicked == "card1"}/>
             </Grid>
             <Grid ref="card2" item xs={4} >
-              <App2 />
+              <App2 hovered = {this.state.hovered == "card2"} clicked = {this.state.clicked == "card2"}/>
             </Grid>
             <Grid ref="card3" item xs={4} >
-              <App3 />
+              <App3 hovered = {this.state.hovered == "card3"} clicked = {this.state.clicked == "card3"}/>
             </Grid>
           </Grid>
 
           <Grid className={classes.rowContainer} container>
             <Grid ref="card4" item xs={4} >
-              <App4 />
+              <App4 hovered = {this.state.hovered == "card4"} clicked = {this.state.clicked == "card4"}/>
             </Grid>
             <Grid ref="card5" item xs={4} >
-              <App5 />
+              <App5 hovered = {this.state.hovered == "card5"} clicked = {this.state.clicked == "card5"}/>
             </Grid>
             <Grid ref="card6" item xs={4} >
-              <App6 />
+              <App6 hovered = {this.state.hovered == "card6"} clicked = {this.state.clicked == "card6"}/>
             </Grid>
           </Grid>
         </Grid>
