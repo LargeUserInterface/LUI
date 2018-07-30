@@ -12,6 +12,7 @@ import App5 from './components/App5';
 import App6 from './components/App6';
 import App7 from './components/App7';
 import App8 from './components/App8';
+import Leap from './leap.js'
 
 
 const styles = {
@@ -23,50 +24,68 @@ const styles = {
     flexDirection: 'column'
   },
 
+  canvas: {},
+
   rowContainer: {
     width: '100%',
     height: '50%',
   },
-
-  appIcon: {
-
-  }
-
 };
 
-class App extends React.Component {
+class App extends Component {
 
-    render() {
-        const { classes } = this.props;
+  constructor(props) {
+    super(props);
 
-        return (
-            <Grid className={classes.mainContainer} container spacing={24}>
-                <Grid className={classes.rowContainer} container>
-                  <Grid className={classes.appIcon} item xs={4} cl>
-                    <Photos />
-                  </Grid>
-                  <Grid className={classes.appIcon} item xs={4} cl>
-                    <Videos />
-                  </Grid>
-                  <Grid className={classes.appIcon} item xs={4} cl>
-                    <App3 />
-                  </Grid>
-                </Grid>
+    this.state = {
+      cards: [],
+      main: true,
+      current: ""
+    };
+  }
 
-                <Grid className={classes.rowContainer} container>
-                  <Grid className={classes.appIcon} item xs={4} cl>
-                    <App4 />
-                  </Grid>
-                  <Grid className={classes.appIcon} item xs={4} cl>
-                    <App5 />
-                  </Grid>
-                  <Grid className={classes.appIcon} item xs={4} cl>
-                    <App6 />
-                  </Grid>
-                </Grid>
+  componentDidMount() {
+    const cards = [this.refs.card1, this.refs.card2, this.refs.card3, this.refs.card4, this.refs.card5, this.refs.card6];
+    this.setState({ cards })
+  }
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <div>
+        <Leap className={classes.canvas} cards={this.state.cards} main={this.state.main}> </Leap>
+
+        <Grid className={classes.mainContainer} container spacing={24}>
+
+          <Grid className={classes.rowContainer} container>
+            <Grid ref="card1" item xs={4} >
+              <Photos />
             </Grid>
-        );
-    }
+            <Grid ref="card2" item xs={4} >
+              <App2 />
+            </Grid>
+            <Grid ref="card3" item xs={4} >
+              <App3 />
+            </Grid>
+          </Grid>
+
+          <Grid className={classes.rowContainer} container>
+            <Grid ref="card4" item xs={4} >
+              <App4 />
+            </Grid>
+            <Grid ref="card5" item xs={4} >
+              <App5 />
+            </Grid>
+            <Grid ref="card6" item xs={4} >
+              <App6 />
+            </Grid>
+          </Grid>
+        </Grid>
+
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(App);
