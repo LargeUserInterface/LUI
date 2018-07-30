@@ -12,28 +12,14 @@ const styles = theme => ({
         width: '100%',
         height: '100%'
     },
-
     image: {
         position: 'relative',
         height: '100%',
         [theme.breakpoints.down('xs')]: {
             width: '100% !important', // Overrides inline-style
         },
-        // '&:hover, &$focusVisible': {
-        //     zIndex: 1,
-        //     '& $imageBackdrop': {
-        //         opacity: 0.15,
-        //     },
-        //     '& $imageMarked': {
-        //         opacity: 0,
-        //     },
-        //     '& $imageTitle': {
-        //         border: '4px solid currentColor',
-        //     },
-        // },
     },
-
-    hoverd: {
+    hovered: {
         zIndex: 1,
         '& $imageBackdrop': {
             opacity: 0.15,
@@ -45,9 +31,6 @@ const styles = theme => ({
             border: '4px solid currentColor',
         },
     },
-
-    focusVisible: {},
-
     imageButton: {
         position: 'absolute',
         left: 0,
@@ -104,20 +87,11 @@ class Photos extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            clicked: false
-        };
-    }
-
-    handleClick = () => {
-        this.setState({
-            clicked: true
-        });
+        this.state = {};
     }
 
     render() {
         const { classes, hovered, clicked } = this.props;
-        console.log(hovered, clicked);
 
         if (this.props.clicked) {
             return (
@@ -129,7 +103,7 @@ class Photos extends Component {
                 <ButtonBase
                     focusRipple
                     key={image.title}
-                    className={this.props.hovered? classNames(classes.image, classes.hoverd) : classes.image}
+                    className={hovered? classNames(classes.image, classes.hovered) : classes.image}
                     focusVisibleClassName={classes.focusVisible}
                     style={{
                         width: image.width,
@@ -142,7 +116,7 @@ class Photos extends Component {
                         }}
                     />
                     <span className={classes.imageBackdrop} />
-                    <span className={classes.imageButton} onClick={() => this.handleClick()}>
+                    <span className={classes.imageButton}>
                         <Typography
                             component="span"
                             variant="subheading"

@@ -29,6 +29,7 @@ class Leap extends React.Component {
             indexFinger: "",
             hovered: "",
             clicked: "",
+            pinch: ""
         }
     }
 
@@ -44,7 +45,7 @@ class Leap extends React.Component {
         setInterval(() => {
             if (this.props.main) {
                 // clicking
-                if(this.state.indexFinger.vel < -300 && this.state.hovered){
+                if(this.state.indexFinger.vel < -350 && this.state.hovered){
                     // console.log("CLICKED", this.state.hovered);
                     this.setState({clicked: this.state.hovered})
                     this.props.handleClick(this.state.hovered);
@@ -57,6 +58,13 @@ class Leap extends React.Component {
                     }
                 }
             } else {
+                // check for exiting motion
+                if (this.state.pinch > 0.7 && this.state.hand.pinchStrength < 0.3) {
+                    this.props.handleExit();
+                } else {
+                    this.setState({ pinch: this.state.hand.pinchStrength})
+                }
+
                 // TODO: app specific handler
             }
         }, 100);
@@ -132,14 +140,13 @@ Leap.propTypes = {
     main: PropTypes.bool,
     handleHover: PropTypes.func,
     handleClick: PropTypes.func,
+    handleExit: PropTypes.func
 };
 
 // TODO: better default values
 Leap.defaultProps = {
     cards: [],
-    main: true,
-    handleHover: () => {},
-    handleClick: false
+    main: true
 };
 
 export default withStyles(styles)(Leap);

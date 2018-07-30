@@ -61,6 +61,13 @@ class App extends Component {
     })
   }
 
+  handleExit = () => {
+    this.setState({
+      clicked: "",
+      main: true
+    })
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -69,8 +76,10 @@ class App extends Component {
         <Leap 
           cards={this.state.cards} 
           main={this.state.main}
+          clicked = {this.state.clicked}
           handleHover = {this.handleHover}
           handleClick = {this.handleClick}
+          handleExit = {this.handleExit}
         /> 
 
         <Grid className={classes.mainContainer} container spacing={24}>

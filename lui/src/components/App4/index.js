@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import PhotosApp from '../Photos/PhotosApp.jsx';
 
 const styles = theme => ({
     root: {
@@ -14,22 +17,20 @@ const styles = theme => ({
         height: '100%',
         [theme.breakpoints.down('xs')]: {
             width: '100% !important', // Overrides inline-style
-            // height: 100,
-        },
-        '&:hover, &$focusVisible': {
-            zIndex: 1,
-            '& $imageBackdrop': {
-                opacity: 0.15,
-            },
-            '& $imageMarked': {
-                opacity: 0,
-            },
-            '& $imageTitle': {
-                border: '4px solid currentColor',
-            },
         },
     },
-    focusVisible: {},
+    hovered: {
+        zIndex: 1,
+        '& $imageBackdrop': {
+            opacity: 0.15,
+        },
+        '& $imageMarked': {
+            opacity: 0,
+        },
+        '& $imageTitle': {
+            border: '4px solid currentColor',
+        },
+    },
     imageButton: {
         position: 'absolute',
         left: 0,
@@ -92,14 +93,19 @@ class App4 extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, hovered, clicked } = this.props;
 
-        if (!this.state.clicked) {
+        if (this.props.clicked) {
+            return (
+                <PhotosApp />
+            );
+        } else {
+            // icon 
             return (
                 <ButtonBase
                     focusRipple
                     key={image.title}
-                    className={classes.image}
+                    className={hovered? classNames(classes.image, classes.hovered) : classes.image}
                     focusVisibleClassName={classes.focusVisible}
                     style={{
                         width: image.width,
@@ -125,13 +131,19 @@ class App4 extends Component {
                     </span>
                 </ButtonBase>
             );
-        } else {
-            return (
-                <div> placeholder </div>
-            );
         }
     }
 }
+
+App4.propTypes = {
+    hovered: PropTypes.bool,
+    clicked: PropTypes.bool,
+};
+
+App4.defaultProps = {
+    hovered: false,
+    clicked: false
+};
 
 export default withStyles(styles)(App4);
 
