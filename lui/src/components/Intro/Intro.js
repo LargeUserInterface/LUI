@@ -7,10 +7,6 @@ class Intro extends Component {
 
     return (
         <img id="backDrop" src={backDrop} />
-
-        // <div id="backDropContainer">
-        //     <img id="backDrop" src={backDrop} />
-        // </div>
     );
   }
 }
