@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Photos from './components/Photos';
-import TopBar from './components/TopBar';
 import Videos from './components/Videos';
 import App3 from './components/App3';
 import App4 from './components/App4';
@@ -62,6 +61,7 @@ class App extends Component {
   handleExit = () => {
     this.setState({
       clicked: "",
+      hovered: "",
       main: true
     })
   }
@@ -87,7 +87,7 @@ class App extends Component {
               <Photos hovered = {this.state.hovered == "card1"} clicked = {this.state.clicked == "card1"}/>
             </Grid>
             <Grid ref="card2" item xs={4} >
-              <App2 hovered = {this.state.hovered == "card2"} clicked = {this.state.clicked == "card2"}/>
+              <Videos hovered = {this.state.hovered == "card2"} clicked = {this.state.clicked == "card2"}/>
             </Grid>
             <Grid ref="card3" item xs={4} >
               <App3 hovered = {this.state.hovered == "card3"} clicked = {this.state.clicked == "card3"}/>

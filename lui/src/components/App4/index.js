@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import VideosApp from './VideosApp';
+import PhotosApp from '../Photos/PhotosApp';
 
 const styles = theme => ({
     root: {
@@ -97,7 +97,7 @@ class App4 extends Component {
 
         if (this.props.clicked) {
             return (
-                <VideosApp />
+                <PhotosApp />
             );
         } else {
             // icon 
