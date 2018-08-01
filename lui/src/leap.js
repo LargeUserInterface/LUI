@@ -54,8 +54,8 @@ class Leap extends React.Component {
                     if (hovered) {
                         // console.log("HOVERING", hovered);
                         this.setState({hovered});
-                        this.props.handleHover(hovered);
                     }
+                    this.props.handleHover(hovered);
                 }
             } else {
                 // check for exiting motion
@@ -122,7 +122,7 @@ class Leap extends React.Component {
         		return ("card"+String(i+1));
         	}
         }
-        return ;
+        return ("");
     }
 
     render() {

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import VideosApp from './VideosApp';
 import classNames from 'classnames';
+import VideosApp from './VideosApp';
 
 const styles = theme => ({
     root: {
