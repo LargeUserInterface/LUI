@@ -97,7 +97,7 @@ class App3 extends Component {
 
         if (this.props.clicked) {
             return (
-                <PhotosApp/>
+                <div/>
             );
         } else {
             // icon 

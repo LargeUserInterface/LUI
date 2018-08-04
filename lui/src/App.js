@@ -33,7 +33,8 @@ class App extends Component {
 
     this.state = {
       cards: [],
-      page: "intro",
+      // page: "intro",
+      page: "main",
       hovered: "",
       clicked: ""
     };
@@ -86,7 +87,7 @@ class App extends Component {
           handleExit={this.handleExit}
         />
 
-        <Intro page = {this.state.page}/>
+        <Intro page={this.state.page} />
 
         <Grid className={classes.mainContainer} container>
           <Grid className={classes.rowContainer} container>
@@ -99,24 +100,24 @@ class App extends Component {
             <Grid ref="card3" item xs={4} >
               <App3 hovered={this.state.hovered === "card3"} clicked={false} />
             </Grid>
-          </Grid>
 
-          <Grid className={classes.rowContainer} container>
-            <Grid ref="card4" item xs={4} >
-              <App4 hovered={this.state.hovered === "card4"} clicked={false} />
-            </Grid>
-            <Grid ref="card5" item xs={4} >
-              <App5 hovered={this.state.hovered === "card5"} clicked={false} />
-            </Grid>
-            <Grid ref="card6" item xs={4} >
-              <App6 hovered={this.state.hovered === "card6"} clicked={false} />
+            <Grid className={classes.rowContainer} container>
+              <Grid ref="card4" item xs={4} >
+                <App4 hovered={this.state.hovered === "card4"} clicked={false} />
+              </Grid>
+              <Grid ref="card5" item xs={4} >
+                <App5 hovered={this.state.hovered === "card5"} clicked={false} />
+              </Grid>
+              <Grid ref="card6" item xs={4} >
+                <App6 hovered={this.state.hovered === "card6"} clicked={false} />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
 
       </div>
-      );
-    }
+    );
   }
+}
 
 export default withStyles(styles)(App);

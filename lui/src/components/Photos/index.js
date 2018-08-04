@@ -93,8 +93,7 @@ class Photos extends Component {
     render() {
         const { classes, hovered, clicked } = this.props;
 
-        if ( clicked ) {
-            // full app
+        if (clicked) {
             return <Redirect to={{pathname: "/Photos"}} />
         } else {
             // icon 

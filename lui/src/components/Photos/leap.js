@@ -24,13 +24,12 @@ class Leap extends React.Component {
             hand: "",
             indexFinger: "",
             hovered: "",
+            clicked: "",
             pinch: ""
         }
     }
 
     componentDidMount() {
-
-        console.log("Photos leap is mounted")
         this.leap = LeapMotion.loop((frame) => {
             this.setState({
                 frame,
@@ -51,7 +50,7 @@ class Leap extends React.Component {
 
                 const hovered = this.checkHover();
                 if (hovered) {
-                    console.log("HOVERING", hovered);
+                    // console.log("HOVERING", hovered);
                     this.setState({ hovered });
                 }
 
@@ -68,7 +67,6 @@ class Leap extends React.Component {
     }
 
     componentWillUnmount() {
-        console.log("Photos leap is unmounted")
         clearInterval(this.timer);
         this.leap.disconnect();
     }
@@ -90,8 +88,7 @@ class Leap extends React.Component {
                 const y = ctx.canvas.height * (1 - normalized[1]);
                 const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
                 this.drawCircle([x, y], radius, color, pointable.type === 1);
-
-                if (pointable.type === 1) {
+                if (pointable.type == 1) {
                     this.setState({
                         indexFinger: { x, y, vel: pointable.tipVelocity[2] }
                     })

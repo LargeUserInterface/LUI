@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Redirect } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -109,12 +110,12 @@ class PhotosApp extends Component {
 
   handleSwipe = (dir) => {
     if (dir === "left") {
-      // console.log("swipe left");
+      console.log("SWIPED LEFT");
       this.setState({
         index: 1
       })
     } else {
-      // console.log("swipe right");
+      console.log("SWIPED RIGHT");
       this.setState({
         index: 0
       })
@@ -122,7 +123,6 @@ class PhotosApp extends Component {
   }
 
   handleExit = () => {
-    console.log("exit");
     this.setState({
       exit: true
     })

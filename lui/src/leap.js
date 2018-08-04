@@ -34,7 +34,6 @@ class Leap extends React.Component {
     }
 
     componentDidMount() {
-        console.log("main leap is mounted")
         this.leap = LeapMotion.loop((frame) => {
             this.setState({
                 frame,
