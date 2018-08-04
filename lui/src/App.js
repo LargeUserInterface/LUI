@@ -34,7 +34,7 @@ class App extends Component {
     this.state = {
       cards: [],
       // page: "intro",
-      page: "main",
+      page: "intro",
       hovered: "",
       clicked: ""
     };
@@ -116,8 +116,8 @@ class App extends Component {
         </Grid>
 
       </div>
-    );
+      );
+    }
   }
-}
-
-export default withStyles(styles)(App);
+  
+  export default withStyles(styles)(App);
