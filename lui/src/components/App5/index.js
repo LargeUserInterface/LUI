@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import PhotosApp from '../Photos/PhotosApp.jsx';
 
 const styles = theme => ({
     root: {
@@ -77,8 +76,8 @@ const styles = theme => ({
 });
 
 const image = {
-    url: '',
-    title: 'App5',
+    url: 'https://images.unsplash.com/photo-1507646227500-4d389b0012be?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=01a4e1be72645c660576fcc6d0c15a21&auto=format&fit=crop&w=800&q=60',
+    title: 'Google Voice Assistant',
     width: '100%',
 };
 

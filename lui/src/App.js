@@ -91,13 +91,13 @@ class App extends Component {
         <Grid className={classes.mainContainer} container>
           <Grid className={classes.rowContainer} container>
             <Grid ref="card1" item xs={4} >
-              <Photos hovered={this.state.hovered == "card1"} clicked={this.state.clicked == "card1"} />
+              <Photos hovered={this.state.hovered === "card1"} clicked={this.state.clicked === "card1"} />
             </Grid>
             <Grid ref="card2" item xs={4} >
-              <Videos hovered={this.state.hovered == "card2"} clicked={this.state.clicked == "card2"} />
+              <Videos hovered={this.state.hovered === "card2"} clicked={false} />
             </Grid>
             <Grid ref="card3" item xs={4} >
-              <App3 hovered={this.state.hovered == "card3"} clicked={false} />
+              <App3 hovered={this.state.hovered === "card3"} clicked={false} />
             </Grid>
           </Grid>
 

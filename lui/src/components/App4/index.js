@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import PhotosApp from '../Photos/PhotosApp';
 
 const styles = theme => ({
     root: {
@@ -77,8 +76,8 @@ const styles = theme => ({
 });
 
 const image = {
-    url: '',
-    title: 'App4',
+    url: 'https://akns-images.eonline.com/eol_images/Entire_Site/2013520/rs_560x415-130620152327-1024.CandyCrush6.mh.062013.jpg?fit=inside|900:auto&output-quality=90',
+    title: 'Game',
     width: '100%',
 };
 

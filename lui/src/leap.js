@@ -28,7 +28,8 @@ class Leap extends React.Component {
             hand: "",
             indexFinger: "",
             hovered: "",
-            clicked: ""
+            clicked: "",
+            pinch: ""
         }
     }
 

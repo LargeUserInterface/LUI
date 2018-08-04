@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import PhotosApp from '../Photos/PhotosApp.jsx';
 
 const styles = theme => ({
     root: {
@@ -77,8 +76,8 @@ const styles = theme => ({
 });
 
 const image = {
-    url: '',
-    title: 'App6',
+    url: 'http://www.fablabconnect.com/wp-content/uploads/2018/05/MIT-Media-Lab-2.jpg',
+    title: 'Object Based Media Group',
     width: '100%',
 };
 
