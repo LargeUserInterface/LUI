@@ -12,6 +12,11 @@ import Leap from './leap.js'
 
 
 const styles = {
+
+  slideOut: {
+    transform: 'translateY(100%)'
+  },
+
   mainContainer: {
     width: '100vw',
     height: '100vh',
@@ -25,6 +30,27 @@ const styles = {
     height: '50%',
   },
 };
+
+const DelayedComponent = delayUnmounting(Intro)
+function delayUnmounting(Component) {
+  return class extends React.Component {
+    state = {
+      shouldRender: this.props.isMounted
+    }
+
+    componentWillReceiveProps(nextProps) {
+      if (this.props.isMounted && !nextProps.isMounted) { //true -> false
+        setTimeout(() => this.setState({ shouldRender: false }), 1000)
+      } else if (!this.props.isMounted && nextProps.isMounted) { //false -> true
+        this.setState({ shouldRender: true })
+      } 
+    }
+
+    render() {
+      return this.state.shouldRender ? <Component {...this.props}/> : null
+    }
+  }
+}
 
 class App extends Component {
 
@@ -86,7 +112,7 @@ class App extends Component {
           handleExit={this.handleExit}
         />
 
-        <Intro page={this.state.page} />
+        <DelayedComponent delayTime={1000} isMounted={this.state.page == "intro"} />
 
         <Grid className={classes.mainContainer} container>
           <Grid className={classes.rowContainer} container>

@@ -61,7 +61,7 @@ const styles = {
   },
 
   hovered: {
-    transform: 'scale(1.05)',
+    transform: 'scale(2)',
     animationDuration: '1s'
   },
 
