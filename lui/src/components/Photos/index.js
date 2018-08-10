@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import PhotosApp from './PhotosApp';
 
 const styles = theme => ({
     root: {
@@ -93,10 +93,9 @@ class Photos extends Component {
     render() {
         const { classes, hovered, clicked } = this.props;
 
-        if (this.props.clicked) {
-            return (
-                <PhotosApp />
-            );
+        if ( clicked ) {
+            // full app
+            return <Redirect to={{pathname: "/Photos"}} />
         } else {
             // icon 
             return (

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Intro from './components/Intro/Intro';
 import App from './App';
+import Photos from './components/Photos/PhotosApp.jsx';
+import Videos from './components/Videos/VideosApp.js';
 
 class Pages extends Component {
 
@@ -9,10 +10,10 @@ class Pages extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path='/' component={Intro}/>
-          <Route path='/Intro' component={Intro}/>
-          <Route path='/Apps' component={App}/>
-          <Route path='*' component={Intro}/>
+          <Route exact path='/' component={App}/>
+          <Route path='/Photos' component={Photos}/>
+          <Route path='/Videos' component={Videos}/>
+          <Route path='*' component={App}/>
         </Switch>
       </Router>
     );

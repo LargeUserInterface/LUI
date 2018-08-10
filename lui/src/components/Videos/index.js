@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import VideosApp from './VideosApp';
 
 const styles = theme => ({
     root: {
@@ -102,12 +102,11 @@ class Videos extends Component {
     render() {
         const { classes, hovered, clicked } = this.props;
 
-        if (this.props.clicked) {
-            return (
-                <VideosApp />
-            );
+        if ( clicked ) {
+            // full app
+            return <Redirect to={{pathname: "/Videos"}} />
         } else {
-            // icon 
+            // icon
             return (
                 <ButtonBase
                     focusRipple
@@ -138,7 +137,7 @@ class Videos extends Component {
                     </span>
                 </ButtonBase>
             );
-        } 
+        }
     }
 }
 
@@ -153,4 +152,3 @@ Videos.defaultProps = {
 };
 
 export default withStyles(styles)(Videos);
-

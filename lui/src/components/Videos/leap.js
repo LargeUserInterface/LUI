@@ -4,10 +4,6 @@ import ReactDOM from 'react-dom';
 import { withStyles } from '@material-ui/core/styles';
 import LeapMotion from 'leapjs';
 
-// const canvas = this.refs.canvas;
-// canvas.width = canvas.clientWidth;
-// canvas.height = canvas.clientHeight;
-// const ctx = canvas.getContext("2d");
 const fingers = ["#9bcfed", "#B2EBF2", "#80DEEA", "#4DD0E1", "#26C6DA"];
 
 const styles = {
@@ -15,9 +11,8 @@ const styles = {
         position: 'absolute',
         height: '100%',
         width: '100%',
-        zIndex: 10
+        zIndex: 100
     }
-
 };
 
 class Leap extends React.Component {
@@ -28,13 +23,13 @@ class Leap extends React.Component {
             hand: "",
             indexFinger: "",
             hovered: "",
-            clicked: "",
-            pinch: ""
+            pinch: "",
+            clicked:""
         }
     }
 
     componentDidMount() {
-        console.log("main leap is mounted")
+        console.log("Videos leap is mounted")
         this.leap = LeapMotion.loop((frame) => {
             this.setState({
                 frame,
@@ -44,43 +39,43 @@ class Leap extends React.Component {
         });
 
         this.timer = setInterval(() => {
-            if (this.props.page === "main") {
-                // clicking
-                if (this.state.indexFinger.vel < -350 && this.state.hovered) {
-                    // console.log("CLICKED", this.state.hovered);
-                    this.setState({ clicked: this.state.hovered })
-                    this.props.handleClick(this.state.hovered);
-                } else { // hovering
-                    const hovered = this.checkHover();
+
+            if (this.state.hand) {
+                // const palmVelocity = this.state.hand.palmVelocity[0];
+                // if (palmVelocity < -400) {
+                //     this.props.handleSwipe("left");
+                // } else if (palmVelocity > 400) {
+                //     this.props.handleSwipe("right");
+                // }
+
+                const hovered = this.checkHover();
+                if (hovered) {
+                    // console.log("HOVERING", hovered);
                     this.setState({ hovered });
-                    this.props.handleHover(hovered);
                 }
 
-                if (this.state.hand) {
-                    if (this.state.pinch > 0.7 && this.state.hand.pinchStrength < 0.3) {
-                        // console.log("bloom");
-                        this.setState({pinch : ""});
-                        this.props.handleExit();
-                    } else {
-                        this.setState({ pinch: this.state.hand.pinchStrength })
-                    }
+                // clicking
+                if (this.state.indexFinger.vel < -350 && this.state.hovered) {
+                    console.log("CLICKED", this.state.hovered);
+                    this.setState({ clicked: this.state.hovered })
+                    this.props.handleClick(this.state.hovered);
                 }
-            } else {
-                // check for unlocking
-                if (this.state.hand && this.state.hand.palmVelocity[0] < -400) {
-                    this.props.handleUnlock();
+
+                if (this.state.pinch > 0.7 && this.state.hand.pinchStrength < 0.3) {
+                    this.props.handleExit();
+                } else {
+                    this.setState({ pinch: this.state.hand.pinchStrength })
                 }
+
+                this.props.handleHover(hovered);
             }
         }, 100);
     }
 
     componentWillUnmount() {
-        if (this.timer) {
-            clearInterval(this.timer);
-            this.timer = null;
-        }
+        console.log("Videos leap is unmounted")
+        clearInterval(this.timer);
         this.leap.disconnect();
-        console.log('close main');
     }
 
     traceFingers(frame) {
@@ -107,9 +102,7 @@ class Leap extends React.Component {
                     })
                 }
             });
-        } catch (err) {
-            // console.log("ERR", err);
-        }
+        } catch (err) { }
     }
 
     drawCircle(center, radius, color, fill) {
@@ -129,18 +122,20 @@ class Leap extends React.Component {
     }
 
     checkHover() {
-        // calculate location of cards
-        const cards = this.props.cards;
+        // console.log(this.props.photos);
+        const videos = this.props.videos;
         const { x, y } = this.state.indexFinger;
-        for (let i = 0; i < cards.length; i++) {
-            if (cards[i]) {
-                const dims = ReactDOM.findDOMNode(cards[i]).getBoundingClientRect();
+        for (let i = 0; i < videos.length; i++) {
+            if (videos[i]){
+                const dims = ReactDOM.findDOMNode(videos[i]).getBoundingClientRect();
                 if (x > dims.left && x < dims.right &&
                     y > dims.top && y < dims.bottom) {
-                    return ("card" + String(i + 1));
+                        // console.log("photo"+ String(i+1));
+                    return ("video" + String(i + 1));
                 }
             }
         }
+        // console.log("no match");
         return ("");
     }
 
@@ -155,18 +150,16 @@ class Leap extends React.Component {
 
 
 Leap.propTypes = {
-    cards: PropTypes.array,
-    page: PropTypes.string,
+    videos: PropTypes.array,
     handleHover: PropTypes.func,
-    handleClick: PropTypes.func,
-    handleUnlock: PropTypes.func,
-    handleExit: PropTypes.func
+    handleSwipe: PropTypes.func,
+    handleExit: PropTypes.func,
+    handleClick: PropTypes.func
 };
 
 // TODO: better default values
 Leap.defaultProps = {
-    cards: [],
-    main: "intro"
+    videos: [],
 };
 
 export default withStyles(styles)(Leap);
