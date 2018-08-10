@@ -72,7 +72,6 @@ class Leap extends React.Component {
         }, 100);
     }
 
-
     componentWillUnmount() {
         console.log("Videos leap is unmounted")
         clearInterval(this.timer);
