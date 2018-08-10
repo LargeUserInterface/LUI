@@ -35,7 +35,7 @@ const styles = {
 
   hovered: {
     transform: 'scale(1.1)',
-    animationDuration: '3s'
+    animationDuration: '1s'
   },
 
 };
