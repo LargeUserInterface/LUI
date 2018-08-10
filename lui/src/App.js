@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
-import Intro from './components/Intro/Intro.jsx';
+import Intro from './components/Intro/Intro.js';
 import Photos from './components/Photos';
 import Videos from './components/Videos';
 import App3 from './components/App3';
