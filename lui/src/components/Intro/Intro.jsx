@@ -11,10 +11,6 @@ const fadeIn = css.keyframes({
   '100%': { opacity: 1 }
 })
 
-const slideIn = css.keyframes({
-  '100%': { transform: 'translateY(100%)' },
-})
-
 const slideOut = css.keyframes({
   '100%': { transform: 'translateY(-100%)' },
 })

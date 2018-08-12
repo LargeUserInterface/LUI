@@ -7,16 +7,18 @@ import { Grid } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import { css } from 'glamor';
+import { Transition } from 'react-transition-group';
+import Carousel from 'react-responsive-carousel';
 
-const slideIn = css.keyframes({
-  '0%': { transform: 'translateX(100%)' },
-  '100%': { transform: 'translateX(100%)' }
+const zoomIn = css.keyframes({
+  '0%': { transform: 'scale(0.5)' },
+  '100%': { transform: 'scale(1)' }
 })
-// TODO: generic styling
+
 const styles = {
-  
+
   gallery: {
-    // animation: `${slideIn} 1s`
+    animation: `${zoomIn} 1s`
   },
 
   container: {
@@ -96,6 +98,7 @@ class PhotosApp extends Component {
     this.state = {
       photos: [],
       hovered: "",
+      clicked: "",
       index: 0,
       exit: false,
     };
@@ -106,16 +109,20 @@ class PhotosApp extends Component {
   }
 
   getPhotos = () => {
-    const photos =[this.refs.photo1, this.refs.photo2, this.refs.photo3, this.refs.photo4,
-        this.refs.photo5, this.refs.photo6, this.refs.photo7, this.refs.photo8,
-        this.refs.photo9, this.refs.photo10, this.refs.photo11, this.refs.photo12,
-        this.refs.photo13, this.refs.photo14, this.refs.photo15, this.refs.photo16
-      ];
+    const photos = [this.refs.photo1, this.refs.photo2, this.refs.photo3, this.refs.photo4,
+    this.refs.photo5, this.refs.photo6, this.refs.photo7, this.refs.photo8,
+    this.refs.photo9, this.refs.photo10, this.refs.photo11, this.refs.photo12,
+    this.refs.photo13, this.refs.photo14, this.refs.photo15, this.refs.photo16
+    ];
     this.setState({ photos })
   }
 
   handleHover = (photo) => {
     this.setState({ hovered: photo })
+  }
+
+  handleClick = (photo) => {
+    this.setState({ clicked: photo })
   }
 
   handleSwipe = (dir) => {
@@ -133,6 +140,7 @@ class PhotosApp extends Component {
   }
 
   handleExit = () => {
+
     this.setState({
       exit: true
     })
@@ -151,6 +159,7 @@ class PhotosApp extends Component {
         <Leap
           photos={this.state.photos}
           handleHover={this.handleHover}
+          // handleClick={this.handleClick}
           handleSwipe={this.handleSwipe}
           handleExit={this.handleExit}
         />
@@ -230,6 +239,16 @@ class PhotosApp extends Component {
           className={classes.stepper}
           classes={{ dots: classes.dots }}
         />
+
+        {/* {this.state.clicked ? <Carousel>
+          <div>
+            <img src='https://images.unsplash.com/photo-1531752074002-abf991376d04?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9a0a2b6b4212fc234d319be9c87c615&auto=format&fit=crop&w=800&q=60' />
+          </div>
+          <div>
+            <img src='https://images.unsplash.com/photo-1531752074002-abf991376d04?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9a0a2b6b4212fc234d319be9c87c615&auto=format&fit=crop&w=800&q=60' />
+          </div>
+        </Carousel> : null} */}
+
       </div>
     );
   }

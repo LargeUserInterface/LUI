@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
-import Intro from './components/Intro/Intro.js';
+import { css } from 'glamor';
+import Intro from './components/Intro/Intro.jsx';
 import Photos from './components/Photos';
 import Videos from './components/Videos';
 import App3 from './components/App3';
@@ -10,6 +11,10 @@ import App5 from './components/App5';
 import App6 from './components/App6';
 import Leap from './leap.js'
 
+const zoomIn = css.keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 }
+})
 
 const styles = {
 
@@ -17,7 +22,8 @@ const styles = {
     width: '100vw',
     height: '100vh',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    animation: `${zoomIn} 2s`
   },
 
   rowContainer: {
