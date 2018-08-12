@@ -11,6 +11,10 @@ const fadeIn = css.keyframes({
   '100%': { opacity: 1 }
 })
 
+const slideIn = css.keyframes({
+  '100%': { transform: 'translateY(100%)' },
+})
+
 const slideOut = css.keyframes({
   '100%': { transform: 'translateY(-100%)' },
 })
@@ -18,25 +22,29 @@ const slideOut = css.keyframes({
 const styles = {
 
   backDrop: {
-    width: '100vw',
-    height: '100vh',
+    width: '100%',
+    height: '100%',
   }
 };
 
 const Wrapper = glamorous.div(props => ({
-  animation: props.isMounted ? `${fadeIn} 3s` : `${slideOut} 1s`,
-  width: '100%',
-  height: '100%'
+  animation: props.isMounted ? `${fadeIn} 1s` : props.page === "app"? '' : `${slideOut} 1s`,
+  position: 'absolute',
+  top: '0px',
+  left: '0px',
+  width: '100vw',
+  height: '100vh',
+  zIndex: 5
 }))
 
 function Intro(props) {
   const { classes } = props;
 
-    return (
-      <Wrapper isMounted={props.isMounted} delay={props.delay}>
-        <img className={classes.backDrop} src={backDrop} />
-      </Wrapper>
-    );
+  return (
+    <Wrapper isMounted={props.isMounted} page={props.page}>
+      <img className={classes.backDrop} src={backDrop} />
+    </Wrapper>
+  );
 }
 
 export default withStyles(styles)(Intro);

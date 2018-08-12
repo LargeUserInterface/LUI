@@ -6,9 +6,19 @@ import Leap from './leap.js';
 import { Grid } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import MobileStepper from '@material-ui/core/MobileStepper';
+import { css } from 'glamor';
 
+const slideIn = css.keyframes({
+  '0%': { transform: 'translateX(100%)' },
+  '100%': { transform: 'translateX(100%)' }
+})
 // TODO: generic styling
 const styles = {
+  
+  gallery: {
+    // animation: `${slideIn} 1s`
+  },
+
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -61,8 +71,9 @@ const styles = {
   },
 
   hovered: {
-    transform: 'scale(2)',
-    animationDuration: '1s'
+    transform: 'scale(1.5)',
+    animationDuration: '1s',
+    zIndex: 5
   },
 
   stepper: {
@@ -135,7 +146,6 @@ class PhotosApp extends Component {
       return <Redirect to={{ pathname: "/" }} />
     }
 
-
     return (
       <div className={classes.container}>
         <Leap
@@ -145,7 +155,7 @@ class PhotosApp extends Component {
           handleExit={this.handleExit}
         />
         <div>
-          <SwipeableViews index={this.state.index} onTransitionEnd={this.getPhotos}>
+          <SwipeableViews className={classes.gallery} index={this.state.index} onTransitionEnd={this.getPhotos}>
 
             <div className={classes.carousel}>
               <Grid container className={classes.row} spacing={0} justify={"center"} >

@@ -11,7 +11,7 @@ const styles = {
         position: 'absolute',
         height: '100%',
         width: '100%',
-        zIndex: 100
+        zIndex: 10
     }
 
 };
@@ -49,7 +49,6 @@ class Leap extends React.Component {
 
                 const hovered = this.checkHover();
                 if (hovered) {
-                    // console.log("HOVERING", hovered);
                     this.setState({ hovered });
                 }
 
@@ -113,7 +112,6 @@ class Leap extends React.Component {
     }
 
     checkHover() {
-        // console.log(this.props.photos);
         const photos = this.props.photos;
         const { x, y } = this.state.indexFinger;
         for (let i = 0; i < photos.length; i++) {
@@ -121,12 +119,10 @@ class Leap extends React.Component {
                 const dims = ReactDOM.findDOMNode(photos[i]).getBoundingClientRect();
                 if (x > dims.left && x < dims.right &&
                     y > dims.top && y < dims.bottom) {
-                        // console.log("photo"+ String(i+1));
                     return ("photo" + String(i + 1));
                 }
             }
         }
-        // console.log("no match");
         return ("");
     }
 

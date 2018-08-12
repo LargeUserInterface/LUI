@@ -13,14 +13,9 @@ import Leap from './leap.js'
 
 const styles = {
 
-  slideOut: {
-    transform: 'translateY(100%)'
-  },
-
   mainContainer: {
     width: '100vw',
     height: '100vh',
-    margin: 'auto',
     display: 'flex',
     flexDirection: 'column'
   },
@@ -28,27 +23,29 @@ const styles = {
   rowContainer: {
     width: '100%',
     height: '50%',
-  },
+  }
+
 };
 
-const DelayedComponent = delayUnmounting(Intro)
-function delayUnmounting(Component) {
-  return class extends React.Component {
-    state = {
-      shouldRender: this.props.isMounted
-    }
+class DelayedComponent extends React.Component {
+  constructor(props) {
+    super(props);
 
-    componentWillReceiveProps(nextProps) {
-      if (this.props.isMounted && !nextProps.isMounted) { //true -> false
-        setTimeout(() => this.setState({ shouldRender: false }), 1000)
-      } else if (!this.props.isMounted && nextProps.isMounted) { //false -> true
-        this.setState({ shouldRender: true })
-      } 
+    this.state = {
+      shouldRender: false
     }
+  }
 
-    render() {
-      return this.state.shouldRender ? <Component {...this.props}/> : null
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isMounted && !nextProps.isMounted) { //true -> false
+      setTimeout(() => this.setState({ shouldRender: false }), 1000)
+    } else if (!this.props.isMounted && nextProps.isMounted) { //false -> true
+      this.setState({ shouldRender: true })
     }
+  }
+
+  render() {
+    return this.state.shouldRender ? <Intro {...this.props} /> : null
   }
 }
 
@@ -78,11 +75,12 @@ class App extends Component {
   handleHover = (card) => {
     // console.log("HOVER", card);
     this.setState({ hovered: card })
+
   }
 
   handleClick = (card) => {
     // console.log("CLICK", card);
-    this.setState({ clicked: card })
+    this.setState({ clicked: card})
   }
 
   handleUnlock = () => {
@@ -112,8 +110,6 @@ class App extends Component {
           handleExit={this.handleExit}
         />
 
-        <DelayedComponent delayTime={1000} isMounted={this.state.page == "intro"} />
-
         <Grid className={classes.mainContainer} container>
           <Grid className={classes.rowContainer} container>
             <Grid ref="card1" item xs={4} >
@@ -139,9 +135,12 @@ class App extends Component {
               </Grid>
             </Grid>
           </Grid>
+
+        <DelayedComponent isMounted={this.state.page === "intro"} page={this.state.page} />
+
       </div>
-      );
-    }
+    );
   }
-  
-  export default withStyles(styles)(App);
+}
+
+export default withStyles(styles)(App);
