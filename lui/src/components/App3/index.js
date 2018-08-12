@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import PhotosApp from '../Photos/PhotosApp.jsx';
 
 const styles = theme => ({
     root: {
@@ -77,8 +76,8 @@ const styles = theme => ({
 });
 
 const image = {
-    url: '',
-    title: 'App3',
+    url: 'https://images.unsplash.com/photo-1482059470115-0aadd6bf6834?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=267bba9a4e280ec64388fe8fb01e9d1b&auto=format&fit=crop&w=800&q=60',
+    title: 'Map',
     width: '100%',
 };
 
@@ -97,7 +96,7 @@ class App3 extends Component {
 
         if (this.props.clicked) {
             return (
-                <PhotosApp/>
+                <div/>
             );
         } else {
             // icon 

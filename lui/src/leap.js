@@ -34,7 +34,6 @@ class Leap extends React.Component {
     }
 
     componentDidMount() {
-        console.log("main leap is mounted")
         this.leap = LeapMotion.loop((frame) => {
             this.setState({
                 frame,
@@ -47,7 +46,6 @@ class Leap extends React.Component {
             if (this.props.page === "main") {
                 // clicking
                 if (this.state.indexFinger.vel < -350 && this.state.hovered) {
-                    // console.log("CLICKED", this.state.hovered);
                     this.setState({ clicked: this.state.hovered })
                     this.props.handleClick(this.state.hovered);
                 } else { // hovering
@@ -58,7 +56,6 @@ class Leap extends React.Component {
 
                 if (this.state.hand) {
                     if (this.state.pinch > 0.7 && this.state.hand.pinchStrength < 0.3) {
-                        // console.log("bloom");
                         this.setState({pinch : ""});
                         this.props.handleExit();
                     } else {
@@ -80,7 +77,6 @@ class Leap extends React.Component {
             this.timer = null;
         }
         this.leap.disconnect();
-        console.log('close main');
     }
 
     traceFingers(frame) {

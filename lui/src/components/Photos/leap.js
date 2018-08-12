@@ -11,7 +11,7 @@ const styles = {
         position: 'absolute',
         height: '100%',
         width: '100%',
-        zIndex: 100
+        zIndex: 10
     }
 
 };
@@ -29,8 +29,6 @@ class Leap extends React.Component {
     }
 
     componentDidMount() {
-
-        console.log("Photos leap is mounted")
         this.leap = LeapMotion.loop((frame) => {
             this.setState({
                 frame,
@@ -51,7 +49,6 @@ class Leap extends React.Component {
 
                 const hovered = this.checkHover();
                 if (hovered) {
-                    console.log("HOVERING", hovered);
                     this.setState({ hovered });
                 }
 
@@ -68,7 +65,6 @@ class Leap extends React.Component {
     }
 
     componentWillUnmount() {
-        console.log("Photos leap is unmounted")
         clearInterval(this.timer);
         this.leap.disconnect();
     }
@@ -90,8 +86,7 @@ class Leap extends React.Component {
                 const y = ctx.canvas.height * (1 - normalized[1]);
                 const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
                 this.drawCircle([x, y], radius, color, pointable.type === 1);
-
-                if (pointable.type === 1) {
+                if (pointable.type == 1) {
                     this.setState({
                         indexFinger: { x, y, vel: pointable.tipVelocity[2] }
                     })
@@ -117,7 +112,6 @@ class Leap extends React.Component {
     }
 
     checkHover() {
-        // console.log(this.props.photos);
         const photos = this.props.photos;
         const { x, y } = this.state.indexFinger;
         for (let i = 0; i < photos.length; i++) {
@@ -125,12 +119,10 @@ class Leap extends React.Component {
                 const dims = ReactDOM.findDOMNode(photos[i]).getBoundingClientRect();
                 if (x > dims.left && x < dims.right &&
                     y > dims.top && y < dims.bottom) {
-                        // console.log("photo"+ String(i+1));
                     return ("photo" + String(i + 1));
                 }
             }
         }
-        // console.log("no match");
         return ("");
     }
 
