@@ -6,6 +6,8 @@ import LeapMotion from 'leapjs';
 
 const fingers = ["#9bcfed", "#B2EBF2", "#80DEEA", "#4DD0E1", "#26C6DA"];
 
+const videoSizeOffset = 100;
+
 const styles = {
     canvas: {
         position: 'absolute',
@@ -129,7 +131,7 @@ class Leap extends React.Component {
             if (videos[i]){
                 const dims = ReactDOM.findDOMNode(videos[i]).getBoundingClientRect();
                 if (x > dims.left && x < dims.right &&
-                    y > dims.top && y < dims.bottom) {
+                    y > dims.top - videoSizeOffset && y < dims.bottom + videoSizeOffset) {
                         // console.log("photo"+ String(i+1));
                     return ("video" + String(i + 1));
                 }
