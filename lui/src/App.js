@@ -11,10 +11,10 @@ import App5 from './components/App5';
 import App6 from './components/App6';
 import Leap from './leap.js'
 
-const zoomIn = css.keyframes({
-  '0%': { opacity: 0 },
-  '100%': { opacity: 1 }
-})
+// const zoomIn = css.keyframes({
+//   '0%': { opacity: 0 },
+//   '100%': { opacity: 1 }
+// })
 
 const styles = {
 
@@ -23,7 +23,7 @@ const styles = {
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    animation: `${zoomIn} 2s`
+    // animation: `${zoomIn} 2s`
   },
 
   rowContainer: {
