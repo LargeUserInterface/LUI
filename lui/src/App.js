@@ -9,7 +9,9 @@ import App3 from './components/App3';
 import App4 from './components/App4';
 import App5 from './components/App5';
 import App6 from './components/App6';
-import Leap from './leap.js'
+import Leap from './leap.js';
+import axios from 'axios';
+import request from 'request';
 
 // const zoomIn = css.keyframes({
 //   '0%': { opacity: 0 },
@@ -76,6 +78,53 @@ class App extends Component {
       page,
       cards
     })
+
+    // google home
+    this.timer = setInterval(() => {
+      if (this.state.page === "main") {
+        // fetch from firebase
+        (async () => {
+          let appClicked;
+          try {
+            const apiResponse = await axios.get('https://luibyobm.firebaseio.com/application.json');
+            const response = apiResponse.data;
+            if (response.app === "Photos") {
+              appClicked  = "card1";
+            } else if (response.app === "Youtube") {
+              appClicked = "card2";
+            }
+          } catch (error) {
+            console.log(error);
+          } finally {
+            this.handleClick(appClicked);
+            this.updateFirebase("None");
+          }
+        })();
+      }
+    }, 100);
+  }
+
+  updateFirebase = (appToSave) => {
+    try {
+      const options = {
+        method: 'PUT',
+        url: 'https://luibyobm.firebaseio.com/application.json',
+        headers:
+        {
+          'Cache-Control': 'no-cache',
+          'Content-Type': 'application/json'
+        },
+        body: { app: appToSave },
+        json: true
+      };
+
+      request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+        console.log(body);
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   handleHover = (card) => {
@@ -86,7 +135,9 @@ class App extends Component {
 
   handleClick = (card) => {
     // console.log("CLICK", card);
-    this.setState({ clicked: card})
+    this.setState({ clicked: card })
+
+
   }
 
   handleUnlock = () => {
@@ -96,7 +147,7 @@ class App extends Component {
   }
 
   handleExit = () => {
-    // console.log("INTRO");
+    // console.log("Exit");
     this.setState({ page: "intro" })
     localStorage.setItem("page", this.state.page);
   }
@@ -129,18 +180,18 @@ class App extends Component {
             </Grid>
           </Grid>
 
-            <Grid className={classes.rowContainer} container>
-              <Grid ref="card4" item xs={4} >
-                <App4 hovered={this.state.hovered === "card4"} clicked={false} />
-              </Grid>
-              <Grid ref="card5" item xs={4} >
-                <App5 hovered={this.state.hovered === "card5"} clicked={false} />
-              </Grid>
-              <Grid ref="card6" item xs={4} >
-                <App6 hovered={this.state.hovered === "card6"} clicked={false} />
-              </Grid>
+          <Grid className={classes.rowContainer} container>
+            <Grid ref="card4" item xs={4} >
+              <App4 hovered={this.state.hovered === "card4"} clicked={false} />
+            </Grid>
+            <Grid ref="card5" item xs={4} >
+              <App5 hovered={this.state.hovered === "card5"} clicked={false} />
+            </Grid>
+            <Grid ref="card6" item xs={4} >
+              <App6 hovered={this.state.hovered === "card6"} clicked={false} />
             </Grid>
           </Grid>
+        </Grid>
 
         <DelayedComponent isMounted={this.state.page === "intro"} page={this.state.page} />
 

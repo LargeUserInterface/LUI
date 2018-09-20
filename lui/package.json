@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.4.0",
+    "axios": "^0.18.0",
     "glamor": "^2.20.40",
     "glamorous": "^4.13.1",
     "leapjs": "^0.6.4",
@@ -15,7 +16,8 @@
     "react-scripts": "1.1.4",
     "react-swipeable-views": "^0.12.15",
     "react-transition-group": "^2.4.0",
-    "react-youtube": "^7.6.0"
+    "react-youtube": "^7.6.0",
+    "request": "^2.88.0"
   },
   "scripts": {
     "start": "react-scripts start",
