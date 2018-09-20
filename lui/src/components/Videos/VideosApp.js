@@ -90,16 +90,18 @@ class VideosApp extends Component {
     }
 
     handleClick = (video) => {
-        this.setState({clicked:video})
-        var videoIndex = parseInt(video.charAt(video.length-1));
-        var videoId = videos[videoIndex-1].id
-        if (this.state.playing[videoId] == false) {
-            this.state.target_dict[videoId].playVideo();
-            this.state.playing[videoId] = true;
-        } else {
-            this.state.target_dict[videoId].pauseVideo();
-            this.state.playing[videoId] = false;
-        }
+        try{
+            this.setState({clicked:video})
+            var videoIndex = parseInt(video.charAt(video.length-1));
+            var videoId = videos[videoIndex-1].id
+            if (this.state.playing[videoId] == false) {
+                this.state.target_dict[videoId].playVideo();
+                this.state.playing[videoId] = true;
+            } else {
+                this.state.target_dict[videoId].pauseVideo();
+                this.state.playing[videoId] = false;
+            }
+        } catch (err) { }
     }
 
     handleExit = () => {
