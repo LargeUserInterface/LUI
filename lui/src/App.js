@@ -8,7 +8,7 @@ import Videos from './components/Videos';
 import App3 from './components/App3';
 import App4 from './components/App4';
 import App5 from './components/App5';
-import App6 from './components/App6';
+import Model from './components/Model';
 import Leap from './leap.js'
 
 // const zoomIn = css.keyframes({
@@ -137,7 +137,7 @@ class App extends Component {
                 <App5 hovered={this.state.hovered === "card5"} clicked={false} />
               </Grid>
               <Grid ref="card6" item xs={4} >
-                <App6 hovered={this.state.hovered === "card6"} clicked={false} />
+                <Model hovered={this.state.hovered === "card6"} clicked={this.state.clicked === "card6"} />
               </Grid>
             </Grid>
           </Grid>
