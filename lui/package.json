@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@magicleap/prismatic": "^0.17.4",
     "@material-ui/core": "^1.4.0",
     "glamor": "^2.20.40",
     "glamorous": "^4.13.1",

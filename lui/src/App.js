@@ -5,7 +5,7 @@ import { css } from 'glamor';
 import Intro from './components/Intro/Intro.jsx';
 import Photos from './components/Photos';
 import Videos from './components/Videos';
-import App3 from './components/App3';
+import Prismatic from './components/Prismatic';
 import App4 from './components/App4';
 import App5 from './components/App5';
 import Model from './components/Model';
@@ -125,7 +125,7 @@ class App extends Component {
               <Videos hovered={this.state.hovered === "card2"} clicked={this.state.clicked === "card2"} />
             </Grid>
             <Grid ref="card3" item xs={4} >
-              <App3 hovered={this.state.hovered === "card3"} clicked={false} />
+              <Prismatic hovered={this.state.hovered === "card3"} clicked={this.state.clicked === "card3"} />
             </Grid>
           </Grid>
 

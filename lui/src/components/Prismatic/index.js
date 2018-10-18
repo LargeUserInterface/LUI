@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -76,12 +77,13 @@ const styles = theme => ({
 });
 
 const image = {
-    url: 'https://images.unsplash.com/photo-1482059470115-0aadd6bf6834?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=267bba9a4e280ec64388fe8fb01e9d1b&auto=format&fit=crop&w=800&q=60',
-    title: 'Map',
+    // url: 'https://images.unsplash.com/photo-1482059470115-0aadd6bf6834?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=267bba9a4e280ec64388fe8fb01e9d1b&auto=format&fit=crop&w=800&q=60',
+    url:'https://cdn-images-1.medium.com/max/2000/1*8m8e_xBfXbOowhglRouZWQ.jpeg',
+    title: 'Prismatic',
     width: '100%',
 };
 
-class App3 extends Component {
+class Prismatic extends Component {
 
     constructor(props) {
         super(props);
@@ -99,7 +101,7 @@ class App3 extends Component {
                 <div/>
             );
         } else {
-            // icon 
+            // icon
             return (
                 <ButtonBase
                     focusRipple
@@ -134,15 +136,14 @@ class App3 extends Component {
     }
 }
 
-App3.propTypes = {
+Prismatic.propTypes = {
     hovered: PropTypes.bool,
     clicked: PropTypes.bool,
 };
 
-App3.defaultProps = {
+Prismatic.defaultProps = {
     hovered: false,
     clicked: false
 };
 
-export default withStyles(styles)(App3);
-
+export default withStyles(styles)(Prismatic);
