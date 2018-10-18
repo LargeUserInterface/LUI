@@ -4,6 +4,8 @@ import App from './App';
 import Intro from './components/Intro/Intro.jsx';
 import Photos from './components/Photos/PhotosApp.jsx';
 import Videos from './components/Videos/VideosApp.js';
+import Model from './components/Model/ModelApp.js';
+import Prismatic from './components/Prismatic/PrismaticApp.js';
 
 class Pages extends Component {
 
@@ -14,6 +16,8 @@ class Pages extends Component {
           <Route exact path='/' component={App}/>
           <Route path='/Photos' component={Photos}/>
           <Route path='/Videos' component={Videos}/>
+          <Route path='/Model' component={Model}/>
+          <Route path='/Prismatic' component={Prismatic}/>
           <Route path='*' component={App}/>
         </Switch>
       </Router>
