@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-// import Leap from './leap.js'
 import { Redirect } from 'react-router';
-import Prismatic from '@magicleap/prismatic'
+// import Leap from './leap.js'
+// import Prismatic from '@magicleap/prismatic'
 import ReactThreeFbxViewer from 'react-three-fbx-viewer';
 
 const styles = {
