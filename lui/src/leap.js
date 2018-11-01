@@ -40,6 +40,7 @@ class Leap extends React.Component {
                 hand: frame.hands.length > 0 ? frame.hands[0] : ""
             });
             this.traceFingers(frame);
+            console.log(this.state.indexFinger);
         });
 
         this.timer = setInterval(() => {
