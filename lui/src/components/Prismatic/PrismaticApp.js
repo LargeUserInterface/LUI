@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import Leap from './leap.js'
+// import Leap from './leap.js'
 import { Redirect } from 'react-router';
 import Prismatic from '@magicleap/prismatic'
+import ReactThreeFbxViewer from 'react-three-fbx-viewer';
 
 const styles = {
   container: {
@@ -14,7 +15,7 @@ const styles = {
     left: '0',
     margin: '0 auto',
     padding: '2px',
-    backgroundColor: 'rgba(0, 0, 0, 0)',
+    backgroundColor: '#FFF',
     listStyle: 'none',
     overflow: 'visible',
     zIndex: '1',
@@ -40,50 +41,36 @@ const styles = {
 
 };
 
+let fbxUrl = require('./Haku.fbx');
+
 class PrismaticApp extends Component {
-    constructor(props) {
-        super(props);
-    }
 
-    componentDidMount() {
-    }
-
-
-    handleExit = () => {
-      console.log("exit");
-      this.setState({
-        exit: true
-      })
-    }
-
-
-    render() {
-
-        const { classes } = this.props;
-
-        if (this.state.exit) {
-          return <Redirect to={{ pathname: "/" }} />
-        }
-
-        return (
-            <div className={classes.container}>
-                <div>
-                    "Hello Prismatic!"
-                </div>
-                <div>
-                    <ml-model
-                        id="earth"
-                        src="earth.fbx"
-                        style="width: 300px; height: 300px;"
-                        z-offset="-500px"
-                        unbounded="true"
-                        extractable="true"
-                        rotate-by-angles=" angles: 0 -5 0; duration: 30s;track: 1;">
-                    </ml-model>
-                </div>
-            </div>
-        );
-      }
+  constructor(props) {
+    super(props);
   }
 
-export default withStyles(styles)(PrismaticApp);
+  onLoad(e) {
+    console.log(e);
+  }
+
+  onError(e) {
+    console.log(e);
+  }
+  render () {
+    const { classes } = this.props;
+
+    let cameraPosition = {
+      x:10,
+      y:100,
+      z:150,
+    }
+
+    return (
+      <div className={classes.container}>
+        <ReactThreeFbxViewer cameraPosition={cameraPosition} url={fbxUrl} onLoading={this.onLoad} onError={this.onError}/>
+      </div>
+    );
+  }
+}
+
+export default withStyles(styles)(PrismaticApp)

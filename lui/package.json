@@ -18,6 +18,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-swipeable-views": "^0.12.15",
+    "react-three-fbx-viewer": "^1.0.0",
     "react-three-renderer": "^3.2.4",
     "react-three-renderer-objects": "0.0.6",
     "react-transition-group": "^2.4.0",
