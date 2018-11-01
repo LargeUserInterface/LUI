@@ -23,12 +23,9 @@
     "react-three-renderer-objects": "0.0.6",
     "react-transition-group": "^2.4.0",
     "react-youtube": "^7.6.0",
-<<<<<<< HEAD
-    "request": "^2.88.0"
-=======
+    "request": "^2.88.0",
     "three": "^0.96.0",
     "threeleapcontrols": "^1.0.1"
->>>>>>> Henry
   },
   "scripts": {
     "start": "react-scripts start",
