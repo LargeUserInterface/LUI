@@ -18,7 +18,7 @@ class Pages extends Component {
           <Route path='/Videos' component={Videos}/>
           <Route path='/Model' component={Model}/>
           <Route path='/Prismatic' component={Prismatic}/>
-          <Route path='*' component={App}/>
+          <Route path='*' component={Intro}/>
         </Switch>
       </Router>
     );

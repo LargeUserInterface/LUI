@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import { css } from 'glamor';
-import Intro from './components/Intro/Intro.jsx';
 import Photos from './components/Photos';
 import Videos from './components/Videos';
+import Intro from './components/Intro/Intro.jsx';
 import Prismatic from './components/Prismatic';
 import App4 from './components/App4';
 import App5 from './components/App5';
-import App6 from './components/App6';
 import Leap from './leap.js';
 import axios from 'axios';
 import request from 'request';
 import Model from './components/Model';
-import Leap from './leap.js'
 
 // const zoomIn = css.keyframes({
 //   '0%': { opacity: 0 },
@@ -91,7 +89,7 @@ class App extends Component {
             const apiResponse = await axios.get('https://luibyobm.firebaseio.com/application.json');
             const response = apiResponse.data;
             if (response.app === "Photos") {
-              appClicked  = "card1";
+              appClicked = "card1";
             } else if (response.app === "Youtube") {
               appClicked = "card2";
             }
@@ -182,7 +180,6 @@ class App extends Component {
             </Grid>
           </Grid>
 
-<<<<<<< HEAD
           <Grid className={classes.rowContainer} container>
             <Grid ref="card4" item xs={4} >
               <App4 hovered={this.state.hovered === "card4"} clicked={false} />
@@ -191,19 +188,7 @@ class App extends Component {
               <App5 hovered={this.state.hovered === "card5"} clicked={false} />
             </Grid>
             <Grid ref="card6" item xs={4} >
-              <App6 hovered={this.state.hovered === "card6"} clicked={false} />
-=======
-            <Grid className={classes.rowContainer} container>
-              <Grid ref="card4" item xs={4} >
-                <App4 hovered={this.state.hovered === "card4"} clicked={false} />
-              </Grid>
-              <Grid ref="card5" item xs={4} >
-                <App5 hovered={this.state.hovered === "card5"} clicked={false} />
-              </Grid>
-              <Grid ref="card6" item xs={4} >
-                <Model hovered={this.state.hovered === "card6"} clicked={this.state.clicked === "card6"} />
-              </Grid>
->>>>>>> Henry
+              <Model hovered={this.state.hovered === "card6"} clicked={this.state.clicked === "card6"} />
             </Grid>
           </Grid>
         </Grid>
