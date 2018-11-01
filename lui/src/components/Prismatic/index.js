@@ -96,10 +96,8 @@ class Prismatic extends Component {
     render() {
         const { classes, hovered, clicked } = this.props;
 
-        if (this.props.clicked) {
-            return (
-                <div/>
-            );
+        if (clicked) {
+            return <Redirect to={{pathname: "/Prismatic"}} />
         } else {
             // icon
             return (
