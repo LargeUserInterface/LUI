@@ -26,6 +26,7 @@ class Leap extends React.Component {
         this.state = {
             frame: {},
             hand: "",
+            thumb: "",
             indexFinger: "",
             hovered: "",
             clicked: "",
@@ -45,7 +46,10 @@ class Leap extends React.Component {
         this.timer = setInterval(() => {
             if (this.props.page === "main") {
                 // clicking
-                if (this.state.indexFinger.vel < -350 && this.state.hovered) {
+                const xdelt = Math.abs(this.state.indexFinger.x - this.state.thumb.x);
+                const ydelt = Math.abs(this.state.indexFinger.y - this.state.thumb.y);
+                if (xdelt<100 && ydelt<100 && this.state.hovered) {
+                    console.log("delta", xdelt, ydelt);
                     this.setState({ clicked: this.state.hovered })
                     this.props.handleClick(this.state.hovered);
                 } else { // hovering
@@ -55,7 +59,7 @@ class Leap extends React.Component {
                 }
 
                 if (this.state.hand) {
-                    if (this.state.pinch > 0.7 && this.state.hand.pinchStrength < 0.3) {
+                    if (this.state.pinch > 0.9 && this.state.hand.pinchStrength < 0.1) {
                         this.setState({pinch : ""});
                         this.props.handleExit();
                     } else {
@@ -68,7 +72,7 @@ class Leap extends React.Component {
                     this.props.handleUnlock();
                 }
             }
-        }, 100);
+        }, 10);
     }
 
     componentWillUnmount() {
@@ -97,9 +101,15 @@ class Leap extends React.Component {
                 const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
                 this.drawCircle([x, y], radius, color, pointable.type === 1);
 
+                if (pointable.type === 0) {
+                    this.setState({
+                        thumb: { x, y }
+                    })
+                }
+
                 if (pointable.type === 1) {
                     this.setState({
-                        indexFinger: { x, y, vel: pointable.tipVelocity[2] }
+                        indexFinger: { x, y, vely: pointable.tipVelocity[1], velz: pointable.tipVelocity[2] }
                     })
                 }
             });
