@@ -9,17 +9,16 @@ import ReactThreeFbxViewer from 'react-three-fbx-viewer';
 
 const styles = {
   container: {
-    width: '100%',
-    height: '100%',
+    width: '90%',
+    height: '90%',
     position: 'absolute',
     left: '0',
     margin: '0 auto',
     padding: '2px',
-    backgroundColor: '#FFF',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
     listStyle: 'none',
     overflow: 'visible',
-    zIndex: '1',
-    backgroundColor: "#ECEFF1"
+    zIndex: '10',
   },
 
   frameContainer: {
@@ -45,31 +44,78 @@ let fbxUrl = require('./Haku.fbx');
 
 class PrismaticApp extends Component {
 
+  // constructor(props) {
+  //   super(props);
+  //
+  //   this.state = {
+  //       cameraPosition_x: 10,
+  //       cameraPosition_y: 50,
+  //       cameraPosition_z: 150,
+  //       angle:45,
+  //   }
+  // }
+  //
+  // componentDidMount() {
+  //     setInterval(this.autospin,1000);
+  // }
+  //
+  // autospin = () => {
+  //     this.setState(prevState => ({
+  //         cameraPosition_x: prevState.cameraPosition_x + 5,
+  //         cameraPosition_y: prevState.cameraPosition_y + 5,
+  //         cameraPosition_z: prevState.cameraPosition_z - 5,
+  //         angle: prevState.angle + 2,
+  //     }))
+  //
+  //     // console.log(this.state.cameraPosition_x)
+  // }
+  //
+  // onLoad(e) {
+  //   console.log(e);
+  // }
+  //
+  // onError(e) {
+  //   console.log(e);
+  // }
+  // render () {
+  //   const { classes } = this.props;
+  //
+  //   let cameraPosition = {
+  //     x:this.state.cameraPosition_x,
+  //     y:this.state.cameraPosition_y,
+  //     z:this.state.cameraPosition_z,
+  //   }
+  //
+  //   // let controlPosition = {
+  //   //     x:this.state.cameraPosition_x,
+  //   //     y:this.state.cameraPosition_y,
+  //   //     z:this.state.cameraPosition_z,
+  //   // }
+  //
+  //   console.log(this.state.angle)
+  //
+  //   return (
+  //     <div className={classes.container}>
+  //       <title>Hello Prismatic!</title>
+  //       <ReactThreeFbxViewer cameraPosition={cameraPosition} angle={this.state.angle} url={fbxUrl} onLoading={this.onLoad} onError={this.onError}/>
+  //     </div>
+  //   );
+  // }
   constructor(props) {
-    super(props);
+      super(props);
   }
 
-  onLoad(e) {
-    console.log(e);
-  }
+  render() {
+      const { classes } = this.props
 
-  onError(e) {
-    console.log(e);
-  }
-  render () {
-    const { classes } = this.props;
-
-    let cameraPosition = {
-      x:10,
-      y:100,
-      z:150,
-    }
-
-    return (
-      <div className={classes.container}>
-        <ReactThreeFbxViewer cameraPosition={cameraPosition} url={fbxUrl} onLoading={this.onLoad} onError={this.onError}/>
-      </div>
-    );
+      return (
+          <div className={classes.container}>
+            <ml-model
+                id="ballon"
+                src="balloon.fbx" >
+            </ml-model>
+          </div>
+      )
   }
 }
 
