@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import Leap from '../Leap';
+import Leap, { SWIPE_LEFT } from '../Leap';
 import { Grid } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import MobileStepper from '@material-ui/core/MobileStepper';
@@ -126,7 +126,7 @@ class PhotosApp extends Component {
   }
 
   handleSwipe = (dir) => {
-    if (dir === "left") {
+    if (dir === SWIPE_LEFT) {
       // console.log("swipe left");
       this.setState({
         index: 1
@@ -158,6 +158,7 @@ class PhotosApp extends Component {
       <div className={classes.container}>
         <Leap
           data={this.state.photos}
+          canvasStyles={{ zIndex: 10 }}
           className={classes.canvas}
           handleHover={this.handleHover}
           handleSwipe={this.handleSwipe}
