@@ -24,6 +24,9 @@ class Leap extends React.Component {
             frame: {},
             hand: "",
             indexFinger: "",
+            thumb: "",
+            spread: "",
+            zoomed: false,
             hovered: "",
             pinch: "",
             clicked:""
@@ -43,35 +46,65 @@ class Leap extends React.Component {
         this.timer = setInterval(() => {
 
             if (this.state.hand) {
-                // const palmVelocity = this.state.hand.palmVelocity[0];
-                // if (palmVelocity < -400) {
-                //     this.props.handleSwipe("left");
-                // } else if (palmVelocity > 400) {
-                //     this.props.handleSwipe("right");
-                // }
 
-                const hovered = this.checkHover();
-                if (hovered) {
-                    // console.log("HOVERING", hovered);
-                    this.setState({ hovered });
+                // swiping
+                const palmVelocity = this.state.hand.palmVelocity[0];
+                if (palmVelocity < -400) {
+                    this.props.handleSwipe("left");
+                    return;
+                } else if (palmVelocity > 400) {
+                    this.props.handleSwipe("right");
+                    return;
                 }
 
+                // hovering
+                const hovered = this.checkHover();
+                this.setState({ hovered });
+                this.props.handleHover(hovered);
+
                 // clicking
-                if (this.state.indexFinger.vel < -350 && this.state.hovered) {
+                if (this.state.indexFinger.vel[2] < -300 && this.state.hovered) {
                     console.log("CLICKED", this.state.hovered);
                     this.setState({ clicked: this.state.hovered })
                     this.props.handleClick(this.state.hovered);
+                    return;
                 }
 
+                // zooming
+                var { spread, zoomed, hovered } = this.state;
+                const spreadX = this.state.indexFinger.x - this.state.thumb.x;
+                const spreadY = this.state.indexFinger.y - this.state.thumb.y;
+                const newSpread = Math.sqrt(spreadX**2 + spreadY**2);
+                const xdelt = this.state.indexFinger.vel[0] - this.state.thumb.vel[0];
+                const ydelt = this.state.indexFinger.vel[1] - this.state.thumb.vel[1];
+                const zdelt = this.state.indexFinger.vel[2] - this.state.thumb.vel[2];
+                const deltVel = Math.sqrt(xdelt**2 + ydelt**2 + zdelt**2);
+                // console.log("SPREAD", newSpread);
+                // zooming in
+                if (!zoomed && hovered && deltVel > 200 && newSpread > 300) {
+                  this.props.handleZoom(hovered);
+                  zoomed = true;
+                } else if (zoomed && deltVel > 200 && newSpread < 100) {
+                  this.props.handleZoom("");
+                  zoomed = false;
+                }
+                this.setState({ zoomed, spread: newSpread });
+
+                // exiting
                 if (this.state.pinch > 0.7 && this.state.hand.pinchStrength < 0.3) {
-                    this.props.handleExit();
+                    // this.props.handleExit();
                 } else {
                     this.setState({ pinch: this.state.hand.pinchStrength })
                 }
-
-                this.props.handleHover(hovered);
             }
         }, 100);
+    }
+
+    getMagnitude(velocity) {
+      const x = velocity[0];
+      const y = velocity[1];
+      const z = velocity[2];
+      return Math.sqrt(x**2 + y**2 + z**2);
     }
 
     componentWillUnmount() {
@@ -98,9 +131,14 @@ class Leap extends React.Component {
                 const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
                 this.drawCircle([x, y], radius, color, pointable.type === 1);
 
+                if (pointable.type === 0) {
+                    this.setState({
+                        thumb: { x, y, vel: pointable.tipVelocity }
+                    })
+                }
                 if (pointable.type === 1) {
                     this.setState({
-                        indexFinger: { x, y, vel: pointable.tipVelocity[2] }
+                        indexFinger: { x, y, vel: pointable.tipVelocity }
                     })
                 }
             });
@@ -124,20 +162,22 @@ class Leap extends React.Component {
     }
 
     checkHover() {
-        // console.log(this.props.photos);
         const videos = this.props.videos;
         const { x, y } = this.state.indexFinger;
-        for (let i = 0; i < videos.length; i++) {
-            if (videos[i]){
-                const dims = ReactDOM.findDOMNode(videos[i]).getBoundingClientRect();
-                if (x > dims.left && x < dims.right &&
-                    y > dims.top - videoSizeOffset && y < dims.bottom + videoSizeOffset) {
-                        // console.log("photo"+ String(i+1));
-                    return ("video" + String(i + 1));
-                }
-            }
+        // don't check for hovering while zoomed in
+        if (!this.state.zoomed) {
+          for (let i = 0; i < videos.length; i++) {
+              if (videos[i]){
+                  const dims = ReactDOM.findDOMNode(videos[i]).getBoundingClientRect();
+                  if (x > dims.left && x < dims.right &&
+                      y > dims.top - videoSizeOffset && y < dims.bottom + videoSizeOffset) {
+                      console.log("HOVER", String(i + 1))
+                      return ("video" + String(i + 1));
+                  }
+              }
+          }
         }
-        // console.log("no match");
+        console.log("HOVER NONE");
         return ("");
     }
 
