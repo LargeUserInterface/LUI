@@ -257,14 +257,14 @@ class PhotosApp extends Component {
           classes={{ dots: classes.dots }}
           nextButton={
             <Button size="small" onClick={this.handleNext} disabled={this.state.index === 1}>
-              Next
+              <KeyboardArrowRight />
               {/* {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />} */}
             </Button>
           }
           backButton={
             <Button size="small" onClick={this.handleBack} disabled={this.state.index === 0}>
               {/* {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />} */}
-              Back
+              <KeyboardArrowLeft />
             </Button>
           }
         />
