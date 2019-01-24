@@ -71,15 +71,15 @@ const styles = {
     padding: '3%',
     border: 'none',
     transform: 'scale(1)',
-    transition: 'all 1s',
+    transition: 'all 0.7s',
     boxShadow: '0px 0px 10px 2px #999',
     backgroundColor: "#ECEFF1"
   },
 
   hovered: {
     transform: 'scale(1.5)',
-    animationDuration: '1s',
-    zIndex: 5
+    animationDuration: '0.1s',
+    zIndex: 10,
   },
 
   stepper: {
@@ -186,31 +186,31 @@ class PhotosApp extends Component {
             <div className={classes.carousel}>
               <Grid container className={classes.row} spacing={0} justify={"center"} >
                 <Grid item className={classes.cell} ref="photo1" xs={12} sm={3} >
-                  <img onClick={() => { this.setState({hovered: "photo1"}) }} className={hovered === "photo1" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531752074002-abf991376d04?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9a0a2b6b4212fc234d319be9c87c615&auto=format&fit=crop&w=800&q=60' />
+                  <img onMouseEnter={() => { this.setState({hovered: "photo1"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo1" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531752074002-abf991376d04?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9a0a2b6b4212fc234d319be9c87c615&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo2" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo2"}) }} className={hovered === "photo2" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531700968341-bd114e5006ec?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0e3b02f32d781454cb7f97a78657a5b4&auto=format&fit=crop&w=800&q=60' />
+                  <img  onMouseEnter={() => { this.setState({hovered: "photo2"}) }}  onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo2" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531700968341-bd114e5006ec?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0e3b02f32d781454cb7f97a78657a5b4&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo3" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo3"}) }} className={hovered === "photo3" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533247094082-709d7257cb7b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=03d0175eccb69353cf2cc77869902e4f&auto=format&fit=crop&w=800&q=60' />
+                  <img  onMouseEnter={() => { this.setState({hovered: "photo3"}) }}  onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo3" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533247094082-709d7257cb7b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=03d0175eccb69353cf2cc77869902e4f&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo4" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo4"}) }} className={hovered === "photo4" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531686888376-83ee7d64f5eb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2d03c403992f2433e3bc7900db49834f&auto=format&fit=crop&w=800&q=60' />
+                  <img  onMouseEnter={() => { this.setState({hovered: "photo4"}) }}  onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo4" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531686888376-83ee7d64f5eb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2d03c403992f2433e3bc7900db49834f&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
               </Grid>
 
               <Grid container className={classes.row} spacing={0} justify={"center"}>
                 <Grid item className={classes.cell} ref="photo5" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo5"}) }} className={hovered === "photo5" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533213603451-060f6ec38bfa?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4d961f9dbe9795f95febb3743a89d14d&auto=format&fit=crop&w=800&q=60' />
+                  <img onMouseEnter={() => { this.setState({hovered: "photo5"}) }}  onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo5" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533213603451-060f6ec38bfa?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4d961f9dbe9795f95febb3743a89d14d&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo6" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo6"}) }} className={hovered === "photo6" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531574595918-cb77c99fe5e2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ad5b61555629bdf87c0dd87b4a383ff1&auto=format&fit=crop&w=800&q=60' />
+                  <img onMouseEnter={() => { this.setState({hovered: "photo6"}) }}  onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo6" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531574595918-cb77c99fe5e2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ad5b61555629bdf87c0dd87b4a383ff1&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo7" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo7"}) }} className={hovered === "photo7" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533135347859-2d07f6e8199b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=eb46a125e61ce38dc70712cefc7cb147&auto=format&fit=crop&w=800&q=60' />
+                  <img onMouseEnter={() => { this.setState({hovered: "photo7"}) }}  onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo7" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533135347859-2d07f6e8199b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=eb46a125e61ce38dc70712cefc7cb147&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo8" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo8"}) }} className={hovered === "photo8" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533071581733-1a1600ec8ac6?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4a59d7ee412d9efb4818bb4a9ddd55c9&auto=format&fit=crop&w=800&q=60' />
+                  <img onMouseEnter={() => { this.setState({hovered: "photo8"}) }}  onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo8" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533071581733-1a1600ec8ac6?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4a59d7ee412d9efb4818bb4a9ddd55c9&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
               </Grid>
             </div>
@@ -218,31 +218,31 @@ class PhotosApp extends Component {
             <div className={classes.carousel}>
               <Grid container className={classes.row} spacing={0} justify={"center"} >
                 <Grid item className={classes.cell} ref="photo9" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo9"}) }} className={hovered === "photo9" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533213603451-060f6ec38bfa?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4d961f9dbe9795f95febb3743a89d14d&auto=format&fit=crop&w=800&q=60' />
+                  <img onMouseEnter={() => { this.setState({hovered: "photo9"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo9" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533213603451-060f6ec38bfa?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4d961f9dbe9795f95febb3743a89d14d&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo10" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo10"}) }} className={hovered === "photo10" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531574595918-cb77c99fe5e2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ad5b61555629bdf87c0dd87b4a383ff1&auto=format&fit=crop&w=800&q=60' />
+                  <img onMouseEnter={() => { this.setState({hovered: "photo10"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo10" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531574595918-cb77c99fe5e2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ad5b61555629bdf87c0dd87b4a383ff1&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo11" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo11"}) }} className={hovered === "photo11" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533135347859-2d07f6e8199b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=eb46a125e61ce38dc70712cefc7cb147&auto=format&fit=crop&w=800&q=60' />
+                  <img  onMouseEnter={() => { this.setState({hovered: "photo11"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo11" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533135347859-2d07f6e8199b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=eb46a125e61ce38dc70712cefc7cb147&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo12" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo12"}) }} className={hovered === "photo12" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533071581733-1a1600ec8ac6?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4a59d7ee412d9efb4818bb4a9ddd55c9&auto=format&fit=crop&w=800&q=60' />
+                  <img  onMouseEnter={() => { this.setState({hovered: "photo12"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo12" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533071581733-1a1600ec8ac6?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4a59d7ee412d9efb4818bb4a9ddd55c9&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
               </Grid>
 
               <Grid container className={classes.row} spacing={0} justify={"center"}>
                 <Grid item className={classes.cell} ref="photo13" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo13"}) }} className={hovered === "photo13" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531752074002-abf991376d04?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9a0a2b6b4212fc234d319be9c87c615&auto=format&fit=crop&w=800&q=60' />
+                  <img  onMouseEnter={() => { this.setState({hovered: "photo13"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo13" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531752074002-abf991376d04?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9a0a2b6b4212fc234d319be9c87c615&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo14" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo14"}) }} className={hovered === "photo14" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531700968341-bd114e5006ec?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0e3b02f32d781454cb7f97a78657a5b4&auto=format&fit=crop&w=800&q=60' />
+                  <img  onMouseEnter={() => { this.setState({hovered: "photo14"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo14" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531700968341-bd114e5006ec?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0e3b02f32d781454cb7f97a78657a5b4&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo15" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo15"}) }} className={hovered === "photo15" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533247094082-709d7257cb7b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=03d0175eccb69353cf2cc77869902e4f&auto=format&fit=crop&w=800&q=60' />
+                  <img  onMouseEnter={() => { this.setState({hovered: "photo15"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo15" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533247094082-709d7257cb7b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=03d0175eccb69353cf2cc77869902e4f&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
                 <Grid item className={classes.cell} ref="photo16" xs={12} sm={3}>
-                  <img  onClick={() => { this.setState({hovered: "photo16"}) }} className={hovered === "photo16" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531686888376-83ee7d64f5eb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2d03c403992f2433e3bc7900db49834f&auto=format&fit=crop&w=800&q=60' />
+                  <img  onMouseEnter={() => { this.setState({hovered: "photo16"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo16" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531686888376-83ee7d64f5eb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2d03c403992f2433e3bc7900db49834f&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
               </Grid>
             </div>

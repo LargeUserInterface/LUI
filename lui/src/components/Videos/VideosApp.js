@@ -23,19 +23,20 @@ const styles = {
 
   frameContainer: {
     display: 'inline-block',
-    width: '31.5%',
+    width: '95%',
     verticalAlign: 'middle',
     boxSizing: 'border-box',
     padding: '0px',
     margin: '10px',
     position: 'relative',
-    border: '2px solid #37474F',
-    boxShadow: '10px 10px 5px #ccc',
+    border: '0px solid #37474F',
+    boxShadow: '0px 0px 10px 2px #999',
   },
 
   hovered: {
-    transform: 'scale(1.1)',
-    animationDuration: '1s'
+    transform: 'scale(1.15)',
+    animationDuration: '3s',
+    zIndex: 5,
   },
 
 };
@@ -141,48 +142,64 @@ class VideosApp extends Component {
                 handleClick={this.handleClick}
               />
               <div>
-                  <YouTube ref="video1" item sm={4}
+              <Grid container className={classes.row} spacing={0} justify={"center"} >
+                <Grid onMouseEnter={() => { this.setState({hovered: "video1"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} item className={classes.cell} ref="video1" xs={12} sm={4} >
+                  <YouTube ref="video1" 
                     className={hovered === "video1" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
                     videoId={videos[0].id}
                     opts={opts}
                     onReady={this._onReady}
                     onPause={this._onPause}
                   />
-                  <YouTube ref="video2" item sm={4}
+                </Grid>
+                <Grid onMouseEnter={() => { this.setState({hovered: "video2"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} item className={classes.cell} ref="video2" xs={12} sm={4} >
+                  <YouTube ref="video2"
                     className={hovered === "video2" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
                     videoId={videos[1].id}
                     opts={opts}
                     onReady={this._onReady}
                     onPause={this._onPause}
                   />
-                  <YouTube ref="video3" item sm={4}
+                </Grid>
+                <Grid onMouseEnter={() => { this.setState({hovered: "video3"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} item className={classes.cell} ref="video3" xs={12} sm={4} >
+                  <YouTube ref="video3"
                     className={hovered === "video3" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
                     videoId={videos[2].id}
                     opts={opts}
                     onReady={this._onReady}
                     onPause={this._onPause}
                   />
-                  <YouTube ref="video4" item sm={4}
+                </Grid>
+              </Grid>
+              <Grid container className={classes.row} spacing={0} justify={"center"} >
+                <Grid onMouseEnter={() => { this.setState({hovered: "video4"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} item className={classes.cell} ref="video4" xs={12} sm={4} >
+                  <YouTube ref="video4"
                     className={hovered === "video4" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
                     videoId={videos[3].id}
                     opts={opts}
                     onReady={this._onReady}
                     onPause={this._onPause}
                   />
-                  <YouTube ref="video5" item sm={4}
+                </Grid>
+                <Grid onMouseEnter={() => { this.setState({hovered: "video5"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} item className={classes.cell} ref="video5" xs={12} sm={4} >
+                  <YouTube ref="video5"
                     className={hovered === "video5" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
                     videoId={videos[4].id}
                     opts={opts}
                     onReady={this._onReady}
                     onPause={this._onPause}
                   />
-                  <YouTube ref="video6" item sm={4}
+                </Grid>
+                <Grid onMouseEnter={() => { this.setState({hovered: "video6"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} item className={classes.cell} ref="video6" xs={12} sm={4} >
+                  <YouTube ref="video6"
                     className={hovered === "video6" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
                     videoId={videos[5].id}
                     opts={opts}
                     onReady={this._onReady}
                     onPause={this._onPause}
                   />
+                </Grid>
+              </Grid>
               </div>
             </div>
         );
