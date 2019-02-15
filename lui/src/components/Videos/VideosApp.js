@@ -106,7 +106,7 @@ const videos = [
     {id: '7m6J8W6Ib4w'},
     {id: 'l7uuTnk69Eo'},
     {id: '6ZfuNTqbHE8'},
-    {id: 'mFIOGpIQtVU'},
+    {id: '_8w9rOpV3gc'},
     {id: 'c-SE2Qeqj1g'},
     {id: '-AbaV3nrw6E'},
     {id: 'FTPmnZVgDjQ'},
@@ -156,29 +156,53 @@ class VideosApp extends Component {
     }
 
     handleSwipe = (dir) => {
-      if (dir === "left") {
-        this.setState({
-          index: 1
-        })
-      } else {
-        this.setState({
-          index: 0
-        })
+      var { zoomed, videos } = this.state;
+      // swipe between zoomed in videos
+      if (zoomed) {
+        var zoomedIndex = parseInt(zoomed.slice(5));
+        if (dir === "right") {
+          var newZoomedIndex = Math.max(1, zoomedIndex - 1);
+          zoomed = "video" + String(newZoomedIndex);
+        } else {
+          var newZoomedIndex = Math.min(videos.length, zoomedIndex + 1);
+          zoomed = "video" + String(newZoomedIndex);
+        }
+        this.setState({ zoomed });
+      }
+      else {
+        if (dir === "left") {
+          this.setState({
+            index: 1
+          })
+        } else {
+          this.setState({
+            index: 0
+          })
+        }
       }
     }
 
     handleClick = (video) => {
         try{
+            var { playing } = this.state;
             var videoIndex = parseInt(video.slice(5));
             var videoId = videos[videoIndex-1].id;
-            console.log("CLICKED", videoId);
-            if (this.state.playing[videoId] == false) {
+            console.log("HANDLE CLICK", videoId)
+            console.log(playing)
+            console.log(playing[videoId])
+            if (!this.state.playing[videoId]) {
+              console.log("HERE")
                 this.state.target_dict[videoId].playVideo();
-                this.state.playing[videoId] = true;
+                console.log("hi")
+                playing[videoId] = true;
+                console.log("PLAY", videoIndex);
             } else {
+              console.log("HERE@")
                 this.state.target_dict[videoId].pauseVideo();
-                this.state.playing[videoId] = false;
+                playing[videoId] = false;
+                console.log("PAUSE", videoIndex);
             }
+            this.setState({ playing });
         } catch (err) { }
     }
 
@@ -192,6 +216,14 @@ class VideosApp extends Component {
         zoomed = video;
       }
       this.setState({ zoomed });
+    }
+
+    // adjust volume
+    handleKnob = (video, roll) => {
+      var videoIndex = parseInt(video.slice(5));
+      var videoId = videos[videoIndex-1].id;
+      console.log("HANDLE KNOB", videoId, roll)
+      this.state.target_dict[videoId].setVolume(roll);
     }
 
     handleExit = () => {
@@ -218,133 +250,50 @@ class VideosApp extends Component {
       return classes.frameContainer;
     }
 
+    renderVideo(index) {
+      const { classes } = this.props;
+      const ref = "video" + String(index + 1);
+
+      return (
+        <Grid item className={classes.cell} xs={12} sm={4}>
+          <YouTube ref={ref} item
+            className={this.getVideoClass(ref)}
+            videoId={videos[index].id}
+            key={index}
+            opts={opts}
+            onReady={this._onReady}
+            onPause={this._onPause}
+          />
+        </Grid>);
+    }
+
     renderVideos() {
       const { classes } = this.props;
-      const { hovered, zoomed } = this.state;
 
       return (<div>
           <SwipeableViews className={classes.gallery} index={this.state.index} onTransitionEnd={this.getVideos}>
             <div className={classes.carousel}>
               <Grid container className={classes.row} spacing={0} justify={"center"} >
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video1" item
-                    className={this.getVideoClass("video1")}
-                    videoId={videos[0].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video2" item
-                    className={this.getVideoClass("video2")}
-                    videoId={videos[1].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video3" item
-                    className={this.getVideoClass("video3")}
-                    videoId={videos[2].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
+                {this.renderVideo(0)}
+                {this.renderVideo(1)}
+                {this.renderVideo(2)}
               </Grid>
-
               <Grid container className={classes.row} spacing={0} justify={"center"}>
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video4" item
-                    className={this.getVideoClass("video4")}
-                    videoId={videos[3].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video5" item
-                    className={this.getVideoClass("video5")}
-                    videoId={videos[4].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video6" item
-                    className={this.getVideoClass("video6")}
-                    videoId={videos[5].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
+                {this.renderVideo(3)}
+                {this.renderVideo(4)}
+                {this.renderVideo(5)}
               </Grid>
-
               <Grid container className={classes.row} spacing={0} justify={"center"} >
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video7" item
-                    className={this.getVideoClass("video7")}
-                    videoId={videos[6].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video8" item
-                    className={this.getVideoClass("video8")}
-                    videoId={videos[7].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video9" item
-                    className={this.getVideoClass("video9")}
-                    videoId={videos[8].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
+                {this.renderVideo(6)}
+                {this.renderVideo(7)}
+                {this.renderVideo(8)}
               </Grid>
             </div>
-
             <div className={classes.carousel}>
               <Grid container className={classes.row} spacing={0} justify={"center"} >
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video10" item
-                    className={this.getVideoClass("video10")}
-                    videoId={videos[9].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video11" item
-                    className={this.getVideoClass("video11")}
-                    videoId={videos[10].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
-                <Grid item className={classes.cell} xs={12} sm={4}>
-                  <YouTube ref="video12" item
-                    className={this.getVideoClass("video12")}
-                    videoId={videos[11].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                </Grid>
+                {this.renderVideo(9)}
+                {this.renderVideo(10)}
+                {this.renderVideo(11)}
               </Grid>
             </div>
           </SwipeableViews>
@@ -393,6 +342,7 @@ class VideosApp extends Component {
                 handleExit={this.handleExit}
                 handleClick={this.handleClick}
                 handleZoom={this.handleZoom}
+                handleKnob={this.handleKnob}
               />
               { this.renderVideos() }
               { this.renderZoomed() }
