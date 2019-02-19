@@ -64,7 +64,7 @@ const styles = {
   image: {
     display: 'block',
     maxWidth: '90%',
-    maxHeight: '90%',
+    maxHeight: '50%',
     width: 'auto',
     height: 'auto',
     margin: 'auto',
@@ -73,13 +73,15 @@ const styles = {
     transform: 'scale(1)',
     transition: 'all 0.7s',
     boxShadow: '0px 0px 10px 2px #999',
-    backgroundColor: "#ECEFF1"
+    backgroundColor: "#ECEFF1",
+    position: "relative", 
+    zIndex: '1'
   },
 
   hovered: {
     transform: 'scale(1.5)',
     animationDuration: '0.1s',
-    zIndex: 10,
+    zIndex: '10 !important'
   },
 
   stepper: {

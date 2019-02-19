@@ -18,7 +18,8 @@ const styles = {
     listStyle: 'none',
     overflow: 'visible',
     zIndex: '1',
-    backgroundColor: "#ECEFF1"
+    backgroundColor: "#ECEFF1",
+    
   },
 
   frameContainer: {
@@ -31,11 +32,12 @@ const styles = {
     position: 'relative',
     border: '0px solid #37474F',
     boxShadow: '0px 0px 10px 2px #999',
+    transition: "150ms"
   },
 
   hovered: {
     transform: 'scale(1.15)',
-    animationDuration: '3s',
+    transition: '200ms ease-out',
     zIndex: 5,
   },
 
