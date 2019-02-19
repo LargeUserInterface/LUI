@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import Leap from './leap.js';
+import Leap, { SWIPE_LEFT } from '../Leap';
 import { Grid } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import MobileStepper from '@material-ui/core/MobileStepper';
@@ -133,7 +133,7 @@ class PhotosApp extends Component {
   }
 
   handleSwipe = (dir) => {
-    if (dir === "left") {
+    if (dir === SWIPE_LEFT) {
       // console.log("swipe left");
       this.setState({
         index: 1
@@ -176,15 +176,14 @@ class PhotosApp extends Component {
     return (
       <div className={classes.container}>
         <Leap
-          photos={this.state.photos}
+          data={this.state.photos}
+          canvasStyles={{ zIndex: 10 }}
+          className={classes.canvas}
           handleHover={this.handleHover}
-          // handleClick={this.handleClick}
           handleSwipe={this.handleSwipe}
           handleExit={this.handleExit}
-        />
-        <div>
+        >
           <SwipeableViews className={classes.gallery} index={this.state.index} onTransitionEnd={this.getPhotos}>
-
             <div className={classes.carousel}>
               <Grid container className={classes.row} spacing={0} justify={"center"} >
                 <Grid item className={classes.cell} ref="photo1" xs={12} sm={3} >
@@ -216,7 +215,6 @@ class PhotosApp extends Component {
                 </Grid>
               </Grid>
             </div>
-
             <div className={classes.carousel}>
               <Grid container className={classes.row} spacing={0} justify={"center"} >
                 <Grid item className={classes.cell} ref="photo9" xs={12} sm={3}>
@@ -232,7 +230,6 @@ class PhotosApp extends Component {
                   <img  onMouseEnter={() => { this.setState({hovered: "photo12"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo12" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1533071581733-1a1600ec8ac6?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4a59d7ee412d9efb4818bb4a9ddd55c9&auto=format&fit=crop&w=800&q=60' />
                 </Grid>
               </Grid>
-
               <Grid container className={classes.row} spacing={0} justify={"center"}>
                 <Grid item className={classes.cell} ref="photo13" xs={12} sm={3}>
                   <img  onMouseEnter={() => { this.setState({hovered: "photo13"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} className={hovered === "photo13" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531752074002-abf991376d04?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9a0a2b6b4212fc234d319be9c87c615&auto=format&fit=crop&w=800&q=60' />
@@ -249,7 +246,7 @@ class PhotosApp extends Component {
               </Grid>
             </div>
           </SwipeableViews>
-        </div>
+        </Leap>
         <MobileStepper
           variant="dots"
           steps={2}

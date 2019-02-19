@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom';
 import backDrop from './backdrop.png';
 import './Intro.css';
 import { css } from 'glamor';
 import glamorous from 'glamorous'
 import { withStyles } from '@material-ui/core/styles';
+import Particles from 'react-particles-js';
 
+const particleOpt = require('./particles.json');
 
 const fadeIn = css.keyframes({
   '0%': { opacity: 0 },
@@ -38,9 +41,31 @@ function Intro(props) {
 
   return (
     <Wrapper isMounted={props.isMounted} page={props.page}>
-      <img className={classes.backDrop} src={backDrop} />
+      
+      <div>
+      <div className={classes.backDrop} >
+        <Particles 
+            params={particleOpt} 
+            style={{zIndex:5, position: 'absolute'}}
+        />
+      </div>
+      
+      <div > 
+      <img className={classes.backDrop} src={backDrop} style={{zIndex:1,position: 'absolute'}} />
+      </div>
+      </div>
+
     </Wrapper>
-  );
+    
+    
+
+    );
+
+    console.log("hiii");
 }
 
 export default withStyles(styles)(Intro);
+
+
+
+ 
