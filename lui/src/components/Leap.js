@@ -198,10 +198,11 @@ export default class Leap extends React.Component {
       <canvas className={className} ref='canvas' />
     );
     return (
-      <React.Fragment>
-        <Canvas />
-        {children}
-      </React.Fragment>
+        <React.Fragment>
+
+          <canvas />
+          {children}
+        </React.Fragment>
     );
   }
 }
