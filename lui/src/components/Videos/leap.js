@@ -13,7 +13,8 @@ const styles = {
         position: 'absolute',
         height: '100%',
         width: '100%',
-        zIndex: 100
+        zIndex: 100,
+        pointerEvents: 'none'
     }
 };
 

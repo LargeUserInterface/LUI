@@ -51,6 +51,7 @@ const styles = {
     padding: '0px',
     listStyle: 'none',
     overflow: 'none',
+    zIndex: '1',
     backgroundColor: '#ECEFF1',
   },
 
@@ -69,8 +70,9 @@ const styles = {
   },
 
   hovered: {
-    transform: 'scale(1.1)',
-    animationDuration: '1s'
+    transform: 'scale(1.15)',
+    transition: '200ms ease-out',
+    zIndex: 5,
   },
 
   zoomed: {
@@ -255,7 +257,11 @@ class VideosApp extends Component {
       const ref = "video" + String(index + 1);
 
       return (
-        <Grid item className={classes.cell} xs={12} sm={4}>
+        <Grid onMouseEnter={() => { this.setState({hovered: ref}) }}
+              onMouseLeave={() => { this.setState({hovered: ""}) }}
+              item
+              className={classes.cell}
+              xs={12} sm={4}>
           <YouTube ref={ref} item
             className={this.getVideoClass(ref)}
             videoId={videos[index].id}

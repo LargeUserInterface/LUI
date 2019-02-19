@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
+import { withStyles } from '@material-ui/core/styles';
+import LeapMotion from 'leapjs';
 
 export const THUMB = 0;
 export const INDEX = 1;
@@ -158,7 +161,7 @@ export default class Leap extends React.Component {
         y > dims.top - VIDEO_SIZE_OFFSET &&
         y < dims.bottom + VIDEO_SIZE_OFFSET
       ) {
-        this.props.debug && console.log('HOVERED data' + String(i + 1));
+        // this.props.debug && console.log('HOVERED data' + String(i + 1));
         return true;
       }
       return false;
