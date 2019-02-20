@@ -27,11 +27,11 @@ class Leap extends React.Component {
             leftHand: "",
             indexFinger: "",
             thumb: "",
-            spread: "",
             zoomed: "",
             hovered: "",
             pinch: "",
-            clicked:""
+            clicked: "",
+            pause: 0
         }
     }
 
@@ -59,58 +59,73 @@ class Leap extends React.Component {
         this.timer = setInterval(() => {
 
             if (this.state.rightHand) {
-                var { spread, zoomed, hovered, indexFinger, thumb, rightHand, pinch } = this.state;
+                var { zoomed, hovered, indexFinger, thumb, rightHand, pinch, pause } = this.state;
 
-                // swiping
-                const palmVelocity = rightHand.palmVelocity[0];
-                if (palmVelocity < -400) {
-                    this.props.handleSwipe("left");
-                    return;
-                } else if (palmVelocity > 400) {
-                    this.props.handleSwipe("right");
-                    return;
-                }
+                // CONTINUOUS GESTURES
 
                 // hovering
                 const hovered = this.checkHover();
                 this.setState({ hovered });
                 this.props.handleHover(hovered);
 
-                // clicking
-                if (indexFinger.vel[2] < -300 && (hovered || zoomed)) {
-                    console.log("CLICKED", hovered);
-                    const clicked = hovered ? hovered : zoomed;
-                    this.setState({ clicked })
-                    this.props.handleClick(clicked);
-                    return;
-                }
+                // DISCRETE GESTURES
+                let gestureDetected = false;
 
-                // zooming
-                const spreadX = indexFinger.x - thumb.x;
-                const spreadY = indexFinger.y - thumb.y;
-                const newSpread = Math.sqrt(spreadX**2 + spreadY**2);
-                const xdelt = indexFinger.vel[0] - thumb.vel[0];
-                const ydelt = indexFinger.vel[1] - thumb.vel[1];
-                const zdelt = indexFinger.vel[2] - thumb.vel[2];
-                const deltVel = Math.sqrt(xdelt**2 + ydelt**2 + zdelt**2);
-                // zooming in
-                if (!zoomed && hovered && pinch > 0.7 && rightHand.pinchStrength < 0.3) {//(!zoomed && hovered && deltVel > 300 && newSpread - spread > 100) {
-                  console.log("ZOOM", pinch);
-                  this.props.handleZoom(hovered);
-                  zoomed = hovered;
-                }
-                // zooming out - swipe up
-                else if (zoomed && rightHand.palmVelocity[1] > 400) {
-                  this.props.handleZoom("");
-                  zoomed = "";
-                }
-                this.setState({ zoomed, spread: newSpread });
-
-                // exiting
-                if (!zoomed && rightHand.palmVelocity[1] > 400) {
-                    this.props.handleExit();
+                if (pause > 0) {
+                    this.setState({ pause: pause - 1 });
                 } else {
-                    this.setState({ pinch: rightHand.pinchStrength })
+                    // swiping left
+                    const palmVelocity = rightHand.palmVelocity[0];
+                    if (palmVelocity < -400) {
+                        this.props.handleSwipe("left");
+                        gestureDetected = true;
+                    }
+
+                    // swipe right
+                    else if (palmVelocity > 400) {
+                        this.props.handleSwipe("right");
+                        gestureDetected = true;
+                    }
+
+                    // swipe up
+                    else if (rightHand.palmVelocity[1] > 400) {
+                        if (zoomed) {
+                            zoomed = "";
+                            this.props.handleZoom(zoomed);
+                            this.setState({ zoomed });
+                            gestureDetected = true;
+                        }
+                        else {
+                            this.props.handleExit();
+                            gestureDetected = true;
+                        }
+                    }
+
+                    // bloom
+                    if (!zoomed && hovered && pinch > 0.7 && rightHand.pinchStrength < 0.3) {
+                        console.log("ZOOM");
+                        zoomed = hovered;
+                        this.props.handleZoom(zoomed);
+                        this.setState({ zoomed });
+                        gestureDetected = true;
+                    }
+
+                    // airtap
+                    if (indexFinger.vel[2] < -300 && (hovered || zoomed)) {
+                        console.log("CLICKED", hovered);
+                        const clicked = hovered ? hovered : zoomed;
+                        this.props.handleClick(clicked);
+                        this.setState({ clicked });
+                        gestureDetected = true;
+                    }
+                }
+
+                // update pinch
+                this.setState({ pinch: rightHand.pinchStrength });
+
+                // pause if gesture detected
+                if (gestureDetected) {
+                  this.setState({ pause: 10 });
                 }
             }
 
@@ -149,11 +164,11 @@ class Leap extends React.Component {
             canvas.height = canvas.clientHeight;
             const ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const { rightHand, leftHand } = this.state;
+            const { rightHand, leftHand, pause } = this.state;
 
             if (rightHand) {
                 rightHand.fingers.forEach((pointable) => {
-                    const color = fingers[pointable.type];
+                    const color = pause > 0 ? "#ff5555" : fingers[pointable.type];
                     const position = pointable.stabilizedTipPosition;
                     const normalized = frame.interactionBox.normalizePoint(position);
                     const x = ctx.canvas.width * normalized[0];
