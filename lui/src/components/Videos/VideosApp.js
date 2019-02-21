@@ -5,38 +5,100 @@ import classNames from 'classnames';
 import YouTube from 'react-youtube';
 import Leap from './leap.js'
 import { Redirect } from 'react-router';
+import { css } from 'glamor';
+import SwipeableViews from 'react-swipeable-views';
+import MobileStepper from '@material-ui/core/MobileStepper';
+
+const zoomIn = css.keyframes({
+  '0%': { transform: 'scale(0.5)' },
+  '100%': { transform: 'scale(1)' }
+})
 
 const styles = {
-  container: {
+
+  gallery: {
+    animation: `${zoomIn} 1s`
+  },
+
+  carousel: {
+    width: '100%',
+    height: '90%',
+    padding: '0px',
+    margin: '0px'
+  },
+
+  row: {
+    height: '30%',
+    margin: '2%'
+  },
+
+  cell: {
+    display: 'inline-block',
     width: '100%',
     height: '100%',
+    verticalAlign: 'middle',
+    boxSizing: 'border-box',
+    margin: '0px',
+    position: 'relative',
+  },
+
+  container: {
     position: 'absolute',
-    left: '0',
-    margin: '0 auto',
-    padding: '2px',
-    backgroundColor: '#FFF',
+    top: '0px',
+    left: '0px',
+    width: '100%',
+    height: '100%',
+    padding: '0px',
     listStyle: 'none',
-    overflow: 'visible',
+    overflow: 'none',
     zIndex: '1',
-    backgroundColor: "#ECEFF1"
+    backgroundColor: '#ECEFF1',
   },
 
   frameContainer: {
-    display: 'inline-block',
-    width: '31.5%',
+    display: 'block',
+    width: 'auto',
+    height: 'auto',
     verticalAlign: 'middle',
-    boxSizing: 'border-box',
+    // boxSizing: 'border-box',
     padding: '0px',
-    margin: '10px',
-    position: 'relative',
+    margin: 'auto',
+    transform: 'scale(1)',
+    transition: 'all 1s',
     border: '2px solid #37474F',
-    boxShadow: '10px 10px 5px #ccc',
+    boxShadow: '10px 10px 5px #ccc'
   },
 
   hovered: {
-    transform: 'scale(1.1)',
-    animationDuration: '1s'
+    transform: 'scale(1.15)',
+    transition: '200ms ease-out',
+    zIndex: 5,
   },
+
+  zoomed: {
+    position: 'fixed', /* Stay in place */
+    zIndex: 2, /* Sit on top */
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    animation: `${zoomIn} 1s`
+    // transform: 'scale(3)',
+    // animationDuration: '1s',
+    // position: 'absolute'
+  },
+
+  stepper: {
+    height: '10%',
+    margin: '0px',
+    padding: '0px',
+    backgroundColor: '#ECEFF1',
+    zIndex: 1
+  },
+
+  dots: {
+    margin: 'auto',
+  }
 
 };
 
@@ -46,10 +108,13 @@ const videos = [
     {id: '7m6J8W6Ib4w'},
     {id: 'l7uuTnk69Eo'},
     {id: '6ZfuNTqbHE8'},
-    {id: 'mFIOGpIQtVU'}
-    // {id: 'c-SE2Qeqj1g'},
-    // {id: '-AbaV3nrw6E'},
-    // {id: 'FTPmnZVgDjQ'}
+    {id: '_8w9rOpV3gc'},
+    {id: 'c-SE2Qeqj1g'},
+    {id: '-AbaV3nrw6E'},
+    {id: 'FTPmnZVgDjQ'},
+    {id: 'dQw4w9WgXcQ'},
+    {id: 'Xnk4seEHmgw'},
+    {id: '5G1C3aBY62E'}
 ]
 
 const opts = {
@@ -68,20 +133,23 @@ class VideosApp extends Component {
             videos: [],
             target_dict: {},
             playing:[],
+            zoomed: "",
             hovered: "",
-            clicked: "",
+            index: 0,
             exit: false,
         }
     }
 
     componentDidMount() {
+        console.log("MOUNTED");
         this.getVideos();
     }
 
     getVideos = () => {
         const videos = [this.refs.video1, this.refs.video2, this.refs.video3,
-                       this.refs.video4, this.refs.video5, this.refs.video6];
-                       // this.refs.video7, this.refs.video8, this.refs.video9];
+                       this.refs.video4, this.refs.video5, this.refs.video6,
+                       this.refs.video7, this.refs.video8, this.refs.video9,
+                       this.refs.video10, this.refs.video11, this.refs.video12];
         this.setState({videos});
     }
 
@@ -89,19 +157,75 @@ class VideosApp extends Component {
         this.setState({hovered:video})
     }
 
+    handleSwipe = (dir) => {
+      var { zoomed, videos } = this.state;
+      // swipe between zoomed in videos
+      if (zoomed) {
+        var zoomedIndex = parseInt(zoomed.slice(5));
+        if (dir === "right") {
+          var newZoomedIndex = Math.max(1, zoomedIndex - 1);
+          zoomed = "video" + String(newZoomedIndex);
+        } else {
+          var newZoomedIndex = Math.min(videos.length, zoomedIndex + 1);
+          zoomed = "video" + String(newZoomedIndex);
+        }
+        this.setState({ zoomed });
+      }
+      else {
+        if (dir === "left") {
+          this.setState({
+            index: 1
+          })
+        } else {
+          this.setState({
+            index: 0
+          })
+        }
+      }
+    }
+
     handleClick = (video) => {
         try{
-            this.setState({clicked:video})
-            var videoIndex = parseInt(video.charAt(video.length-1));
-            var videoId = videos[videoIndex-1].id
-            if (this.state.playing[videoId] == false) {
+            var { playing } = this.state;
+            var videoIndex = parseInt(video.slice(5));
+            var videoId = videos[videoIndex-1].id;
+            console.log("HANDLE CLICK", videoId)
+            console.log(playing)
+            console.log(playing[videoId])
+            if (!this.state.playing[videoId]) {
+              console.log("HERE")
                 this.state.target_dict[videoId].playVideo();
-                this.state.playing[videoId] = true;
+                console.log("hi")
+                playing[videoId] = true;
+                console.log("PLAY", videoIndex);
             } else {
+              console.log("HERE@")
                 this.state.target_dict[videoId].pauseVideo();
-                this.state.playing[videoId] = false;
+                playing[videoId] = false;
+                console.log("PAUSE", videoIndex);
             }
+            this.setState({ playing });
         } catch (err) { }
+    }
+
+    handleZoom = (video) => {
+      var { zoomed } = this.state;
+      console.log("ZOOMED", video);
+
+      if (zoomed) { // zoom out
+        zoomed = "";
+      } else {      // zoom in
+        zoomed = video;
+      }
+      this.setState({ zoomed });
+    }
+
+    // adjust volume
+    handleKnob = (video, roll) => {
+      var videoIndex = parseInt(video.slice(5));
+      var videoId = videos[videoIndex-1].id;
+      console.log("HANDLE KNOB", videoId, roll)
+      this.state.target_dict[videoId].setVolume(roll);
     }
 
     handleExit = () => {
@@ -116,16 +240,100 @@ class VideosApp extends Component {
       event.target.pauseVideo();
       this.setState({playing:[...this.state.playing,false]});
       var new_target_dict = this.state.target_dict;
-      console.log(new_target_dict);
       new_target_dict[event.target.b.b.videoId] = event.target;
       this.setState({target_dict: new_target_dict});
     }
 
+    getVideoClass(video) {
+      const { classes } = this.props;
+      const { hovered, zoomed } = this.state;
+      if (hovered === video)
+        return classNames(classes.frameContainer, classes.hovered);
+      return classes.frameContainer;
+    }
+
+    renderVideo(index) {
+      const { classes } = this.props;
+      const ref = "video" + String(index + 1);
+
+      return (
+        <Grid onMouseEnter={() => { this.setState({hovered: ref}) }}
+              onMouseLeave={() => { this.setState({hovered: ""}) }}
+              item
+              className={classes.cell}
+              xs={12} sm={4}>
+          <YouTube ref={ref} item
+            className={this.getVideoClass(ref)}
+            videoId={videos[index].id}
+            key={index}
+            opts={opts}
+            onReady={this._onReady}
+            onPause={this._onPause}
+          />
+        </Grid>);
+    }
+
+    renderVideos() {
+      const { classes } = this.props;
+
+      return (<div>
+          <SwipeableViews className={classes.gallery} index={this.state.index} onTransitionEnd={this.getVideos}>
+            <div className={classes.carousel}>
+              <Grid container className={classes.row} spacing={0} justify={"center"} >
+                {this.renderVideo(0)}
+                {this.renderVideo(1)}
+                {this.renderVideo(2)}
+              </Grid>
+              <Grid container className={classes.row} spacing={0} justify={"center"}>
+                {this.renderVideo(3)}
+                {this.renderVideo(4)}
+                {this.renderVideo(5)}
+              </Grid>
+              <Grid container className={classes.row} spacing={0} justify={"center"} >
+                {this.renderVideo(6)}
+                {this.renderVideo(7)}
+                {this.renderVideo(8)}
+              </Grid>
+            </div>
+            <div className={classes.carousel}>
+              <Grid container className={classes.row} spacing={0} justify={"center"} >
+                {this.renderVideo(9)}
+                {this.renderVideo(10)}
+                {this.renderVideo(11)}
+              </Grid>
+            </div>
+          </SwipeableViews>
+          <MobileStepper
+            variant="dots"
+            steps={2}
+            position="bottom"
+            activeStep={this.state.index}
+            className={classes.stepper}
+            classes={{ dots: classes.dots }}
+          />
+        </div>
+      );
+    }
+
+    renderZoomed() {
+      const { classes } = this.props;
+      const { hovered, zoomed } = this.state;
+
+      if (zoomed) {
+        var videoIndex = parseInt(zoomed.slice(5));
+        var videoId = videos[videoIndex-1].id;
+        return (<YouTube item
+          className={classNames(classes.zoomed)}
+          videoId={videoId}
+          opts={opts}
+          onReady={this._onReady}
+          onPause={this._onPause}
+        />);
+      }
+    }
 
     render() {
         const { classes } = this.props;
-        const { hovered } = this.state;
-        const { clicked } = this.state;
 
         if (this.state.exit) {
           return <Redirect to={{ pathname: "/" }} />
@@ -139,51 +347,11 @@ class VideosApp extends Component {
                 handleSwipe={this.handleSwipe}
                 handleExit={this.handleExit}
                 handleClick={this.handleClick}
+                handleZoom={this.handleZoom}
+                handleKnob={this.handleKnob}
               />
-              <div>
-                  <YouTube ref="video1" item sm={4}
-                    className={hovered === "video1" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
-                    videoId={videos[0].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                  <YouTube ref="video2" item sm={4}
-                    className={hovered === "video2" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
-                    videoId={videos[1].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                  <YouTube ref="video3" item sm={4}
-                    className={hovered === "video3" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
-                    videoId={videos[2].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                  <YouTube ref="video4" item sm={4}
-                    className={hovered === "video4" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
-                    videoId={videos[3].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                  <YouTube ref="video5" item sm={4}
-                    className={hovered === "video5" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
-                    videoId={videos[4].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-                  <YouTube ref="video6" item sm={4}
-                    className={hovered === "video6" ? classNames(classes.frameContainer,classes.hovered): classes.frameContainer}
-                    videoId={videos[5].id}
-                    opts={opts}
-                    onReady={this._onReady}
-                    onPause={this._onPause}
-                  />
-              </div>
+              { this.renderVideos() }
+              { this.renderZoomed() }
             </div>
         );
       }

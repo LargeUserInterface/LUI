@@ -5,6 +5,8 @@ import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import PhotosApp from './PhotosApp.jsx';
+import { Link } from 'react-router-dom'
+
 
 const styles = theme => ({
     root: {
@@ -21,7 +23,7 @@ const styles = theme => ({
         },
     },
     hovered: {
-        zIndex: 1,
+        zIndex: 5,
         '& $imageBackdrop': {
             opacity: 0.15,
         },
@@ -88,8 +90,16 @@ class Photos extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        // this.state = {isClicked: false};
+    
+        // this.handleClick = this.handleClick.bind(this);
     }
+
+    // handleClick() {
+    //     this.setState({
+    //       isClicked: true
+    //     });
+    //   }
 
     render() {
         const { classes, hovered, clicked } = this.props;
@@ -107,6 +117,8 @@ class Photos extends Component {
                     style={{
                         width: image.width,
                     }}
+                    //component={this.props.link}
+                    onClick  = {this.props.onclick}
                 >
                     <span
                         className={classes.imageSrc}
@@ -137,10 +149,10 @@ Photos.propTypes = {
     clicked: PropTypes.bool,
 };
 
-Photos.defaultProps = {
-    hovered: false,
-    clicked: false
-};
+// Photos.defaultProps = {
+//     hovered: false,
+//     clicked: false
+// };
 
 export default withStyles(styles)(Photos);
 
