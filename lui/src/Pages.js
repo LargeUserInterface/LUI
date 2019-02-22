@@ -5,6 +5,8 @@ import Intro from './components/Intro/Intro.jsx';
 import Photos from './components/Photos/PhotosApp.jsx';
 import Videos from './components/Videos/VideosApp.js';
 import GestureKeyboard from './components/GestureKeyboard/GestureKeyboardApp.jsx';
+import Model from './components/Model/ModelApp';
+import Prismatic from './components/Prismatic/PrismaticApp'
 
 class Pages extends Component {
 
@@ -17,8 +19,8 @@ class Pages extends Component {
           <Route path='/Photos' component={Photos}/>
           <Route path='/Videos' component={Videos}/>
           <Route path='/GestureKeyboard' component={GestureKeyboard}/>
-          <Route path='/Model' component={Model}/>
-          <Route path='/Prismatic' component={Prismatic}/>
+          <Route path='/Model' component={Model} />
+          <Route path='/Prismatic' component={Prismatic} />
           <Route path='*' component={Intro}/>
         </Switch>
       </Router>
