@@ -22,7 +22,10 @@ const zoomIn = css.keyframes({
 const styles = {
 
   gallery: {
-    animation: `${zoomIn} 1s`
+    animation: `${zoomIn} 1s`,
+    position: 'absolute',
+    top: '3vh',
+    // zIndex: '1'
   },
 
   container: {
@@ -44,7 +47,7 @@ const styles = {
     width: '100%',
     height: '90%',
     padding: '0px',
-    margin: '0px'
+    margin: '0px',
   },
 
   row: {
@@ -71,7 +74,7 @@ const styles = {
     padding: '3%',
     border: 'none',
     transform: 'scale(1)',
-    transition: 'all 0.7s',
+    transition: '300ms ease-out',
     boxShadow: '0px 0px 10px 2px #999',
     backgroundColor: "#ECEFF1",
     position: "relative", 
@@ -85,7 +88,7 @@ const styles = {
   },
 
   stepper: {
-    height: '10%',
+    height: '9vh',
     margin: '0px',
     padding: '0px',
     backgroundColor: '#CFD8DC',
@@ -170,7 +173,7 @@ class PhotosApp extends Component {
     const { hovered } = this.state;
 
     if (this.state.exit) {
-      return <Redirect to={{ pathname: "/" }} />
+      return <Redirect to={{ pathname: "/Home" }} />
     }
 
     return (
