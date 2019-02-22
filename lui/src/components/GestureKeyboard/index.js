@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
+import { Redirect } from 'react-router';
 
 const styles = theme => ({
     root: {
@@ -76,12 +77,12 @@ const styles = theme => ({
 });
 
 const image = {
-    url: 'https://akns-images.eonline.com/eol_images/Entire_Site/2013520/rs_560x415-130620152327-1024.CandyCrush6.mh.062013.jpg?fit=inside|900:auto&output-quality=90',
-    title: 'Game',
+    url: 'https://images.unsplash.com/photo-1529236183275-4fdcf2bc987e?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b1799c4b65f757386e977ba79075ee8c&auto=format&fit=crop&w=800&q=60',
+    title: 'Gesture Keyboard',
     width: '100%',
 };
 
-class App4 extends Component {
+class GestureKeyboard extends Component {
 
     constructor(props) {
         super(props);
@@ -95,9 +96,7 @@ class App4 extends Component {
         const { classes, hovered, clicked } = this.props;
 
         if (this.props.clicked) {
-            return (
-                <div />
-            );
+            return <Redirect to={{pathname: "/GestureKeyboard"}} />
         } else {
             // icon 
             return (
@@ -134,15 +133,15 @@ class App4 extends Component {
     }
 }
 
-App4.propTypes = {
+GestureKeyboard.propTypes = {
     hovered: PropTypes.bool,
     clicked: PropTypes.bool,
 };
 
-App4.defaultProps = {
+GestureKeyboard.defaultProps = {
     hovered: false,
     clicked: false
 };
 
-export default withStyles(styles)(App4);
+export default withStyles(styles)(GestureKeyboard);
 
