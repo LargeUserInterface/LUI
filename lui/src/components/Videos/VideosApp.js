@@ -8,6 +8,9 @@ import { Redirect } from 'react-router';
 import { css } from 'glamor';
 import SwipeableViews from 'react-swipeable-views';
 import MobileStepper from '@material-ui/core/MobileStepper';
+import Button from '@material-ui/core/Button';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 const zoomIn = css.keyframes({
   '0%': { transform: 'scale(0.5)' },
@@ -57,21 +60,23 @@ const styles = {
 
   frameContainer: {
     display: 'block',
-    width: 'auto',
-    height: 'auto',
+    width: '25vw',
+    height: '27vh',
     verticalAlign: 'middle',
     // boxSizing: 'border-box',
     padding: '0px',
-    margin: 'auto',
+    // margin: '1.5vw',
     transform: 'scale(1)',
-    transition: 'all 1s',
-    border: '2px solid #37474F',
-    boxShadow: '10px 10px 5px #ccc'
+    transition: '200ms', 
+    // border: '2px solid #37474F',
+    boxShadow: '0px 0px 10px 2px #999',
+    overflow: 'hidden',
   },
 
   hovered: {
     transform: 'scale(1.15)',
     transition: '200ms ease-out',
+    position: 'relative',
     zIndex: 5,
   },
 
@@ -82,14 +87,14 @@ const styles = {
     top: 0,
     width: '100%',
     height: '100%',
-    animation: `${zoomIn} 1s`
+    animation: `${zoomIn} 200ms`
     // transform: 'scale(3)',
     // animationDuration: '1s',
     // position: 'absolute'
   },
 
   stepper: {
-    height: '10%',
+    height: '9vh',
     margin: '0px',
     padding: '0px',
     backgroundColor: '#ECEFF1',
@@ -183,6 +188,18 @@ class VideosApp extends Component {
         }
       }
     }
+
+    handleNext = () => {        //for pointer
+      this.setState(state => ({
+        index: 1,
+      }));
+    };
+  
+    handleBack = () => {
+      this.setState(state => ({
+        index: 0,
+      }));
+    };
 
     handleClick = (video) => {
         try{
@@ -304,13 +321,25 @@ class VideosApp extends Component {
             </div>
           </SwipeableViews>
           <MobileStepper
-            variant="dots"
-            steps={2}
-            position="bottom"
-            activeStep={this.state.index}
-            className={classes.stepper}
-            classes={{ dots: classes.dots }}
-          />
+          variant="dots"
+          steps={2}
+          position="bottom"
+          activeStep={this.state.index}
+          className={classes.stepper}
+          classes={{ dots: classes.dots }}
+          nextButton={
+            <Button size="small" onClick={this.handleNext} disabled={this.state.index === 1}>
+              <KeyboardArrowRight />
+              {/* {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />} */}
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={this.handleBack} disabled={this.state.index === 0}>
+              {/* {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />} */}
+              <KeyboardArrowLeft />
+            </Button>
+          }
+        />
         </div>
       );
     }
@@ -336,7 +365,7 @@ class VideosApp extends Component {
         const { classes } = this.props;
 
         if (this.state.exit) {
-          return <Redirect to={{ pathname: "/" }} />
+          return <Redirect to={{ pathname: "/Home" }} />
         }
 
         return (
