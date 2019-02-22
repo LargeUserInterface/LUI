@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import LeapMotion from 'leapjs';
 
 const fingers = ["#9bcfed", "#B2EBF2", "#80DEEA", "#4DD0E1", "#26C6DA"];
+const paused_fingers = ["#9bed9b", "#b1f0b1", "#80ea80", "#4ce14c", "#25da25"];
 
 const videoSizeOffset = 100;
 
@@ -74,7 +75,7 @@ class Leap extends React.Component {
                 if (pause > 0) {
                     this.setState({ pause: pause - 1 });
                 } else {
-                    // swiping left
+                    // swipe left
                     const palmVelocity = rightHand.palmVelocity[0];
                     if (palmVelocity < -400) {
                         this.props.handleSwipe("left");
@@ -168,7 +169,7 @@ class Leap extends React.Component {
 
             if (rightHand) {
                 rightHand.fingers.forEach((pointable) => {
-                    const color = pause > 0 ? "#ff5555" : fingers[pointable.type];
+                    const color = pause > 0 ? paused_fingers[pointable.type] : fingers[pointable.type];
                     const position = pointable.stabilizedTipPosition;
                     const normalized = frame.interactionBox.normalizePoint(position);
                     const x = ctx.canvas.width * normalized[0];
