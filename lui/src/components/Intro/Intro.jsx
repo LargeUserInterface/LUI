@@ -61,7 +61,6 @@ function Intro(props) {
 
     );
 
-    console.log("hiii");
 }
 
 export default withStyles(styles)(Intro);

@@ -13,12 +13,12 @@ class Pages extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path='/' component={App}/>
+          <Route exact path='/' component={Intro}/>
           <Route path='/Photos' component={Photos}/>
           <Route path='/Videos' component={Videos}/>
           <Route path='/Model' component={Model}/>
           <Route path='/Prismatic' component={Prismatic}/>
-          <Route path='*' component={Intro}/>
+          <Route path='/Home' component={App}/>
         </Switch>
       </Router>
     );
