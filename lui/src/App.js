@@ -6,8 +6,8 @@ import Photos from './components/Photos';
 import Videos from './components/Videos';
 import Intro from './components/Intro/Intro.jsx';
 import Prismatic from './components/Prismatic';
-import App4 from './components/App4';
-import App5 from './components/App5';
+import CandyCrush from './components/CandyCrush';
+import GestureKeyboard from './components/GestureKeyboard';
 import Leap from './leap.js';
 import axios from 'axios';
 import request from 'request';
@@ -186,11 +186,11 @@ class App extends Component {
           <Grid className={classes.rowContainer} container>
             <Grid ref="card4" item xs={4} onClick={() => {this.setState({clicked: "card4"})}}
             onMouseEnter={() => { this.setState({hovered: "card4"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} >
-              <App4 hovered={this.state.hovered === "card4"} clicked={false} />
+              <CandyCrush hovered={this.state.hovered === "card4"} clicked={false} />
             </Grid>
             <Grid ref="card5" item xs={4} onClick={() => {this.setState({clicked: "card5"})}}
             onMouseEnter={() => { this.setState({hovered: "card5"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} >
-              <App5 hovered={this.state.hovered === "card5"} clicked={false} />
+              <GestureKeyboard hovered={this.state.hovered === "card5"} clicked={this.state.clicked === "card5"} />
             </Grid>
             <Grid ref="card6" item xs={4} onClick={() => {this.setState({clicked: "card6"})}}
           onMouseEnter={() => { this.setState({hovered: "card6"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} >

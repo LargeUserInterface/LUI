@@ -76,12 +76,12 @@ const styles = theme => ({
 });
 
 const image = {
-    url: 'https://images.unsplash.com/photo-1507646227500-4d389b0012be?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=01a4e1be72645c660576fcc6d0c15a21&auto=format&fit=crop&w=800&q=60',
-    title: 'Google Voice Assistant',
+    url: 'https://akns-images.eonline.com/eol_images/Entire_Site/2013520/rs_560x415-130620152327-1024.CandyCrush6.mh.062013.jpg?fit=inside|900:auto&output-quality=90',
+    title: 'Game',
     width: '100%',
 };
 
-class App5 extends Component {
+class CandyCrush extends Component {
 
     constructor(props) {
         super(props);
@@ -134,15 +134,15 @@ class App5 extends Component {
     }
 }
 
-App5.propTypes = {
+CandyCrush.propTypes = {
     hovered: PropTypes.bool,
     clicked: PropTypes.bool,
 };
 
-App5.defaultProps = {
+CandyCrush.defaultProps = {
     hovered: false,
     clicked: false
 };
 
-export default withStyles(styles)(App5);
+export default withStyles(styles)(CandyCrush);
 
