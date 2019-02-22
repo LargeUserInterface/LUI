@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { Redirect } from 'react-router';
 // import Leap from './leap.js'
-import Prismatic from '@magicleap/prismatic'
+// import Prismatic from '@magicleap/prismatic'
 import ReactThreeFbxViewer from 'react-three-fbx-viewer';
 
 const styles = {
