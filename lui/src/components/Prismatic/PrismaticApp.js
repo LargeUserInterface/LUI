@@ -1,19 +1,44 @@
 import React, { Component } from 'react';
-import renderHTML from 'react-render-html';
+import Leap from './leap'
+import { Redirect } from 'react-router';
 
-// var html = require('./Hello_Prismatic/index.html')
+class PrismaticApp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      exit: false,
+    }
+  }
 
-const PrismaticApp= function(props) {
+  handleExit = () => {
+    console.log("exit");
+    this.setState({
+      exit: true
+    })
+  }
 
-  return (
-    <ml-model
-      id="portal2"
-      src="cube.fbx"
-      style={{
-        position: 'absolute', top: '50%', left: '50%', width: '500px', height: '500px', transform: 'translate(-50 %, -50 %)',
-      }}
-   />
-  );
+  render() {
+    if (this.state.exit) {
+      return <Redirect to={{ pathname: "/" }} />
+    }
+
+    return (
+      <div>
+        <Leap
+          handleExit={this.handleExit}
+        />
+        <ml-model
+          id="portal2"
+          src="cube.fbx"
+          style={{
+            position: 'absolute', top: '50%', left: '50%', width: '500px', height: '500px', transform: 'translate(-50 %, -50 %)',
+          }}
+        />
+      </div>
+
+    );
+
+  }
 };
 
 export default PrismaticApp

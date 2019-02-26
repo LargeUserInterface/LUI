@@ -136,7 +136,7 @@ class Leap extends React.Component {
                 // volume control
                 if (leftHand) {
                     const roll = this.rollToVolume(leftHand.roll());
-                    console.log(roll);
+                    // console.log(roll);
                     if (zoomed)
                         this.props.handleKnob(zoomed, roll);
                 }

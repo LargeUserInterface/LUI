@@ -36,6 +36,7 @@ class Leap extends React.Component {
     }
 
     componentDidMount() {
+
         this.leap = LeapMotion.loop((frame) => {
             this.setState({
                 frame,
@@ -45,41 +46,45 @@ class Leap extends React.Component {
         });
 
         this.timer = setInterval(() => {
-            if (this.props.page === "main") {
+            if (this.props.page == "main") {
+                console.log("leap main")
                 // clicking
-                const xdelt = Math.abs(this.state.indexFinger.x - this.state.thumb.x);
-                const ydelt = Math.abs(this.state.indexFinger.y - this.state.thumb.y);
-                if (xdelt<100 && ydelt<100 && this.state.hovered) {
-                    console.log("delta", xdelt, ydelt);
-                    this.setState({ clicked: this.state.hovered })
-                    this.props.handleClick(this.state.hovered);
-                } else { // hovering
-                    const hovered = this.checkHover();
-                    this.setState({ hovered });
-                    this.props.handleHover(hovered);
+                if (this.state.indexFinger) {
+                    if (this.state.indexFinger.velz < -300 && this.state.hovered) {
+                        this.setState({ clicked: this.state.hovered })
+                        this.props.handleClick(this.state.hovered);
+                    } else { // hovering
+                        const hovered = this.checkHover();
+                        this.setState({ hovered });
+                        this.props.handleHover(hovered);
+                    }
                 }
 
                 if (this.state.hand) {
                     if (this.state.pinch > 0.9 && this.state.hand.pinchStrength < 0.1) {
-                        this.setState({pinch : ""});
+                        this.setState({ pinch: "" });
                         this.props.handleExit();
                     } else {
                         this.setState({ pinch: this.state.hand.pinchStrength })
                     }
                 }
             } else {
-                // check for unlocking
-                if (this.state.hand && this.state.hand.palmVelocity[0] < -400) {
-                    this.props.handleUnlock();
+                if (this.state.hand) {
+                    // console.log("here", this.state.hand.palmVelocity[1] > 300);
+
+                    if (this.state.hand.palmVelocity[1] > 300) {
+                        console.log("Unlock Intro");
+                        this.props.handleUnlock();
+                    }
                 }
             }
+
         }, 10);
     }
 
     componentWillUnmount() {
         if (this.timer) {
             clearInterval(this.timer);
-            this.timer = null;
         }
         this.leap.disconnect();
     }
@@ -110,7 +115,12 @@ class Leap extends React.Component {
 
                 if (pointable.type === 1) {
                     this.setState({
-                        indexFinger: { x, y, vely: pointable.tipVelocity[1], velz: pointable.tipVelocity[2] }
+                        indexFinger: {
+                            x,
+                            y,
+                            vely: pointable.tipVelocity[1],
+                            velz: pointable.tipVelocity[2]
+                        }
                     })
                 }
             });
@@ -163,17 +173,14 @@ class Leap extends React.Component {
 
 Leap.propTypes = {
     cards: PropTypes.array,
-    page: PropTypes.string,
     handleHover: PropTypes.func,
     handleClick: PropTypes.func,
-    handleUnlock: PropTypes.func,
     handleExit: PropTypes.func
 };
 
 // TODO: better default values
 Leap.defaultProps = {
-    cards: [],
-    main: "intro"
+
 };
 
 export default withStyles(styles)(Leap);

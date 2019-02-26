@@ -78,8 +78,8 @@ const styles = theme => ({
 });
 
 const image = {
-    url: 'http://www.fablabconnect.com/wp-content/uploads/2018/05/MIT-Media-Lab-2.jpg',
-    title: 'Object Based Media Group',
+    url: 'https://images.unsplash.com/photo-1524439188326-e47322d1cef2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+    title: 'Model',
     width: '100%',
 };
 

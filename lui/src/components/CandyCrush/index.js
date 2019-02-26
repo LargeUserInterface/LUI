@@ -102,7 +102,7 @@ class CandyCrush extends Component {
             // icon 
             return (
                 <ButtonBase
-                    focusRipple
+                    focusRipple={false}
                     key={image.title}
                     className={hovered? classNames(classes.image, classes.hovered) : classes.image}
                     focusVisibleClassName={classes.focusVisible}

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Redirect } from 'react-router';
 import Immutable from 'immutable';
 import { withStyles } from '@material-ui/core/styles';
 import LeapMotion from 'leapjs';
@@ -34,8 +35,8 @@ const styles = {
   },
 
   classification: {
-    margin: '2%',
-    height: '10%',
+    margin: '5%',
+    height: '20%',
     width: '100%',
     zIndex: 100,
     display: 'flex',
@@ -44,14 +45,14 @@ const styles = {
 
   label: {
     color: '#FFF',
-    fontSize: '30px',
+    fontSize: '50px',
     fontWeight: 'bold',
     padding: '10px'
   },
 
   content: {
     color: '#FFF',
-    fontSize: '30px',
+    fontSize: '50px',
     padding: '10px'
   }
 
@@ -69,6 +70,8 @@ class GestureKeyboardApp extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      frame: "",
+      hand: "",
       indexFinger: "",
       trace: new Immutable.List(),
       tracing: false,
@@ -86,6 +89,7 @@ class GestureKeyboardApp extends React.Component {
     this.leap = LeapMotion.loop((frame) => {
       this.setState({
         frame, // update the frame information
+        hand: frame.hands.length > 0 ? frame.hands[0] : ""
       });
       this.traceFingers(frame); // visualize the current location of the finger on the screen
     });
@@ -102,75 +106,34 @@ class GestureKeyboardApp extends React.Component {
 
             if (keyData && keyData.classification) { // if new classificaiton result present 
               const classLabel = keyData.classification.toUpperCase();
-              if (this.checkBayesian(classLabel)) { // if the new label is plausible given the previous input
-                this.updateClassified(classLabel); // update the classification result on the screen
-              }
+              this.updateClassified(classLabel);
             }
           }
         } catch (error) {
           console.log(error);
         }
       })();
+
+      // check for unlocking motion
+      if (this.state.hand) {
+        // console.log("here", this.state.hand.palmVelocity[1] > 400);
+        if (this.state.hand.palmVelocity[1] > 400) {
+          console.log("Exit Gesture Keyboard");
+          this.setState({
+            exit: true
+          })
+        }
+      }
+
     }, 100);
+
+
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", (ev) => this.handleKeydown(ev));
     clearInterval(this.timer);
     this.leap.disconnect();
-  }
-
-  // Based on the developed Bayesian model (See paper for probabilities)
-  // Estimate whether P(next | prev) is likey. 
-  // Return true if probability greater than 0.2
-  // Return false otherwise
-  checkBayesian = (next) => {
-    const prev = this.state.classified[this.state.classified.length - 1]
-
-    switch (prev) {
-      case "A":
-        switch (prev) {
-          case "A":
-            return false;
-          case "B":
-            return true;
-          case "C":
-            return true;
-
-          default:
-            return true;
-        }
-      case "B":
-        switch (prev) {
-          case "A":
-            return true;
-
-          case "B":
-            return false;
-          case "C":
-            return true;
-
-          default:
-            return true;
-        }
-      case "C":
-        switch (prev) {
-          case "A":
-            return true;
-
-          case "B":
-            return true;
-
-          case "C":
-            return true;
-
-          default:
-            return true;
-        }
-      default:
-        return true; // all other cases true by default
-    }
-
   }
 
   // upate the classified text to include the latest classification result
@@ -189,33 +152,43 @@ class GestureKeyboardApp extends React.Component {
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      frame.pointables.forEach((pointable) => {
+      if (this.state.hand) {
+        this.state.hand.pointables.forEach((pointable) => {
+          if (pointable.type === 1) {
+            const color = fingers[pointable.type];
+            const position = pointable.stabilizedTipPosition;
+            const normalized = frame.interactionBox.normalizePoint(position);
+            const x = ctx.canvas.width * normalized[0];
+            const y = ctx.canvas.height * (1 - normalized[1]);
+            const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
+            const point = new Immutable.Map({ x, y })
 
-        if (pointable.type === 1) {
-          const color = fingers[pointable.type];
-          const position = pointable.stabilizedTipPosition;
-          const normalized = frame.interactionBox.normalizePoint(position);
-          const x = ctx.canvas.width * normalized[0];
-          const y = ctx.canvas.height * (1 - normalized[1]);
-          const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
-          const point = new Immutable.Map({ x, y })
-
-          if (this.state.tracing) {
-            this.setState(prevState => ({
-              // trace: prevState.trace.push(point),
-              trace: prevState.trace.updateIn([prevState.trace.size - 1], line => line.push(point)),
-              indexFinger: point
-            }))
-            // this.traceStroke(this.state.trace);
+            if (this.state.tracing) {
+              this.setState(prevState => ({
+                // trace: prevState.trace.push(point),
+                trace: prevState.trace.updateIn([prevState.trace.size - 1], line => line.push(point)),
+                indexFinger: point
+              }))
+              // this.traceStroke(this.state.trace);
+            } else {
+              this.setState({
+                indexFinger: point
+              })
+              this.drawCircle([x, y], radius, color, pointable.type === 1);
+            }
           } else {
-            this.setState({
-              indexFinger: point
-            })
+            const color = fingers[pointable.type];
+            const position = pointable.stabilizedTipPosition;
+            const normalized = frame.interactionBox.normalizePoint(position);
+            const x = ctx.canvas.width * normalized[0];
+            const y = ctx.canvas.height * (1 - normalized[1]);
+            const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
             this.drawCircle([x, y], radius, color, pointable.type === 1);
           }
-        }
-      });
-    } catch (err) {
+        });
+      }
+    }
+    catch (err) {
       console.log("ERR", err);
     }
   }
@@ -335,6 +308,11 @@ class GestureKeyboardApp extends React.Component {
 
   render() {
     const { classes } = this.props;
+
+    if (this.state.exit) {
+      return <Redirect to={{ pathname: "/" }} />
+    }
+
     return (
       <div className={classes.body}>
         <canvas ref="canvas" className={classes.canvas} ></canvas>
