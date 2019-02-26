@@ -15,15 +15,16 @@ class Pages extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path='/' component={Intro}/>
-          <Route path='/Home' component={App}/>
+          {/* <Route exact path='/' component={Intro}/>
+          <Route path='/Home' component={App}/> */}
+          <Route exact path='/' component={App}/>
           <Route path='/Photos' component={Photos}/>
           <Route path='/Videos' component={Videos}/>
           <Route path='/GestureKeyboard' component={GestureKeyboard}/>
           <Route path='/CandyCrush' component={CandyCrush}/>
           <Route path='/Model' component={Model} />
           <Route path='/Prismatic' component={Prismatic} />
-          <Route path='*' component={Intro}/>
+          <Route path='*' component={App}/>
         </Switch>
       </Router>
     );

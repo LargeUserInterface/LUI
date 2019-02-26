@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { withStyles } from '@material-ui/core/styles';
 import LeapMotion from 'leapjs';
+import { Fade } from '@material-ui/core';
 
 const fingers = ["#9bcfed", "#B2EBF2", "#80DEEA", "#4DD0E1", "#26C6DA"];
 
@@ -11,9 +12,9 @@ const styles = {
         position: 'absolute',
         height: '100%',
         width: '100%',
-        zIndex: 10
+        zIndex: 100,
+        pointerEvents: 'none'
     }
-
 };
 
 class Leap extends React.Component {
@@ -22,46 +23,33 @@ class Leap extends React.Component {
         this.state = {
             frame: {},
             hand: "",
-            indexFinger: "",
-            hovered: "",
-            pinch: ""
         }
     }
 
     componentDidMount() {
+        // console.log("Intro leap is mounted")
         this.leap = LeapMotion.loop((frame) => {
+
             this.setState({
                 frame,
                 hand: frame.hands.length > 0 ? frame.hands[0] : ""
             });
+
             this.traceFingers(frame);
         });
 
         this.timer = setInterval(() => {
-
+            // check for unlocking motion
             if (this.state.hand) {
-                const palmVelocityX = this.state.hand.palmVelocity[0];
-                if (palmVelocityX < -400) {
-                    this.props.handleSwipe("left");
-                } else if (palmVelocityX > 400) {
-                    this.props.handleSwipe("right");
-                }
-
-                const hovered = this.checkHover();
-                if (hovered) {
-                    this.setState({ hovered });
-                }
-
                 if (this.state.hand.palmVelocity[1] > 400) {
                     this.props.handleExit();
-                } 
-                this.props.handleHover(hovered);
+                }
             }
-
         }, 100);
     }
 
     componentWillUnmount() {
+        console.log("Intro leap is unmounted")
         clearInterval(this.timer);
         this.leap.disconnect();
     }
@@ -74,21 +62,19 @@ class Leap extends React.Component {
             canvas.height = canvas.clientHeight;
             const ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const { frame, hand } = this.state;
 
-            frame.pointables.forEach((pointable) => {
-                const color = fingers[pointable.type];
-                const position = pointable.stabilizedTipPosition;
-                const normalized = frame.interactionBox.normalizePoint(position);
-                const x = ctx.canvas.width * normalized[0];
-                const y = ctx.canvas.height * (1 - normalized[1]);
-                const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
-                this.drawCircle([x, y], radius, color, pointable.type === 1);
-                if (pointable.type == 1) {
-                    this.setState({
-                        indexFinger: { x, y, vel: pointable.tipVelocity[2] }
-                    })
-                }
-            });
+            if (hand) {
+                hand.fingers.forEach((pointable) => {
+                    const color = fingers[pointable.type];
+                    const position = pointable.stabilizedTipPosition;
+                    const normalized = frame.interactionBox.normalizePoint(position);
+                    const x = ctx.canvas.width * normalized[0];
+                    const y = ctx.canvas.height * (1 - normalized[1]);
+                    const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
+                    this.drawCircle([x, y], radius, color, pointable.type === 1);
+                });
+            }
         } catch (err) { }
     }
 
@@ -108,21 +94,6 @@ class Leap extends React.Component {
         }
     }
 
-    checkHover() {
-        const photos = this.props.photos;
-        const { x, y } = this.state.indexFinger;
-        for (let i = 0; i < photos.length; i++) {
-            if (photos[i]){
-                const dims = ReactDOM.findDOMNode(photos[i]).getBoundingClientRect();
-                if (x > dims.left && x < dims.right &&
-                    y > dims.top && y < dims.bottom) {
-                    return ("photo" + String(i + 1));
-                }
-            }
-        }
-        return ("");
-    }
-
     render() {
         const { classes } = this.props;
 
@@ -134,15 +105,12 @@ class Leap extends React.Component {
 
 
 Leap.propTypes = {
-    photos: PropTypes.array,
-    handleHover: PropTypes.func,
-    handleSwipe: PropTypes.func,
-    handleExit: PropTypes.func
+    handleUnlock: PropTypes.func
 };
 
 // TODO: better default values
 Leap.defaultProps = {
-    photos: [],
+
 };
 
 export default withStyles(styles)(Leap);
