@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { ButtonBase, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
+import { Redirect } from 'react-router';
+
 
 const styles = theme => ({
     root: {
@@ -95,9 +97,7 @@ class CandyCrush extends Component {
         const { classes, hovered, clicked } = this.props;
 
         if (this.props.clicked) {
-            return (
-                <div />
-            );
+            return <Redirect to={{pathname: "/CandyCrush"}} />
         } else {
             // icon 
             return (
@@ -145,4 +145,3 @@ CandyCrush.defaultProps = {
 };
 
 export default withStyles(styles)(CandyCrush);
-

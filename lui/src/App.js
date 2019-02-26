@@ -5,7 +5,7 @@ import { css } from 'glamor';
 import Photos from './components/Photos';
 import Videos from './components/Videos';
 import Intro from './components/Intro/Intro.jsx';
-import Prismatic from './components/Prismatic/PrismaticApp';
+import Prismatic from './components/Prismatic/\\';
 import CandyCrush from './components/CandyCrush';
 import GestureKeyboard from './components/GestureKeyboard';
 import Leap from './leap.js';
@@ -186,7 +186,7 @@ class App extends Component {
           <Grid className={classes.rowContainer} container>
             <Grid ref="card4" item xs={4} onClick={() => {this.setState({clicked: "card4"})}}
             onMouseEnter={() => { this.setState({hovered: "card4"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} >
-              <CandyCrush hovered={this.state.hovered === "card4"} clicked={false} />
+              <CandyCrush hovered={this.state.hovered === "card4"} clicked={this.state.clicked === "card4"} />
             </Grid>
             <Grid ref="card5" item xs={4} onClick={() => {this.setState({clicked: "card5"})}}
             onMouseEnter={() => { this.setState({hovered: "card5"}) }} onMouseLeave={() => { this.setState({hovered: ""}) }} >
