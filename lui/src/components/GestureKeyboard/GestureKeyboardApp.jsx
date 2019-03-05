@@ -261,7 +261,7 @@ class GestureKeyboardApp extends React.Component {
         ctx.drawImage(img, 0, 0);
         const imgsrc = canvas.toDataURL("image/png");
         const a = document.createElement("a");
-        a.download = "trace.png";
+        // a.download = "trace.png";
         a.href = imgsrc;
         a.click();
 

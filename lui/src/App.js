@@ -94,12 +94,18 @@ class App extends Component {
             appClicked = "card1";
           } else if (response.app === "Youtube") {
             appClicked = "card2";
+          } else if (response.app === "Prismatic") {
+            appClicked = "card3";
+          } else if (response.app === "Gesture Keyboard") {
+            appClicked = "card5";
+          } else if (response.app === "Model") {
+            appClicked = "card6";
           }
         } catch (error) {
           console.log(error);
         } finally {
           this.handleClick(appClicked);
-          this.updateFirebase("None");
+          // this.updateFirebase("None");
         }
       })();
     }, 100);

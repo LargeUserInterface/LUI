@@ -37,32 +37,31 @@ const styles = {
   },
 
   carousel: {
-    width: '100%',
-    height: '95%',
+    // width: '90%',
+    maxHeight: '95%',
     padding: '0px',
     margin: '0px'
   },
 
   row: {
-    width: '95%',
-    height: '30%',
-    margin: '5%',
-    // padding: '5%'
+    maxHeight: '20vw',
   },
 
   cell: {
     display: 'inline-block',
-    width: '100%',
+    maxWidth: '90%',
+    maxHeight: '90%',
     verticalAlign: 'middle',
     boxSizing: 'border-box',
     margin: '0px',
+    padding: '5%',
     position: 'relative',
   },
 
   image: {
     display: 'block',
-    maxWidth: '90%',
-    maxHeight: '90%',
+    maxWidth: '80%',
+    maxHeight: '80%',
     width: 'auto',
     height: 'auto',
     margin: 'auto',
@@ -75,7 +74,7 @@ const styles = {
   },
 
   hovered: {
-    transform: 'scale(1.5)',
+    transform: 'scale(1.2)',
     animationDuration: '1s',
     zIndex: 5
   },
@@ -156,7 +155,7 @@ class PhotosApp extends Component {
     }
 
     return (
-      <div className={classes.container}>
+      <div className={classes.container} justify={"center"}>
         <Leap
           photos={this.state.photos}
           handleHover={this.handleHover}
@@ -167,7 +166,7 @@ class PhotosApp extends Component {
         <div>
           <SwipeableViews className={classes.gallery} index={this.state.index} onTransitionEnd={this.getPhotos}>
 
-            <div className={classes.carousel}>
+            <div className={classes.carousel} justify={"center"}>
               <Grid container className={classes.row} spacing={0} justify={"center"} >
                 <Grid item className={classes.cell} ref="photo1" xs={12} sm={3}>
                   <img className={hovered === "photo1" ? classNames(classes.image, classes.hovered) : classes.image} src='https://images.unsplash.com/photo-1531752074002-abf991376d04?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9a0a2b6b4212fc234d319be9c87c615&auto=format&fit=crop&w=800&q=60' />
