@@ -47,7 +47,6 @@ class Leap extends React.Component {
 
         this.timer = setInterval(() => {
             if (this.props.page == "main") {
-                console.log("leap main")
                 // clicking
                 if (this.state.indexFinger) {
                     if (this.state.indexFinger.velz < -300 && this.state.hovered) {
