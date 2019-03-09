@@ -59,6 +59,10 @@ class Leap extends React.Component {
 
         this.timer = setInterval(() => {
 
+            if (this.state.pause > 0) {
+                this.setState({ pause: this.state.pause - 1 });
+            }
+
             if (this.state.rightHand) {
                 var { zoomed, hovered, indexFinger, thumb, rightHand, pinch, pause } = this.state;
 
@@ -72,9 +76,7 @@ class Leap extends React.Component {
                 // DISCRETE GESTURES
                 let gestureDetected = false;
 
-                if (pause > 0) {
-                    this.setState({ pause: pause - 1 });
-                } else {
+                if (pause === 0) {
                     // swipe left
                     const palmVelocity = rightHand.palmVelocity[0];
                     if (palmVelocity < -400) {
