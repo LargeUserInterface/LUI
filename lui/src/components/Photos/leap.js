@@ -11,7 +11,8 @@ const styles = {
         position: 'absolute',
         height: '100%',
         width: '100%',
-        zIndex: 10
+        zIndex: 10,
+        pointerEvents: 'none',
     }
 
 };

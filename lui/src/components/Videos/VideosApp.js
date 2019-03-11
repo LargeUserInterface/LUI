@@ -365,7 +365,7 @@ class VideosApp extends Component {
         const { classes } = this.props;
 
         if (this.state.exit) {
-          return <Redirect to={{ pathname: "/" }} />
+          return <Redirect to={{ pathname: "/Home", state: {page: "home"} }} />
         }
 
         return (

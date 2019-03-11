@@ -17,7 +17,8 @@ class Pages extends Component {
         <Switch>
           {/* <Route exact path='/' component={Intro}/>
           <Route path='/Home' component={App}/> */}
-          <Route exact path='/' component={App}/>
+          <Route exact path='/' render={(props) => <Intro {...props} page={"intro"} />}/>
+          <Route path='/Home' component={App}/>
           <Route path='/Photos' component={Photos}/>
           <Route path='/Videos' component={Videos}/>
           <Route path='/GestureKeyboard' component={GestureKeyboard}/>
