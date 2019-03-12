@@ -70,7 +70,7 @@ class App extends Component {
       cards: [],
       hovered: "",
       clicked: "",
-      page: "intro"
+      page: "home"
     };
   }
 
