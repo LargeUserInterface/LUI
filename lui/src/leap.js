@@ -9,6 +9,7 @@ import LeapMotion from 'leapjs';
 // canvas.height = canvas.clientHeight;
 // const ctx = canvas.getContext("2d");
 const fingers = ["#9bcfed", "#B2EBF2", "#80DEEA", "#4DD0E1", "#26C6DA"];
+const paused_fingers = ["#9bed9b", "#b1f0b1", "#80ea80", "#4ce14c", "#25da25"];
 
 const styles = {
     canvas: {
@@ -26,56 +27,89 @@ class Leap extends React.Component {
         super(props)
         this.state = {
             frame: {},
-            hand: "",
+            rightHand: "",
             thumb: "",
             indexFinger: "",
             hovered: "",
             clicked: "",
-            pinch: ""
+            pinch: "",
+            pause: 10
         }
     }
 
     componentDidMount() {
 
         this.leap = LeapMotion.loop((frame) => {
+            let hands = frame.hands;
+            let rightHand = "";
+            for (const hand of hands) {
+                if (hand.type === "right") {
+                    rightHand = hand;
+                }
+            }
             this.setState({
                 frame,
-                hand: frame.hands.length > 0 ? frame.hands[0] : ""
+                rightHand
             });
             this.traceFingers(frame);
         });
 
         this.timer = setInterval(() => {
+
+            if (this.state.pause > 0) {
+                this.setState({ pause: this.state.pause - 1 });
+            }
+
+            var { indexFinger, hovered, rightHand, pinch, pause } = this.state;
+            let gestureDetected = false;
+            
             if (this.props.page == "main") {
-                // clicking
-                if (this.state.indexFinger) {
-                    if (this.state.indexFinger.velz < -300 && this.state.hovered) {
-                        this.setState({ clicked: this.state.hovered })
-                        this.props.handleClick(this.state.hovered);
-                    } else { // hovering
-                        const hovered = this.checkHover();
-                        this.setState({ hovered });
-                        this.props.handleHover(hovered);
+
+                // CONTINUOUS GESTURES
+
+                // hovering
+                const hovered = this.checkHover();
+                this.setState({ hovered });
+                this.props.handleHover(hovered);
+
+                // DISCRETE GESTURES
+
+                if (pause === 0) {
+                    // airtap
+                    if (indexFinger) {
+                        if (indexFinger.velz < -300 && hovered) {
+                          this.setState({ clicked: hovered })
+                          this.props.handleClick(hovered);
+                          gestureDetected = true;
+                        }
+                    }
+
+                    // bloom
+                    if (rightHand) {
+                        if (this.state.pinch > 0.9 && rightHand.pinchStrength < 0.1) {
+                          this.setState({ pinch: "" });
+                          this.props.handleExit();
+                          gestureDetected = true;
+                        }
                     }
                 }
 
-                if (this.state.hand) {
-                    if (this.state.pinch > 0.9 && this.state.hand.pinchStrength < 0.1) {
-                        this.setState({ pinch: "" });
-                        this.props.handleExit();
-                    } else {
-                        this.setState({ pinch: this.state.hand.pinchStrength })
-                    }
-                }
             } else {
-                if (this.state.hand) {
-                    // console.log("here", this.state.hand.palmVelocity[1] > 300);
-
-                    if (this.state.hand.palmVelocity[1] > 300) {
+                if (rightHand) {
+                    if (pause === 0 && rightHand.palmVelocity[1] > 300) {
                         console.log("Unlock Intro");
                         this.props.handleUnlock();
+                        gestureDetected = true;
                     }
                 }
+            }
+
+            // update pinch
+            this.setState({ pinch: rightHand.pinchStrength })
+
+            // pause if gesture detected
+            if (gestureDetected) {
+                this.setState({ pause: 10 });
             }
 
         }, 10);
@@ -96,33 +130,36 @@ class Leap extends React.Component {
             canvas.height = canvas.clientHeight;
             const ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const { rightHand, pause } = this.state;
 
-            frame.pointables.forEach((pointable) => {
-                const color = fingers[pointable.type];
-                const position = pointable.stabilizedTipPosition;
-                const normalized = frame.interactionBox.normalizePoint(position);
-                const x = ctx.canvas.width * normalized[0];
-                const y = ctx.canvas.height * (1 - normalized[1]);
-                const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
-                this.drawCircle([x, y], radius, color, pointable.type === 1);
+            if (rightHand) {
+                rightHand.fingers.forEach((pointable) => {
+                    const color = pause > 0 ? paused_fingers[pointable.type] : fingers[pointable.type];
+                    const position = pointable.stabilizedTipPosition;
+                    const normalized = frame.interactionBox.normalizePoint(position);
+                    const x = ctx.canvas.width * normalized[0];
+                    const y = ctx.canvas.height * (1 - normalized[1]);
+                    const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
+                    this.drawCircle([x, y], radius, color, pointable.type === 1);
 
-                if (pointable.type === 0) {
-                    this.setState({
-                        thumb: { x, y }
-                    })
-                }
+                    if (pointable.type === 0) {
+                        this.setState({
+                            thumb: { x, y }
+                        })
+                    }
 
-                if (pointable.type === 1) {
-                    this.setState({
-                        indexFinger: {
-                            x,
-                            y,
-                            vely: pointable.tipVelocity[1],
-                            velz: pointable.tipVelocity[2]
-                        }
-                    })
-                }
-            });
+                    if (pointable.type === 1) {
+                        this.setState({
+                            indexFinger: {
+                              x,
+                              y,
+                              vely: pointable.tipVelocity[1],
+                              velz: pointable.tipVelocity[2]
+                            }
+                        })
+                    }
+                });
+            }
         } catch (err) {
             // console.log("ERR", err);
         }

@@ -31,8 +31,7 @@ class Leap extends React.Component {
             zoomed: "",
             hovered: "",
             pinch: "",
-            clicked: "",
-            pause: 0
+            pause: 10
         }
     }
 
@@ -105,21 +104,24 @@ class Leap extends React.Component {
                     }
 
                     // bloom
-                    if (!zoomed && hovered && pinch > 0.7 && rightHand.pinchStrength < 0.3) {
-                        console.log("ZOOM");
-                        zoomed = hovered;
-                        this.props.handleZoom(zoomed);
-                        this.setState({ zoomed });
-                        gestureDetected = true;
-                    }
+                    // if (!zoomed && hovered && pinch > 0.7 && rightHand.pinchStrength < 0.3) {
+                    //     zoomed = hovered;
+                    //     this.props.handleZoom(zoomed);
+                    //     this.setState({ zoomed });
+                    //     gestureDetected = true;
+                    // }
 
                     // airtap
                     if (indexFinger.vel[2] < -300 && (hovered || zoomed)) {
-                        console.log("CLICKED", hovered);
-                        const clicked = hovered ? hovered : zoomed;
-                        this.props.handleClick(clicked);
-                        this.setState({ clicked });
-                        gestureDetected = true;
+                        if (hovered && !zoomed) { // zoom in
+                            zoomed = hovered;
+                            this.props.handleZoom(zoomed);
+                            this.setState({ zoomed });
+                            gestureDetected = true;
+                        } else if (zoomed) {  // play video
+                            this.props.handleClick(zoomed);
+                            gestureDetected = true;
+                        }
                     }
                 }
 
