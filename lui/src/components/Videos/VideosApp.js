@@ -66,11 +66,16 @@ const styles = {
     // boxSizing: 'border-box',
     padding: '0px',
     // margin: '1.5vw',
-    transform: 'scale(1)',
-    transition: '200ms', 
+    // transform: 'scale(1)',
+    // transition: '200ms',
     // border: '2px solid #37474F',
     boxShadow: '0px 0px 10px 2px #999',
     overflow: 'hidden',
+  },
+
+  zoomed: {
+    width: '100vw',
+    height: '100vh'
   },
 
   hovered: {
@@ -78,19 +83,6 @@ const styles = {
     transition: '200ms ease-out',
     position: 'relative',
     zIndex: 5,
-  },
-
-  zoomed: {
-    position: 'fixed', /* Stay in place */
-    zIndex: 2, /* Sit on top */
-    left: 0,
-    top: 0,
-    width: '100%',
-    height: '100%',
-    animation: `${zoomIn} 200ms`
-    // transform: 'scale(3)',
-    // animationDuration: '1s',
-    // position: 'absolute'
   },
 
   stepper: {
@@ -138,7 +130,7 @@ class VideosApp extends Component {
             videos: [],
             target_dict: {},
             playing:[],
-            zoomed: "",
+            zoomed: -1,
             hovered: "",
             index: 0,
             exit: false,
@@ -165,14 +157,11 @@ class VideosApp extends Component {
     handleSwipe = (dir) => {
       var { zoomed, videos } = this.state;
       // swipe between zoomed in videos
-      if (zoomed) {
-        var zoomedIndex = parseInt(zoomed.slice(5));
+      if (zoomed != -1) {
         if (dir === "right") {
-          var newZoomedIndex = Math.max(1, zoomedIndex - 1);
-          zoomed = "video" + String(newZoomedIndex);
+          zoomed = Math.max(0, zoomed - 1);
         } else {
-          var newZoomedIndex = Math.min(videos.length, zoomedIndex + 1);
-          zoomed = "video" + String(newZoomedIndex);
+          zoomed = Math.min(videos.length - 1, zoomed + 1);
         }
         this.setState({ zoomed });
       }
@@ -194,7 +183,7 @@ class VideosApp extends Component {
         index: 1,
       }));
     };
-  
+
     handleBack = () => {
       this.setState(state => ({
         index: 0,
@@ -229,12 +218,8 @@ class VideosApp extends Component {
       var { zoomed } = this.state;
       console.log("ZOOMED", video);
 
-      if (zoomed) { // zoom out
-        zoomed = "";
-      } else {      // zoom in
-        zoomed = video;
-      }
-      this.setState({ zoomed });
+      zoomed = parseInt(video.slice(5)) - 1;
+      this.setState({ zoomed, hovered: "" });
     }
 
     // adjust volume
@@ -245,11 +230,14 @@ class VideosApp extends Component {
       this.state.target_dict[videoId].setVolume(roll);
     }
 
-    handleExit = () => {
-      console.log("exit");
-      this.setState({
-        exit: true
-      })
+    handleSwipeUp = () => {
+      let { zoomed } = this.state;
+      if (zoomed != -1) {
+        this.setState({ zoomed: -1 });
+        this.getVideos();
+      } else {
+        this.setState({ exit: true });
+      }
     }
 
     _onReady = (event) => {
@@ -263,7 +251,7 @@ class VideosApp extends Component {
 
     getVideoClass(video) {
       const { classes } = this.props;
-      const { hovered, zoomed } = this.state;
+      const { hovered } = this.state;
       if (hovered === video)
         return classNames(classes.frameContainer, classes.hovered);
       return classes.frameContainer;
@@ -278,7 +266,7 @@ class VideosApp extends Component {
               onMouseLeave={() => { this.setState({hovered: ""}) }}
               item
               className={classes.cell}
-              xs={12} sm={4}>
+              xs={12} sm={ 4 }>
           <YouTube ref={ref} item
             className={this.getVideoClass(ref)}
             videoId={videos[index].id}
@@ -344,25 +332,51 @@ class VideosApp extends Component {
       );
     }
 
-    renderZoomed() {
+    renderFullScreenVideo(index) {
       const { classes } = this.props;
-      const { hovered, zoomed } = this.state;
 
-      if (zoomed) {
-        var videoIndex = parseInt(zoomed.slice(5));
-        var videoId = videos[videoIndex-1].id;
-        return (<YouTube item
-          className={classNames(classes.zoomed)}
-          videoId={videoId}
-          opts={opts}
-          onReady={this._onReady}
-          onPause={this._onPause}
-        />);
-      }
+      return (<div className={classes.carousel} justify={"center"}>
+        <Grid container spacing={0} justify={"center"} >
+          <Grid item
+                className={classes.cell}
+                xs={12} sm={ 12 }>
+            <YouTube item
+              className={classNames(classes.frameContainer, classes.zoomed)}
+              videoId={videos[index].id}
+              key={index}
+              opts={opts}
+              onReady={this._onReady}
+              onPause={this._onPause}
+            />
+          </Grid>
+        </Grid>
+      </div>);
+    }
+
+    renderFullScreen(index) {
+      const { classes } = this.props;
+
+      return (<div>
+        <SwipeableViews className={classes.gallery} index={index} onTransitionEnd={this.getVideos}>
+          { this.renderFullScreenVideo(0) }
+          { this.renderFullScreenVideo(1) }
+          { this.renderFullScreenVideo(2) }
+          { this.renderFullScreenVideo(3) }
+          { this.renderFullScreenVideo(4) }
+          { this.renderFullScreenVideo(5) }
+          { this.renderFullScreenVideo(6) }
+          { this.renderFullScreenVideo(7) }
+          { this.renderFullScreenVideo(8) }
+          { this.renderFullScreenVideo(9) }
+          { this.renderFullScreenVideo(10) }
+          { this.renderFullScreenVideo(11) }
+        </SwipeableViews>
+      </div>);
     }
 
     render() {
         const { classes } = this.props;
+        const { zoomed } = this.state;
 
         if (this.state.exit) {
           return <Redirect to={{ pathname: "/Home", state: {page: "home"} }} />
@@ -374,13 +388,13 @@ class VideosApp extends Component {
                 videos={this.state.videos}
                 handleHover={this.handleHover}
                 handleSwipe={this.handleSwipe}
-                handleExit={this.handleExit}
+                handleSwipeUp={this.handleSwipeUp}
                 handleClick={this.handleClick}
                 handleZoom={this.handleZoom}
                 handleKnob={this.handleKnob}
               />
-              { this.renderVideos() }
-              { this.renderZoomed() }
+
+              { zoomed != -1 ? this.renderFullScreen(zoomed) : this.renderVideos() }
             </div>
         );
       }

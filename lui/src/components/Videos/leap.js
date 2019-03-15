@@ -68,9 +68,11 @@ class Leap extends React.Component {
                 // CONTINUOUS GESTURES
 
                 // hovering
-                const hovered = this.checkHover();
-                this.setState({ hovered });
-                this.props.handleHover(hovered);
+                if (!zoomed) {
+                  hovered = this.checkHover();
+                  this.setState({ hovered });
+                  this.props.handleHover(hovered);
+                }
 
                 // DISCRETE GESTURES
                 let gestureDetected = false;
@@ -80,12 +82,24 @@ class Leap extends React.Component {
                     const palmVelocity = rightHand.palmVelocity[0];
                     if (palmVelocity < -400) {
                         this.props.handleSwipe("left");
+                        if (zoomed) {
+                          const index = parseInt(zoomed.slice(5));
+                          const newIndex = Math.min(this.props.videos.length, index + 1)
+                          zoomed = "video" + String(newIndex);
+                          this.setState({ zoomed });
+                        }
                         gestureDetected = true;
                     }
 
                     // swipe right
                     else if (palmVelocity > 400) {
                         this.props.handleSwipe("right");
+                        if (zoomed) {
+                          const index = parseInt(zoomed.slice(5));
+                          const newIndex = Math.min(1, index - 1)
+                          zoomed = "video" + String(newIndex);
+                          this.setState({ zoomed } );
+                        }
                         gestureDetected = true;
                     }
 
@@ -93,14 +107,10 @@ class Leap extends React.Component {
                     else if (rightHand.palmVelocity[1] > 400) {
                         if (zoomed) {
                             zoomed = "";
-                            this.props.handleZoom(zoomed);
                             this.setState({ zoomed });
-                            gestureDetected = true;
                         }
-                        else {
-                            this.props.handleExit();
-                            gestureDetected = true;
-                        }
+                        this.props.handleSwipeUp();
+                        gestureDetected = true;
                     }
 
                     // bloom
@@ -116,7 +126,7 @@ class Leap extends React.Component {
                         if (hovered && !zoomed) { // zoom in
                             zoomed = hovered;
                             this.props.handleZoom(zoomed);
-                            this.setState({ zoomed });
+                            this.setState({ zoomed, hovered: "" });
                             gestureDetected = true;
                         } else if (zoomed) {  // play video
                             this.props.handleClick(zoomed);

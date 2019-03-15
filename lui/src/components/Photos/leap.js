@@ -28,6 +28,7 @@ class Leap extends React.Component {
             leftHand: "",
             indexFinger: "",
             hovered: "",
+            clicked: "",
             pinch: "",
             pause: 10
         }
@@ -60,14 +61,15 @@ class Leap extends React.Component {
             }
 
             if (this.state.rightHand) {
-                var { rightHand, pause } = this.state;
+                var { rightHand, indexFinger, clicked, hovered, pause } = this.state;
 
                 // CONTINUOUS GESTURES
 
-                const hovered = this.checkHover();
-                this.setState({ hovered });
-                this.props.handleHover(hovered);
-                this.props.handleHover(hovered);
+                if (!clicked) {
+                  hovered = this.checkHover();
+                  this.setState({ hovered });
+                  this.props.handleHover(hovered);
+                }
 
                 // DISCRETE GESTURES
 
@@ -88,7 +90,11 @@ class Leap extends React.Component {
 
                     // swipe up
                     else if (rightHand.palmVelocity[1] > 400) {
-                        this.props.handleExit();
+                        if (clicked) {
+                          clicked = "";
+                          this.setState({ clicked });
+                        }
+                        this.props.handleSwipeUp();
                         gestureDetected = true;
                     }
 
@@ -99,11 +105,13 @@ class Leap extends React.Component {
                     // }
 
                     // airtap
-                    // if (indexFinger.vel[2] < -300) {
-                    //     const clicked = ????;
-                    //     this.props.handleClick(clicked);
-                    //     gestureDetected = true;
-                    // }
+                    if (hovered && indexFinger.vel < -300) {
+                        console.log("CLICK")
+                        const clicked = hovered
+                        this.props.handleClick(clicked);
+                        this.setState({ clicked: clicked, hovered: "" });
+                        gestureDetected = true;
+                    }
                 }
 
                 // pause if gesture detected
@@ -167,11 +175,6 @@ class Leap extends React.Component {
                   const y = ctx.canvas.height * (1 - normalized[1]);
                   const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
                   this.drawCircle([x, y], radius, color, pointable.type === 1);
-                  if (pointable.type == 1) {
-                      this.setState({
-                          indexFinger: { x, y, vel: pointable.tipVelocity[2] }
-                      })
-                  }
               });
             }
 
