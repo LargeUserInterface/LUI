@@ -30,7 +30,7 @@ class Leap extends React.Component {
             hovered: "",
             clicked: "",
             pinch: "",
-            pause: 10
+            pause: 4
         }
     }
 
@@ -116,7 +116,7 @@ class Leap extends React.Component {
 
                 // pause if gesture detected
                 if (gestureDetected) {
-                  this.setState({ pause: 10 });
+                  this.setState({ pause: 4 });
                 }
             }
 

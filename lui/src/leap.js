@@ -33,7 +33,7 @@ class Leap extends React.Component {
             hovered: "",
             clicked: "",
             pinch: "",
-            pause: 10
+            pause: 0
         }
     }
 
@@ -62,7 +62,7 @@ class Leap extends React.Component {
 
             var { indexFinger, hovered, rightHand, pinch, pause } = this.state;
             let gestureDetected = false;
-            
+
             if (this.props.page == "main") {
 
                 // CONTINUOUS GESTURES
