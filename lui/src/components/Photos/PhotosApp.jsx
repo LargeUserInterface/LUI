@@ -87,6 +87,10 @@ const styles = {
     zIndex: '15 !important'
   },
 
+  zoomed: {
+    maxHeight: '80vh'
+  },
+
   stepper: {
     height: '7vh',
     margin: '0px',
@@ -234,7 +238,7 @@ class PhotosApp extends Component {
       <Grid container spacing={0} justify={"center"} >
         <Grid item className={classes.cell} xs={12} sm={12}>
           <img
-            className={classes.image}
+            className={classNames(classes.image, classes.zoomed)}
             src={ photos[index] } />
         </Grid>
       </Grid>
