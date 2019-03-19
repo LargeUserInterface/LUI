@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
+import glamorous from 'glamorous'
 import classNames from 'classnames';
 import Leap from './leap.js';
 import { Grid } from '@material-ui/core';
@@ -113,9 +114,27 @@ const styles = {
   button: {
     position: 'fixed',
     bottom: '10px',
-    left: '10px'
+    left: '10px',
+    color: "rgba(50,50,50,0.8)",
   }
 };
+
+const fadeIn = css.keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 }
+})
+const slideOut = css.keyframes({
+  '100%': { transform: 'translateY(-100%)' },
+})
+const Wrapper = glamorous.div(props => ({
+  animation: props.isMounted ? `${slideOut} 2.5s` : `${fadeIn} 1.5s`,
+  position: 'absolute',
+  top: '0px',
+  left: '0px',
+  width: '100vw',
+  height: '100vh',
+  zIndex: 5
+}))
 
 class PhotosApp extends Component {
   constructor(props) {
@@ -195,6 +214,7 @@ class PhotosApp extends Component {
     }
 
     return (
+      <Wrapper isMounted={this.props.isMounted} exit={this.state.exit}>
         <div>
           <div className={classes.container} justify={"center"}>
             <Leap
@@ -314,6 +334,7 @@ class PhotosApp extends Component {
           </div>
 
           </div>
+    </Wrapper>
     );
   }
 }

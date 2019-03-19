@@ -5,6 +5,10 @@ import { css } from 'glamor';
 import glamorous from 'glamorous'
 import { withStyles } from '@material-ui/core/styles';
 import Particles from 'react-particles-js';
+import { Redirect } from 'react-router';
+import Button from '@material-ui/core/Button';
+import Home from '@material-ui/icons/Home';
+
 import LeapMotion from 'leapjs';
 // import Leap from './leap.js';
 
@@ -33,13 +37,22 @@ const styles = {
     position: 'absolute',
     height: '100%',
     width: '100%',
-    zIndex: 100,
+    zIndex: 0,
     pointerEvents: 'none'
-  }
+  },
+
+  button: {
+    position: 'fixed',
+    bottom: '10px',
+    left: '10px',
+    zIndex: 10,
+    color: "rgba(255,255,255,0.3)",
+    backgroundColor: "rgba(255,255,255,0.1)"
+  },
 };
 
 const Wrapper = glamorous.div(props => ({
-  animation: props.isMounted ? `${fadeIn} 1s` : props.page === "app" ? '' : `${slideOut} 1s`,
+  animation: props.isMounted ? `${fadeIn} 1s` : props.page === "app" ? '' : `${fadeIn} 1.5s`,
   position: 'absolute',
   top: '0px',
   left: '0px',
@@ -53,6 +66,7 @@ class Intro extends Component {
     super(props);
 
     this.state = {
+      exit: false,
       // frame: {},
       // hand: "",
     };
@@ -128,9 +142,19 @@ class Intro extends Component {
   //     ctx.stroke();
   //   }
   // }
+  handleExit = () => {
+    this.setState({
+      exit: true
+    })
+  }
 
   render() {
     const { classes } = this.props;
+
+    if (this.state.exit) {
+      console.log("EXITING")
+      return <Redirect to={{ pathname: "/Home", state: {page: "home"} }} />
+    }
 
     if (this.props.page == "intro") {
       return (
@@ -149,6 +173,9 @@ class Intro extends Component {
               <img className={classes.backDrop} src={backDrop} style={{ zIndex: 1, position: 'absolute' }} />
             </div>
           </div>
+          <Button onClick={() => this.handleExit()}  className={classes.button}>
+              <Home/>
+          </Button>
 
         </Wrapper>
       );

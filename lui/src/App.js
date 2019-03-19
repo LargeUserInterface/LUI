@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import { css } from 'glamor';
+import glamorous from 'glamorous'
 import { Redirect } from 'react-router';
 import Photos from './components/Photos';
 import Videos from './components/Videos';
@@ -19,6 +20,10 @@ import { I } from 'glamorous';
 //   '0%': { opacity: 0 },
 //   '100%': { opacity: 1 }
 // })
+const zoomIn = css.keyframes({
+  '0%': { transform: 'scale(0.5)' },
+  '100%': { transform: 'scale(1)' }
+})
 
 const styles = {
 
@@ -27,12 +32,13 @@ const styles = {
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    // animation: `${zoomIn} 2s`
+    animation: `${zoomIn} 1s`
   },
 
   rowContainer: {
     width: '100%',
     height: '50%',
+    
   }
 
 };
@@ -61,6 +67,22 @@ class DelayedComponent extends React.Component {
   }
 }
 
+const fadeIn = css.keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 }
+})
+const slideOut = css.keyframes({
+  '100%': { transform: 'translateY(-100%)' },
+})
+const Wrapper = glamorous.div(props => ({
+  animation: props.exit === true ? `${slideOut} 1s` : props.isMounted ? '' : `${fadeIn} 1.5s`,
+  position: 'absolute',
+  top: '0px',
+  left: '0px',
+  width: '100vw',
+  height: '100vh',
+  zIndex: 5
+}))
 class App extends Component {
 
   constructor(props) {
@@ -164,6 +186,7 @@ class App extends Component {
 
 
     return (
+      <Wrapper isMounted={this.props.isMounted} exit={this.state.exit}>
       <div>
         <Leap
           cards={this.state.cards}
@@ -179,7 +202,7 @@ class App extends Component {
           <Grid className={classes.rowContainer} container>
             <Grid ref="card1" item xs={4} onClick={() => { this.setState({ clicked: "card1" }) }}
               onMouseEnter={() => { this.setState({ hovered: "card1" }) }} onMouseLeave={() => { this.setState({ hovered: "" }) }} >
-              <Photos hovered={this.state.hovered === "card1"} clicked={this.state.clicked === "card1"} />
+              <Photos isMounted = {this.state.clicked === "card1"} hovered={this.state.hovered === "card1"} clicked={this.state.clicked === "card1"} />
             </Grid>
             <Grid ref="card2" item xs={4} onClick={() => { this.setState({ clicked: "card2" }) }}
               onMouseEnter={() => { this.setState({ hovered: "card2" }) }} onMouseLeave={() => { this.setState({ hovered: "" }) }} >
@@ -211,6 +234,7 @@ class App extends Component {
         {/* <DelayedComponent isMounted={this.state.page === "intro"} page={this.state.page} handleUnlock={this.handleUnlock} /> */}
 
       </div>
+      </Wrapper>
     );
   }
 }

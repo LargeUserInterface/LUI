@@ -20,7 +20,7 @@ const zoomIn = css.keyframes({
 const styles = {
 
   gallery: {
-    animation: `${zoomIn} 1s`
+    animation: `${zoomIn} 0.5s`
   },
 
   carousel: {
