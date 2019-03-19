@@ -52,7 +52,7 @@ const styles = {
 };
 
 const Wrapper = glamorous.div(props => ({
-  animation: props.isMounted ? `${fadeIn} 1s` : props.page === "app" ? '' : `${fadeIn} 1.5s`,
+  animation: props.isMounted ? `${fadeIn} 1s` : props.page === "app" ? '' : `${fadeIn} 4s`,
   position: 'absolute',
   top: '0px',
   left: '0px',
