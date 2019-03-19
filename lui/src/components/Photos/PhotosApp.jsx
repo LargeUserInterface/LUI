@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
+import glamorous from 'glamorous'
 import classNames from 'classnames';
 import Leap from './leap.js';
 import { Grid } from '@material-ui/core';
@@ -91,14 +92,14 @@ const styles = {
     maxHeight: '80vh'
   },
 
-  stepper: {
-    height: '7vh',
-    margin: '0px',
-    padding: '0px',
-    backgroundColor: '#CFD8DC',
-    position: 'relative',
-    zIndex: '1'
-  },
+  // stepper: {
+  //   height: '7vh',
+  //   margin: '0px',
+  //   padding: '0px',
+  //   backgroundColor: '#CFD8DC',
+  //   position: 'relative',
+  //   zIndex: '1'
+  // },
 
   dots: {
     margin: 'auto',
@@ -117,10 +118,27 @@ const styles = {
   button: {
     position: 'fixed',
     bottom: '10px',
-    left: '10px'
+    left: '10px',
+    color: "rgba(50,50,50,0.8)",
   }
 };
 
+const fadeIn = css.keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 }
+})
+const slideOut = css.keyframes({
+  '100%': { transform: 'translateY(-100%)' },
+})
+const Wrapper = glamorous.div(props => ({
+  animation: props.isMounted ? `${slideOut} 2.5s` : `${fadeIn} 1.5s`,
+  position: 'absolute',
+  top: '0px',
+  left: '0px',
+  width: '100vw',
+  height: '100vh',
+  zIndex: 5
+}))
 const photos = ['https://images.unsplash.com/photo-1531752074002-abf991376d04?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9a0a2b6b4212fc234d319be9c87c615&auto=format&fit=crop&w=800&q=60',
                 'https://images.unsplash.com/photo-1531700968341-bd114e5006ec?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0e3b02f32d781454cb7f97a78657a5b4&auto=format&fit=crop&w=800&q=60',
                 'https://images.unsplash.com/photo-1533247094082-709d7257cb7b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=03d0175eccb69353cf2cc77869902e4f&auto=format&fit=crop&w=800&q=60',
@@ -173,6 +191,12 @@ class PhotosApp extends Component {
   handleClick = (photo) => {
     const index = parseInt(photo.slice(5)) - 1;
     this.setState({ clicked: index })
+  }
+
+  handleExit = () => {
+    this.setState({
+      exit: true
+    })
   }
 
   handleSwipe = (dir) => {
@@ -346,6 +370,7 @@ class PhotosApp extends Component {
     }
 
     return (
+      <Wrapper isMounted={this.props.isMounted} exit={this.state.exit}>
         <div>
           <div className={classes.container} justify={"center"}>
             <Leap
@@ -363,7 +388,8 @@ class PhotosApp extends Component {
             </Button>
 
           </div>
-        </div>
+          </div>
+    </Wrapper>
     );
   }
 }

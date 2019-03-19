@@ -5,12 +5,14 @@ import classNames from 'classnames';
 import YouTube from 'react-youtube';
 import Leap from './leap.js'
 import { Redirect } from 'react-router';
+import glamorous from 'glamorous'
 import { css } from 'glamor';
 import SwipeableViews from 'react-swipeable-views';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import Home from '@material-ui/icons/Home';
 
 const zoomIn = css.keyframes({
   '0%': { transform: 'scale(0.5)' },
@@ -20,14 +22,17 @@ const zoomIn = css.keyframes({
 const styles = {
 
   gallery: {
-    animation: `${zoomIn} 1s`
+    animation: `${zoomIn} 0.5s`,
+    maxHeight: '95vh', 
   },
 
   carousel: {
-    width: '100%',
-    height: '90%',
+    // width: '90%',
+    maxHeight: '95vh',
     padding: '0px',
-    margin: '0px'
+    margin: '0px',
+    overflow: 'hidden',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
 
   row: {
@@ -56,6 +61,7 @@ const styles = {
     overflow: 'none',
     zIndex: '1',
     backgroundColor: '#ECEFF1',
+    overflow: 'hidden',
   },
 
   frameContainer: {
@@ -75,7 +81,11 @@ const styles = {
 
   zoomed: {
     width: '100vw',
-    height: '100vh'
+    height: '93vh',
+    // top: '0px',
+    // left: '0px',
+    // position: 'fixed',
+    // zIndex: '100',
   },
 
   hovered: {
@@ -86,15 +96,24 @@ const styles = {
   },
 
   stepper: {
-    height: '9vh',
-    margin: '0px',
-    padding: '0px',
-    backgroundColor: '#ECEFF1',
-    zIndex: 1
+    // display: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '8em',
+    backgroundColor: 'rgba(0,0,0,0)',
+    position: "absolute",
+    bottom: "1px",
   },
 
   dots: {
     margin: 'auto',
+  },
+
+  button: {
+    position: 'fixed',
+    bottom: '10px',
+    left: '10px',
+    color: "rgba(50,50,50,0.8)",
   }
 
 };
@@ -122,6 +141,24 @@ const opts = {
     controls: 0
   }
 };
+
+const fadeIn = css.keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 }
+})
+const slideOut = css.keyframes({
+  '100%': { transform: 'translateY(-100%)' },
+})
+const Wrapper = glamorous.div(props => ({
+  animation: props.isMounted ? `${slideOut} 2.5s` : `${fadeIn} 1.5s`,
+  position: 'absolute',
+  top: '0px',
+  left: '0px',
+  width: '100vw',
+  height: '100vh',
+  zIndex: 5
+}))
+
 
 class VideosApp extends Component {
     constructor(props) {
@@ -189,6 +226,12 @@ class VideosApp extends Component {
         index: 0,
       }));
     };
+
+    handleExit = () => {
+      this.setState({
+        exit: true
+      })
+    }
 
     handleClick = (video) => {
         try{
@@ -383,6 +426,7 @@ class VideosApp extends Component {
         }
 
         return (
+          <Wrapper isMounted={this.props.isMounted} exit={this.state.exit}>
             <div className={classes.container}>
               <Leap
                 videos={this.state.videos}
@@ -395,7 +439,12 @@ class VideosApp extends Component {
               />
 
               { zoomed != -1 ? this.renderFullScreen(zoomed) : this.renderVideos() }
+
+              <Button onClick={() => this.handleExit()}  className={classes.button}>
+                <Home/>
+              </Button>
             </div>
+            </Wrapper>
         );
       }
   }
