@@ -8,7 +8,7 @@ import Particles from 'react-particles-js';
 import { Redirect } from 'react-router';
 import Button from '@material-ui/core/Button';
 import Home from '@material-ui/icons/Home';
-
+import Leap from './leap.js';
 import LeapMotion from 'leapjs';
 // import Leap from './leap.js';
 
@@ -38,8 +38,12 @@ const styles = {
     height: '100%',
     width: '100%',
     zIndex: 0,
-    pointerEvents: 'none'
+    pointerEvents: 'none',
   },
+  
+  // "::selection": {
+  //   background: "rgba(0,0,0,0)"
+  // },
 
   button: {
     position: 'fixed',
@@ -142,6 +146,18 @@ class Intro extends Component {
   //     ctx.stroke();
   //   }
   // }
+  handleClick = () => {
+    console.log("clicked")
+  }
+  handleSwipeUp = () => {
+    let { clicked } = this.state;
+    if (clicked != -1) {
+      this.setState({ clicked: -1 });
+      this.getPhotos();
+    } else {
+      this.setState({ exit: true });
+    }
+  }
   handleExit = () => {
     this.setState({
       exit: true
@@ -160,13 +176,23 @@ class Intro extends Component {
       return (
         <Wrapper isMounted={this.props.isMounted} page={this.props.page}>
           <div>
+            
             {/* <canvas className={classes.canvas} ref="canvas"></canvas> */}
+            <Leap
+              handleClick={this.handleClick}
+              handleSwipeUp={this.handleSwipeUp}
+              handleExit={this.handleExit}
+            />
 
             <div className={classes.backDrop} >
-              <Particles
-                params={particleOpt}
-                style={{ zIndex: 5, position: 'absolute' }}
-              />
+              {/* <input ref={input => this.inputElement = input} > */}
+              
+                <Particles
+                  params={particleOpt}
+                  style={{ zIndex: 5, position: 'absolute' }}
+                />
+              
+              {/* </input> */}
             </div>
 
             <div >

@@ -43,29 +43,29 @@ const styles = {
 
 };
 
-class DelayedComponent extends React.Component {
-  constructor(props) {
-    super(props);
+// class DelayedComponent extends React.Component {
+//   constructor(props) {
+//     super(props);
 
-    this.state = {
-      shouldRender: false
-    }
-  }
+//     this.state = {
+//       shouldRender: false
+//     }
+//   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   const timeout = 0;
-  //   if (this.props.isMounted && !nextProps.isMounted) { //true -> false
-  //     setTimeout(() => this.setState({ shouldRender: false }), timeout)
-  //   } else if (!this.props.isMounted && nextProps.isMounted) { //false -> true
-  //     this.setState({ shouldRender: true })
-  //   }
-  // }
+//   // componentWillReceiveProps(nextProps) {
+//   //   const timeout = 0;
+//   //   if (this.props.isMounted && !nextProps.isMounted) { //true -> false
+//   //     setTimeout(() => this.setState({ shouldRender: false }), timeout)
+//   //   } else if (!this.props.isMounted && nextProps.isMounted) { //false -> true
+//   //     this.setState({ shouldRender: true })
+//   //   }
+//   // }
 
-  render() {
-    // return this.state.shouldRender ? <Intro {...this.props} /> : null
-    return this.props.page === "intro" ? <Intro {...this.props} /> : null
-  }
-}
+//   render() {
+//     // return this.state.shouldRender ? <Intro {...this.props} /> : null
+//     return this.props.page === "intro" ? <Intro {...this.props} /> : null
+//   }
+// }
 
 const fadeIn = css.keyframes({
   '0%': { opacity: 0 },
@@ -181,9 +181,18 @@ class App extends Component {
     // localStorage.setItem("page", this.state.page);
   }
 
+  handleSwipeUp = () => {
+    this.setState({ exit: true });
+    
+  }
+
   render() {
     const { classes } = this.props;
 
+    if (this.state.exit) {
+      console.log("EXITING")
+      return <Redirect from="/Home" to="/" />
+    }
 
     return (
       <Wrapper isMounted={this.props.isMounted} exit={this.state.exit}>
@@ -193,8 +202,8 @@ class App extends Component {
           clicked={this.state.clicked}
           handleHover={this.handleHover}
           handleClick={this.handleClick}
-          handleExit={this.handleExit}
           handleUnlock={this.handleUnlock}
+          handleSwipeUp={this.handleSwipeUp}
           page={this.state.page}
         />
 
@@ -230,7 +239,7 @@ class App extends Component {
           </Grid>
         </Grid>
 
-        <Intro page = {this.state.page}/>
+        {/* <Intro page = {this.state.page}/> */}
         {/* <DelayedComponent isMounted={this.state.page === "intro"} page={this.state.page} handleUnlock={this.handleUnlock} /> */}
 
       </div>

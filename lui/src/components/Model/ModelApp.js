@@ -884,7 +884,7 @@ class ModelApp extends React.Component {
     const { classes } = this.props;
 
     if (this.state.exit) {
-      return <Redirect to={{ pathname: "/" }} />
+      return <Redirect to={{ pathname: "/Home" }} />
     }
 
     return (
