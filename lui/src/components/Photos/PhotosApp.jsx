@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Home from '@material-ui/icons/Home';
+import Clear from '@material-ui/icons/Clear';
 
 import { css } from 'glamor';
 import { Transition } from 'react-transition-group';
@@ -85,7 +86,8 @@ const styles = {
   hovered: {
     transform: 'scale(1.5)',
     animationDuration: '0.1s',
-    zIndex: '15 !important'
+    zIndex: '15 !important',
+    cursor: 'pointer',
   },
 
   zoomed: {
@@ -119,6 +121,13 @@ const styles = {
     position: 'fixed',
     bottom: '10px',
     left: '10px',
+    color: "rgba(50,50,50,0.8)",
+  },
+
+  xbutton: {
+    position: 'fixed',
+    top: '10px',
+    right: '10px',
     color: "rgba(50,50,50,0.8)",
   }
 };
@@ -191,6 +200,8 @@ class PhotosApp extends Component {
   handleClick = (photo) => {
     const index = parseInt(photo.slice(5)) - 1;
     this.setState({ clicked: index })
+    // const clicked = photo
+    // this.setState({ clicked: clicked, hovered: "" });
   }
 
   handleExit = () => {
@@ -250,6 +261,7 @@ class PhotosApp extends Component {
       <img
         onMouseEnter={() => { this.setState({hovered: ref}) }}
         onMouseLeave={() => { this.setState({hovered: ""}) }}
+        onClick={() => { this.handleClick(hovered) }}
         className={hovered === ref ? classNames(classes.image, classes.hovered) : classes.image}
         src={ photos[index] } />
     </Grid>);
@@ -291,6 +303,31 @@ class PhotosApp extends Component {
         { this.renderFullScreenPhoto(14) }
         { this.renderFullScreenPhoto(15) }
       </SwipeableViews>
+      <div className = "stepper">
+        <MobileStepper
+          variant="dots"
+          steps={16}
+          position="bottom"
+          activeStep={index}
+          className={classes.stepper}
+          classes={{ dots: classes.dots }}
+          nextButton={
+            <Button size="small" onClick={()=>this.handleSwipe("left")} disabled={index === 15}>
+              <KeyboardArrowRight />
+              {/* {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />} */}
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={()=>this.handleSwipe("right")} disabled={index === 0}>
+              {/* {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />} */}
+              <KeyboardArrowLeft />
+            </Button>
+          }
+        />
+      </div>
+      <Button onClick={() => this.handleSwipeUp()}  className={classes.xbutton}>
+        <Clear/>
+      </Button>
     </div>);
   }
 

@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { withStyles } from '@material-ui/core/styles';
 import LeapMotion from 'leapjs';
 
-const fingers = ["#9bcfed", "#B2EBF2", "#80DEEA", "#4DD0E1", "#26C6DA"];
+const fingers = ["#9bcfedBB", "#B2EBF2CC", "#80DEEABB", "#4DD0E1BB", "#26C6DABB"];
 const left_fingers = ["#d39bed", "#e1b1f1", "#ca80ea", "#b74ce1", "#a425da"];
 const paused_fingers = ["#9bed9b", "#b1f0b1", "#80ea80", "#4ce14c", "#25da25"];
 
@@ -166,19 +166,58 @@ class Leap extends React.Component {
                     }
                 });
             }
+            // if (leftHand) {
+            //   leftHand.fingers.forEach((pointable) => {
+            //       const color = pause > 0 ? paused_fingers[pointable.type] : left_fingers[pointable.type];
+            //       const position = pointable.stabilizedTipPosition;
+            //       const normalized = frame.interactionBox.normalizePoint(position);
+            //       const x = ctx.canvas.width * normalized[0];
+            //       const y = ctx.canvas.height * (1 - normalized[1]);
+            //       const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
+            //       this.drawCircle([x, y], radius, color, pointable.type === 1);
+            //   });
+            // }
             if (leftHand) {
-              leftHand.fingers.forEach((pointable) => {
-                  const color = pause > 0 ? paused_fingers[pointable.type] : left_fingers[pointable.type];
-                  const position = pointable.stabilizedTipPosition;
-                  const normalized = frame.interactionBox.normalizePoint(position);
-                  const x = ctx.canvas.width * normalized[0];
-                  const y = ctx.canvas.height * (1 - normalized[1]);
-                  const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
-                  this.drawCircle([x, y], radius, color, pointable.type === 1);
-              });
+                const color = "rgba(50,50,50,.5)";
+                const position = leftHand.stabilizedPalmPosition;
+                const normalized = frame.interactionBox.normalizePoint(position);
+                const x = ctx.canvas.width * normalized[0];
+                const y = ctx.canvas.height * (1 - normalized[1]);
+                this.drawCircle([x, y], 75, color, true);
+                // this.drawArc([x, y], 90, color, this.rollToVolume(leftHand.roll()) / 100);
+                this.drawCircle(this.getCoords(x,y,324,110), 25, color, true);
+                this.drawCircle(this.getCoords(x,y,288,110), 25, color, true);
+                this.drawCircle(this.getCoords(x,y,252,110), 25, color, true);
+                this.drawCircle(this.getCoords(x,y,216,110), 25, color, true);
+                this.drawPointer(this.getCoords(x,y,-1*leftHand.roll()*180/Math.PI,110), 5, "rgba(250,250,250,.5)")
+                this.setState({ leftPalm: { x, y }});
             }
 
         } catch (err) { }
+    }
+
+    getCoords(x, y, degrees, radius) {
+        const newx = x + radius*Math.cos(degrees*Math.PI/180)
+        const newy = y + radius*Math.sin(degrees*Math.PI/180)
+        return [newx, newy]
+    }
+
+    clamp(val, min, max) {
+        return Math.min(Math.max(val, min), max);
+      }
+  
+    rollToVolume(roll) {
+        return this.clamp(2 - roll, 0, 3) * 100 / 3;
+    }
+
+    drawArc(center, radius, color, percent) {
+        const canvas = this.refs.canvas;
+        const ctx = canvas.getContext("2d");
+        ctx.beginPath();
+        ctx.arc(center[0], center[1], radius, 0, percent * 2 * Math.PI, false);
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = color;
+        ctx.stroke();
     }
 
     drawCircle(center, radius, color, fill) {
@@ -196,6 +235,23 @@ class Leap extends React.Component {
             ctx.stroke();
         }
     }
+
+    drawPointer(center, radius, color, fill) {
+        const canvas = this.refs.canvas;
+        const ctx = canvas.getContext("2d");
+        ctx.beginPath();
+        ctx.arc(center[0], center[1], radius, 0, 2 * Math.PI, false);
+        ctx.closePath();
+        ctx.lineWidth = 10;
+        if (fill) {
+            ctx.fillStyle = color;
+            ctx.fill();
+        } else {
+            ctx.strokeStyle = color;
+            ctx.stroke();
+        }
+    }
+
 
     checkHover() {
         const photos = this.props.photos;
