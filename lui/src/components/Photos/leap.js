@@ -3,6 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { withStyles } from '@material-ui/core/styles';
 import LeapMotion from 'leapjs';
+import Home from '@material-ui/icons/Home';
+
 
 const fingers = ["#9bcfedBB", "#B2EBF2CC", "#80DEEABB", "#4DD0E1BB", "#26C6DABB"];
 const left_fingers = ["#d39bed", "#e1b1f1", "#ca80ea", "#b74ce1", "#a425da"];
@@ -30,7 +32,12 @@ class Leap extends React.Component {
             hovered: "",
             clicked: "",
             pinch: "",
-            pause: 4
+            pause: 4,
+            lhovered: "",
+            intervalId1: 0,
+            intervalId2: 0,
+            intervalId3: 0,
+            intervalId4: 0,
         }
     }
 
@@ -150,6 +157,7 @@ class Leap extends React.Component {
 
             const { rightHand, leftHand, pause } = this.state;
 
+            // RIGHT HAND 
             if (rightHand) {
                 rightHand.fingers.forEach((pointable) => {
                     const color = pause > 0 ? paused_fingers[pointable.type] : fingers[pointable.type];
@@ -166,37 +174,103 @@ class Leap extends React.Component {
                     }
                 });
             }
-            // if (leftHand) {
-            //   leftHand.fingers.forEach((pointable) => {
-            //       const color = pause > 0 ? paused_fingers[pointable.type] : left_fingers[pointable.type];
-            //       const position = pointable.stabilizedTipPosition;
-            //       const normalized = frame.interactionBox.normalizePoint(position);
-            //       const x = ctx.canvas.width * normalized[0];
-            //       const y = ctx.canvas.height * (1 - normalized[1]);
-            //       const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
-            //       this.drawCircle([x, y], radius, color, pointable.type === 1);
-            //   });
-            // }
-            if (leftHand) {
-                const color = "rgba(50,50,50,.5)";
+
+            // LEFT HAND RADIAL MENU 
+            if (leftHand) { 
+                var color1 = "rgba(50,50,50,.5)"; //color for buttons
+                var color2 = "rgba(250,250,250,.9)"; //color for growing indicator 
+
                 const position = leftHand.stabilizedPalmPosition;
                 const normalized = frame.interactionBox.normalizePoint(position);
                 const x = ctx.canvas.width * normalized[0];
                 const y = ctx.canvas.height * (1 - normalized[1]);
-                this.drawCircle([x, y], 75, color, true);
-                // this.drawArc([x, y], 90, color, this.rollToVolume(leftHand.roll()) / 100);
-                this.drawCircle(this.getCoords(x,y,324,110), 25, color, true);
-                this.drawCircle(this.getCoords(x,y,288,110), 25, color, true);
-                this.drawCircle(this.getCoords(x,y,252,110), 25, color, true);
-                this.drawCircle(this.getCoords(x,y,216,110), 25, color, true);
-                this.drawPointer(this.getCoords(x,y,-1*leftHand.roll()*180/Math.PI,110), 5, "rgba(250,250,250,.5)")
+                
+                if (this.state.lhovered == 'menu1' && leftHand.grabStrength > .8) { //first menu button growing indicator only grows if hand is closed
+                    clearInterval(this.state.intervalId1); 
+                    this.setState({intervalId1: 0}) //reset timer when rendered
+                    var intervalId1 = setInterval(this.timer, 1000); 
+                    this.setState({intervalId1: intervalId1, intervalId2: 0, intervalId3: 0, intervalId4: 0}); //set this timer and reset others
+                    // this.setState()
+                }
+                else if (this.state.lhovered == 'menu2' && leftHand.grabStrength > .8) {
+                    clearInterval(this.state.intervalId2);
+                    this.setState({intervalId2: 0})
+                    var intervalId2 = setInterval(this.timer, 1000);
+                    this.setState({intervalId2: intervalId2, intervalId1: 0, intervalId3: 0, intervalId4: 0});
+                }
+                else if (this.state.lhovered == 'menu3' && leftHand.grabStrength > .8) {
+                    clearInterval(this.state.intervalId3);
+                    this.setState({intervalId3: 0})
+                    var intervalId3 = setInterval(this.timer, 1000);
+                    this.setState({intervalId3: intervalId3, intervalId2: 0, intervalId1: 0, intervalId4: 0});
+                }
+                else if (this.state.lhovered == 'menu4' && leftHand.grabStrength > .8) {
+                    clearInterval(this.state.intervalId4);
+                    this.setState({intervalId4: 0})
+                    var intervalId4 = setInterval(this.timer, 1000);
+                    this.setState({intervalId4: intervalId4, intervalId2: 0, intervalId3: 0, intervalId1: 0});
+                }
+                else {
+                    this.setState({lhovered: ""})
+                    this.setState({intervalId4: 0, intervalId2: 0, intervalId3: 0, intervalId1: 0});
+                }
+                if (this.state.intervalId1 % 65 == 0 && this.state.intervalId1 != 0) { //fire this function when timer hits maximum
+                    // this.darken()
+                }
+                //TODO: add other 3 menu buttons, and implement functions to fire
+                this.drawCircle(this.getCoords(x,y,324,250), this.state.intervalId1 % 65, color2, true); //growing circle
+                this.drawCircle(this.getCoords(x,y,324,250), 65, color1, true); //static circle
+
+                this.drawCircle(this.getCoords(x,y,288,250), this.state.intervalId2 % 65, color2, true);
+                this.drawCircle(this.getCoords(x,y,288,250), 65, color1, true);
+
+                this.drawCircle(this.getCoords(x,y,252,250), this.state.intervalId3 % 65, color2, true);
+                this.drawCircle(this.getCoords(x,y,252,250), 65, color1, true);
+
+                this.drawCircle(this.getCoords(x,y,216,250), this.state.intervalId4 % 65, color2, true);
+                this.drawCircle(this.getCoords(x,y,216,250), 65, color1, true);
+                this.drawLabel(this.getCoords(x,y,216,250))
+
+                var rollval = -1*leftHand.roll()*180/Math.PI //gets angle of the hand
+                this.drawPointer(this.getCoords(x,y,rollval,250), 5, "rgba(250,250,250,.5)") //pointer circle
                 this.setState({ leftPalm: { x, y }});
+                if (-23 > rollval && rollval > -50) { //detects which circle is hovered by the angle of the hand
+                    this.setState({lhovered: 'menu1'})
+                }
+                else if (-60 > rollval && rollval > -82) {
+                    this.setState({lhovered: 'menu2'})
+                }
+                else if (-95 > rollval && rollval > -120) {
+                    this.setState({lhovered: 'menu3'})
+                }
+                else if (-135 > rollval && rollval > -155) {
+                    this.setState({lhovered: 'menu4'})
+                }
+                
             }
 
         } catch (err) { }
     }
+    
+    darken() {
+        const canvas = this.refs.canvas;
+        const ctx = canvas.getContext("2d");
+        ctx.beginPath();
+        ctx.rect(20, 20, 150, 100);
+        ctx.fillStyle = "red";
+        ctx.fill();
+    }
 
-    getCoords(x, y, degrees, radius) {
+    getCoords(x, y, degrees, radius) { 
+        /** Calculates the coordinates for the center of a button relative
+         * to the center of the radial menu.
+         * 
+         * params: x,y are the center of the radial menu
+         * degrees is the angle of the button from the horizontal
+         * radius is the distance from the center of the radial menu to the center of the button
+         * 
+         * returns: coordinates of the center of the button
+         */
         const newx = x + radius*Math.cos(degrees*Math.PI/180)
         const newy = y + radius*Math.sin(degrees*Math.PI/180)
         return [newx, newy]
@@ -210,6 +284,14 @@ class Leap extends React.Component {
         return this.clamp(2 - roll, 0, 3) * 100 / 3;
     }
 
+    drawLabel(center) { //label for button
+        const canvas = this.refs.canvas;
+        const ctx = canvas.getContext("2d");
+        ctx.font = "40px Helvetica";
+        // const coords = this.getCoords(x, y, )
+        ctx.fillText("Home", center[0]-50, center[1]+15);
+    }
+
     drawArc(center, radius, color, percent) {
         const canvas = this.refs.canvas;
         const ctx = canvas.getContext("2d");
@@ -220,7 +302,7 @@ class Leap extends React.Component {
         ctx.stroke();
     }
 
-    drawCircle(center, radius, color, fill) {
+    drawCircle(center, radius, color, fill) { //draws a circle
         const canvas = this.refs.canvas;
         const ctx = canvas.getContext("2d");
         ctx.beginPath();
@@ -235,8 +317,8 @@ class Leap extends React.Component {
             ctx.stroke();
         }
     }
-
-    drawPointer(center, radius, color, fill) {
+    
+    drawPointer(center, radius, color, fill) { //draw small circle that points to what is hovered
         const canvas = this.refs.canvas;
         const ctx = canvas.getContext("2d");
         ctx.beginPath();
@@ -253,7 +335,7 @@ class Leap extends React.Component {
     }
 
 
-    checkHover() {
+    checkHover() { //returns which photo is hovered
         const photos = this.props.photos;
         const { x, y } = this.state.indexFinger;
         for (let i = 0; i < photos.length; i++) {
@@ -268,6 +350,11 @@ class Leap extends React.Component {
         return ("");
     }
 
+    timer() {
+        // setState method is used to update the state
+        this.setState({ currentCount: this.state.currentCount -1 });
+     }
+
     render() {
         const { classes } = this.props;
 
@@ -275,6 +362,7 @@ class Leap extends React.Component {
             <canvas className={classes.canvas} ref="canvas"></canvas>
         )
     }
+
 }
 
 

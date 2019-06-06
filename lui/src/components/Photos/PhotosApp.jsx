@@ -22,6 +22,7 @@ const zoomIn = css.keyframes({
   '100%': { transform: 'scale(1)' }
 })
 
+//CSS:
 const styles = {
 
   gallery: {
@@ -94,15 +95,6 @@ const styles = {
     maxHeight: '80vh'
   },
 
-  // stepper: {
-  //   height: '7vh',
-  //   margin: '0px',
-  //   padding: '0px',
-  //   backgroundColor: '#CFD8DC',
-  //   position: 'relative',
-  //   zIndex: '1'
-  // },
-
   dots: {
     margin: 'auto',
   },
@@ -139,6 +131,8 @@ const fadeIn = css.keyframes({
 const slideOut = css.keyframes({
   '100%': { transform: 'translateY(-100%)' },
 })
+
+//Animations entering/exiting this page:
 const Wrapper = glamorous.div(props => ({
   animation: props.isMounted ? `${slideOut} 2.5s` : `${fadeIn} 1.5s`,
   position: 'absolute',
@@ -252,7 +246,7 @@ class PhotosApp extends Component {
     }
   }
 
-  renderPhoto(index) {
+  renderPhoto(index) { //renders a photo in the grid
     const { classes } = this.props;
     const { hovered } = this.state;
     const ref = "photo" + String(index + 1);
@@ -267,7 +261,7 @@ class PhotosApp extends Component {
     </Grid>);
   }
 
-  renderFullScreenPhoto(index) {
+  renderFullScreenPhoto(index) { //renders the selected photo in full screen view
     const { classes } = this.props;
 
     return (<div className={classes.carousel} justify={"center"}>
@@ -281,7 +275,7 @@ class PhotosApp extends Component {
     </div>);
   }
 
-  renderFullScreen(index) {
+  renderFullScreen(index) { //renders the full screen gallery view for the photos
     const { classes } = this.props;
 
     return (<div>
@@ -304,6 +298,7 @@ class PhotosApp extends Component {
         { this.renderFullScreenPhoto(15) }
       </SwipeableViews>
       <div className = "stepper">
+      {/* Stepper at the bottom of the view: */}
         <MobileStepper
           variant="dots"
           steps={16}
@@ -325,13 +320,14 @@ class PhotosApp extends Component {
           }
         />
       </div>
-      <Button onClick={() => this.handleSwipeUp()}  className={classes.xbutton}>
+      {/* Exit button: */}
+      <Button onClick={() => this.handleSwipeUp()}  className={classes.xbutton}> 
         <Clear/>
       </Button>
     </div>);
   }
 
-  renderPhotos() {
+  renderPhotos() { //renders the full grid of photos
     const { classes } = this.props;
 
     return (<div>
@@ -372,6 +368,7 @@ class PhotosApp extends Component {
         </SwipeableViews>
       </div>
 
+      {/* Stepper at the bottom of the page used to view and change pages */}
       <div className = "stepper">
         <MobileStepper
           variant="dots"
@@ -401,6 +398,7 @@ class PhotosApp extends Component {
     const { classes } = this.props;
     const { clicked } = this.state;
 
+    // Handling whether to go back to the Home page or display the Photos page
     if (this.state.exit) {
       console.log("EXITING")
       return <Redirect to={{ pathname: "/Home", state: {page: "home"} }} />
@@ -418,8 +416,10 @@ class PhotosApp extends Component {
               handleSwipeUp={this.handleSwipeUp}
             />
 
+            {/* Handling whether to render a full screen photo or not */}
             { clicked != -1 ? this.renderFullScreen(clicked) : this.renderPhotos() }
 
+            {/* Home button: */}
             <Button onClick={() => this.handleExit()}  className={classes.button}>
               <Home/>
             </Button>
