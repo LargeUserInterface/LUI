@@ -11,7 +11,7 @@
     "glamor": "^2.20.40",
     "glamorous": "^4.13.1",
     "immutable": "^4.0.0-rc.12",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.1",
     "leapjs": "^0.6.4",
     "mtl-file-parser": "^0.3.0",
     "react": "^16.3.2",

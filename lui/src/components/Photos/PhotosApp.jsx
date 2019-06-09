@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Home from '@material-ui/icons/Home';
+import axios from 'axios';
 
 import { css } from 'glamor';
 import { Transition } from 'react-transition-group';
@@ -173,7 +174,21 @@ class PhotosApp extends Component {
 
   componentDidMount() {
     this.getPhotos();
-  }
+
+    //google home
+
+    this.timer = setInterval(() => {
+      axios.get('https://lui-voice.firebaseio.com/voice.json')
+        .then(res =>{
+          const name = res.data.destination;
+          console.log(name);
+          if (name === "home") {
+            this.setState({ exit: true })
+          }
+            
+        })}, 1000);
+      }
+  
 
   getPhotos = () => {
     const photos = [this.refs.photo1, this.refs.photo2, this.refs.photo3, this.refs.photo4,

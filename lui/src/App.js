@@ -104,57 +104,66 @@ class App extends Component {
       cards,
       exit: false
     })
+  
 
     // google home
     this.timer = setInterval(() => {
-      (async () => {
-        let appClicked;
-        try {
-          const apiResponse = await axios.get('https://luibyobm.firebaseio.com/application.json');
-          const response = apiResponse.data;
-          if (response.app === "Photos") {
+      let appClicked;
+      axios.get('https://lui-voice.firebaseio.com/voice.json')
+        .then(res =>{
+          const name = res.data.destination;
+          console.log(name);
+          if (name === "photos") {
             appClicked = "card1";
-          } else if (response.app === "Youtube") {
+          } else if (name === "video") {
             appClicked = "card2";
-          } else if (response.app === "Prismatic") {
+          } else if (name === "prismatic") {
             appClicked = "card3";
-          } else if (response.app === "Gesture Keyboard") {
+          } else if (name === "game") {
+            appClicked = "card4";
+          }else if (name === "gesture keyboard") {
             appClicked = "card5";
-          } else if (response.app === "Model") {
+          } else if (name === "model") {
             appClicked = "card6";
-          }
-        } catch (error) {
-          console.log(error);
-        } finally {
-          this.handleClick(appClicked);
+          } 
+          this.setState({ clicked: appClicked });
+        })}, 1000);
+      }
+          
+          
+          
+        
+     
+        // } catch (error) {
+        //   console.log(error);
+        // } finally {
+        //   this.handleClick(appClicked);
           // this.updateFirebase("None");
-        }
-      })();
-    }, 100);
-  }
+        //}
+   
 
-  updateFirebase = (appToSave) => {
-    try {
-      const options = {
-        method: 'PUT',
-        url: 'https://luibyobm.firebaseio.com/application.json',
-        headers:
-        {
-          'Cache-Control': 'no-cache',
-          'Content-Type': 'application/json'
-        },
-        body: { app: appToSave },
-        json: true
-      };
+  // updateFirebase = (appToSave) => {
+  //   try {
+  //     const options = {
+  //       method: 'PUT',
+  //       url: 'https://luibyobm.firebaseio.com/application.json',
+  //       headers:
+  //       {
+  //         'Cache-Control': 'no-cache',
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: { app: appToSave },
+  //       json: true
+  //     };
 
-      request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-        // console.log(body);
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  //     request(options, function (error, response, body) {
+  //       if (error) throw new Error(error);
+  //       // console.log(body);
+  //     });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
 
   handleHover = (card) => {
     // console.log("HOVER", card);
