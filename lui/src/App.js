@@ -11,10 +11,13 @@ import Prismatic from './components/Prismatic/\\';
 import CandyCrush from './components/CandyCrush';
 import GestureKeyboard from './components/GestureKeyboard';
 import Leap from './leap.js';
-import axios from 'axios';
-import request from 'request';
+// import axios from 'axios';
+// import request from 'request';
 import Model from './components/Model';
 import { I } from 'glamorous';
+//add firebase
+import * as firebase from "firebase/app";
+import "firebase/database";
 
 // const zoomIn = css.keyframes({
 //   '0%': { opacity: 0 },
@@ -83,10 +86,26 @@ const Wrapper = glamorous.div(props => ({
   height: '100vh',
   zIndex: 5
 }))
+const firebaseConfig = {
+  apiKey: "AIzaSyDjM37_DSv2RvPQzl5YiVzmgRHfpd4rJFU",
+  authDomain: "lui-medialab.firebaseapp.com",
+  databaseURL: "https://lui-medialab.firebaseio.com",
+  projectId: "lui-medialab",
+  storageBucket: "lui-medialab.appspot.com",
+  messagingSenderId: "247289397118",
+  appId: "1:247289397118:web:eb2bcb0076d4bb4d"
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+var database = firebase.database();
+var currentRef = database.ref('voice');
+
 class App extends Component {
 
   constructor(props) {
     super(props);
+    
 
     this.state = {
       cards: [],
@@ -97,6 +116,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    currentRef.update({"current":"home"});
     // const page = localStorage.getItem("page") || "main";
     // const page = "intro";
     const cards = [this.refs.card1, this.refs.card2, this.refs.card3, this.refs.card4, this.refs.card5, this.refs.card6];
@@ -104,71 +124,53 @@ class App extends Component {
       cards,
       exit: false
     })
-  
-
-    // google home
-    this.timer = setInterval(() => {
+    //firebase cloud (sockets)
+    var something = this;
+    currentRef.on('value', function(snapshot) {
       let appClicked;
-      axios.get('https://lui-voice.firebaseio.com/voice.json')
-        .then(res =>{
-          const name = res.data.destination;
-          console.log(name);
-          if (name === "photos") {
-            appClicked = "card1";
-          } else if (name === "video") {
-            appClicked = "card2";
-          } else if (name === "prismatic") {
-            appClicked = "card3";
-          } else if (name === "game") {
-            appClicked = "card4";
-          }else if (name === "gesture keyboard") {
-            appClicked = "card5";
-          } else if (name === "model") {
-            appClicked = "card6";
-          } 
-          this.setState({ clicked: appClicked });
-        })}, 1000);
+      var db = snapshot.val();
+      var name = db.goto;
+      if (db.update){
+        if (name === "photos") {
+          appClicked = "card1";
+          something.setState({ clicked: appClicked }); 
+        } else if (name === "videos") {
+          appClicked = "card2";
+          something.setState({ clicked: appClicked });
+        } else if (name === "prismatic") {
+          appClicked = "card3";
+          something.setState({ clicked: appClicked });
+        } else if (name === "game") {
+          appClicked = "card4";
+          something.setState({ clicked: appClicked });
+        }else if (name === "gesture keyboard") {
+          appClicked = "card5";
+          something.setState({ clicked: appClicked });
+        } else if (name === "model") {
+          appClicked = "card6";
+          something.setState({ clicked: appClicked });
+        } else if (name === "landing") {
+          something.setState({ exit: true });
+        }
+        currentRef.update({"update":false});  
       }
-          
-          
-          
-        
-     
-        // } catch (error) {
-        //   console.log(error);
-        // } finally {
-        //   this.handleClick(appClicked);
-          // this.updateFirebase("None");
-        //}
-   
-
-  // updateFirebase = (appToSave) => {
-  //   try {
-  //     const options = {
-  //       method: 'PUT',
-  //       url: 'https://luibyobm.firebaseio.com/application.json',
-  //       headers:
-  //       {
-  //         'Cache-Control': 'no-cache',
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: { app: appToSave },
-  //       json: true
-  //     };
-
-  //     request(options, function (error, response, body) {
-  //       if (error) throw new Error(error);
-  //       // console.log(body);
-  //     });
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
+      if(db.clicked&&db.hovered!=null){
+        something.handleClick(db.hovered);
+        currentRef.update({"clicked":false});
+      }
+      if (db.back){
+        something.setState({ exit: true });
+      }
+    });
+    //voice end
+    
+  }
+  
 
   handleHover = (card) => {
     // console.log("HOVER", card);
     this.setState({ hovered: card })
-
+    currentRef.update({"hovered": card});  
   }
 
   handleClick = (card) => {
@@ -202,6 +204,7 @@ class App extends Component {
       console.log("EXITING")
       return <Redirect from="/Home" to="/" />
     }
+    
 
     return (
       <Wrapper isMounted={this.props.isMounted} exit={this.state.exit}>

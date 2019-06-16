@@ -5,6 +5,26 @@ import { withStyles } from '@material-ui/core/styles';
 import { Redirect } from 'react-router';
 import Button from '@material-ui/core/Button';
 import Home from '@material-ui/icons/Home';
+//add firebase
+import * as firebase from "firebase/app";
+import "firebase/database";
+//firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDjM37_DSv2RvPQzl5YiVzmgRHfpd4rJFU",
+  authDomain: "lui-medialab.firebaseapp.com",
+  databaseURL: "https://lui-medialab.firebaseio.com",
+  projectId: "lui-medialab",
+  storageBucket: "lui-medialab.appspot.com",
+  messagingSenderId: "247289397118",
+  appId: "1:247289397118:web:eb2bcb0076d4bb4d"
+};
+
+if (!firebase.apps.length) {
+firebase.initializeApp(firebaseConfig);
+}
+var database = firebase.database();
+var currentRef = database.ref('voice');
+//end
 
 const styles = {
   // container: {
@@ -30,6 +50,27 @@ class PrismaticApp extends Component {
       exit: false,
     }
   }
+  componentDidMount(){
+  //google home
+  currentRef.update({"current":"prismatic"});
+  var something = this;
+  currentRef.on('value', function(snapshot) {
+    console.log(snapshot.val());
+    var db = snapshot.val();
+    var name = db.goto;
+    if (db.update){
+      if (name === "home") {
+          something.setState({ exit: true });
+          currentRef.update({"update":false});
+      }
+    }
+    if(db.back){
+      something.setState({ exit: true });
+      currentRef.update({"back":false});
+    }
+  });
+  //end
+}
 
   handleExit = () => {
     console.log("exit");

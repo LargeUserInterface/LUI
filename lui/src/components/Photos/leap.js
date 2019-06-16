@@ -29,10 +29,14 @@ class Leap extends React.Component {
             indexFinger: "",
             hovered: "",
             clicked: "",
+            amiclicked:"",
             pinch: "",
             pause: 4
         }
     }
+    componentWillReceiveProps(nextProps) {
+        this.setState({ amiclicked: nextProps.amiclicked });  
+      }
 
     componentDidMount() {
         this.leap = LeapMotion.loop((frame) => {
@@ -65,7 +69,7 @@ class Leap extends React.Component {
 
                 // CONTINUOUS GESTURES
 
-                if (!clicked) {
+                if (!clicked&&!this.state.amiclicked) {
                   hovered = this.checkHover();
                   this.setState({ hovered });
                   this.props.handleHover(hovered);
@@ -93,6 +97,7 @@ class Leap extends React.Component {
                         if (clicked) {
                           clicked = "";
                           this.setState({ clicked });
+                          
                         }
                         this.props.handleSwipeUp();
                         gestureDetected = true;
@@ -213,6 +218,8 @@ class Leap extends React.Component {
     }
 
     render() {
+        console.log(this.state.amiclicked);
+
         const { classes } = this.props;
 
         return (

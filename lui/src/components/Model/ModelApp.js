@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import $ from 'jquery';
 import { withStyles } from '@material-ui/core/styles';
+//add firebase
+import * as firebase from "firebase/app";
+import "firebase/database";
 
 const styles = {
   canvas: {
@@ -14,6 +17,22 @@ const styles = {
     pointerEvents: 'none'
   }
 };
+const firebaseConfig = {
+  apiKey: "AIzaSyDjM37_DSv2RvPQzl5YiVzmgRHfpd4rJFU",
+  authDomain: "lui-medialab.firebaseapp.com",
+  databaseURL: "https://lui-medialab.firebaseio.com",
+  projectId: "lui-medialab",
+  storageBucket: "lui-medialab.appspot.com",
+  messagingSenderId: "247289397118",
+  appId: "1:247289397118:web:eb2bcb0076d4bb4d"
+};
+
+if (!firebase.apps.length) {
+firebase.initializeApp(firebaseConfig);
+}
+var database = firebase.database();
+var currentRef = database.ref('voice');
+//end
 
 const fingers = ["#9bcfed", "#B2EBF2", "#80DEEA", "#4DD0E1", "#26C6DA"];
 
@@ -83,6 +102,25 @@ class ModelApp extends React.Component {
   }
 
   componentDidMount() {
+    //google home
+    currentRef.update({"current":"model"});
+    var something = this;
+    currentRef.on('value', function(snapshot) {
+      console.log(snapshot.val());
+      var db = snapshot.val();
+      var name = db.goto;
+      if (db.update){
+        if (name === "home") {
+            something.setState({ exit: true });
+            currentRef.update({"update":false});
+        }
+        if(db.back){
+          something.setState({ exit: true });
+          currentRef.update({"back":false});
+        }
+      }
+    });
+    //end
 
     var camera, scene, renderer, light;
     var objects = [], objectsControls = [], cameraControls;

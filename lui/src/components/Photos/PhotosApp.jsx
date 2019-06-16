@@ -16,6 +16,9 @@ import axios from 'axios';
 import { css } from 'glamor';
 import { Transition } from 'react-transition-group';
 import Carousel from 'react-responsive-carousel';
+//firebase
+import * as firebase from "firebase/app";
+import "firebase/database";
 
 const zoomIn = css.keyframes({
   '0%': { transform: 'scale(0.5)' },
@@ -157,6 +160,23 @@ const photos = ['https://images.unsplash.com/photo-1531752074002-abf991376d04?ix
                 'https://images.unsplash.com/photo-1533247094082-709d7257cb7b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=03d0175eccb69353cf2cc77869902e4f&auto=format&fit=crop&w=800&q=60',
                 'https://images.unsplash.com/photo-1531686888376-83ee7d64f5eb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2d03c403992f2433e3bc7900db49834f&auto=format&fit=crop&w=800&q=60']
 
+//firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDjM37_DSv2RvPQzl5YiVzmgRHfpd4rJFU",
+  authDomain: "lui-medialab.firebaseapp.com",
+  databaseURL: "https://lui-medialab.firebaseio.com",
+  projectId: "lui-medialab",
+  storageBucket: "lui-medialab.appspot.com",
+  messagingSenderId: "247289397118",
+  appId: "1:247289397118:web:eb2bcb0076d4bb4d"
+};
+
+if (!firebase.apps.length) {
+firebase.initializeApp(firebaseConfig);
+}
+var database = firebase.database();
+var currentRef = database.ref('voice');
+//end
 class PhotosApp extends Component {
   constructor(props) {
     super(props);
@@ -167,6 +187,7 @@ class PhotosApp extends Component {
       clicked: -1,
       index: 0,
       exit: false,
+      amiclicked:false
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -174,20 +195,39 @@ class PhotosApp extends Component {
 
   componentDidMount() {
     this.getPhotos();
-
+    
     //google home
-
-    this.timer = setInterval(() => {
-      axios.get('https://lui-voice.firebaseio.com/voice.json')
-        .then(res =>{
-          const name = res.data.destination;
-          console.log(name);
-          if (name === "home") {
-            this.setState({ exit: true })
-          }
-            
-        })}, 1000);
+    currentRef.update({"current":"photos"});
+    var something = this;
+    currentRef.on('value', function(snapshot) {
+      console.log(snapshot.val());
+      var db = snapshot.val();
+      var name = db.goto;
+      if (db.update){
+        if (name === "home") {
+            something.setState({ exit: true });
+            currentRef.update({"update":false});
+        }
+        
       }
+      if(db.clicked){
+        currentRef.update({"clicked":false});
+        something.gestureDetected = true;
+        console.log(db.hovered);
+        something.handleClick(db.hovered);
+      }
+      if (db.back){
+        if (something.state.amiclicked){
+          something.handleSwipeUp();
+        }
+        else{
+          something.setState({ exit: true });
+            
+        }
+        currentRef.update({"back":false});
+      }
+    });
+  }
   
 
   getPhotos = () => {
@@ -201,11 +241,13 @@ class PhotosApp extends Component {
 
   handleHover = (photo) => {
     this.setState({ hovered: photo })
+    currentRef.update({"hovered": photo}); 
   }
 
   handleClick = (photo) => {
     const index = parseInt(photo.slice(5)) - 1;
     this.setState({ clicked: index })
+    this.setState({ amiclicked: true })
   }
 
   handleExit = () => {
@@ -250,6 +292,7 @@ class PhotosApp extends Component {
     let { clicked } = this.state;
     if (clicked != -1) {
       this.setState({ clicked: -1 });
+      this.setState({ amiclicked: false });
       this.getPhotos();
     } else {
       this.setState({ exit: true });
@@ -286,7 +329,7 @@ class PhotosApp extends Component {
 
   renderFullScreen(index) {
     const { classes } = this.props;
-
+    console.log(this.state);
     return (<div>
       <SwipeableViews className={classes.gallery} index={index} >
         { this.renderFullScreenPhoto(0) }
@@ -311,8 +354,8 @@ class PhotosApp extends Component {
 
   renderPhotos() {
     const { classes } = this.props;
-
-    return (<div>
+    
+    return (<div>`
       <div>
         <SwipeableViews className={classes.gallery} index={this.state.index} onTransitionEnd={this.getPhotos}>
 
@@ -383,6 +426,7 @@ class PhotosApp extends Component {
       console.log("EXITING")
       return <Redirect to={{ pathname: "/Home", state: {page: "home"} }} />
     }
+    console.log(this.state.clicked);
 
     return (
       <Wrapper isMounted={this.props.isMounted} exit={this.state.exit}>
@@ -392,6 +436,8 @@ class PhotosApp extends Component {
               photos={this.state.photos}
               handleHover={this.handleHover}
               handleClick={this.handleClick}
+              amiclicked = {this.state.amiclicked}
+              
               handleSwipe={this.handleSwipe}
               handleSwipeUp={this.handleSwipeUp}
             />
