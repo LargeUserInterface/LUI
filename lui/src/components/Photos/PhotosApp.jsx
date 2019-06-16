@@ -249,12 +249,9 @@ class PhotosApp extends Component {
   handleClick = (photo) => {
     const index = parseInt(photo.slice(5)) - 1;
     this.setState({ clicked: index })
-<<<<<<< HEAD
     this.setState({ amiclicked: true })
-=======
     // const clicked = photo
     // this.setState({ clicked: clicked, hovered: "" });
->>>>>>> 8b677d988e62c42b4ce8ca116ce98f973d7bfa6b
   }
 
   handleExit = () => {
