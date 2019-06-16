@@ -74,6 +74,7 @@ const styles = {
   },
 };
 
+//Animations for entering/exiting the page:
 const Wrapper = glamorous.div(props => ({
   animation: props.isMounted ? `${fadeIn} 1s` : props.page === "app" ? '' : `${fadeIn} 4s`,
   position: 'absolute',
@@ -142,45 +143,6 @@ class Intro extends Component {
   //   this.leap.disconnect();
   // }
 
-  // traceFingers(frame) {
-  //   try {
-  //     // TODO: make canvas and ctx global
-  //     const canvas = this.refs.canvas;
-  //     canvas.width = canvas.clientWidth;
-  //     canvas.height = canvas.clientHeight;
-  //     const ctx = canvas.getContext("2d");
-  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //     const { frame, hand } = this.state;
-
-  //     if (hand) {
-  //       hand.fingers.forEach((pointable) => {
-  //         const color = fingers[pointable.type];
-  //         const position = pointable.stabilizedTipPosition;
-  //         const normalized = frame.interactionBox.normalizePoint(position);
-  //         const x = ctx.canvas.width * normalized[0];
-  //         const y = ctx.canvas.height * (1 - normalized[1]);
-  //         const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
-  //         this.drawCircle([x, y], radius, color, pointable.type === 1);
-  //       });
-  //     }
-  //   } catch (err) { }
-  // }
-
-  // drawCircle(center, radius, color, fill) {
-  //   const canvas = this.refs.canvas;
-  //   const ctx = canvas.getContext("2d");
-  //   ctx.beginPath();
-  //   ctx.arc(center[0], center[1], radius, 0, 2 * Math.PI);
-  //   ctx.closePath();
-  //   ctx.lineWidth = 10;
-  //   if (fill) {
-  //     ctx.fillStyle = color;
-  //     ctx.fill();
-  //   } else {
-  //     ctx.strokeStyle = color;
-  //     ctx.stroke();
-  //   }
-  // }
   handleClick = () => {
     console.log("clicked")
   }
@@ -202,6 +164,7 @@ class Intro extends Component {
   render() {
     const { classes } = this.props;
 
+    // Handling redirecting to home screen:
     if (this.state.exit) {
       console.log("EXITING")
       return <Redirect to={{ pathname: "/Home", state: {page: "home"} }} />
@@ -222,6 +185,7 @@ class Intro extends Component {
             <div className={classes.backDrop} >
               {/* <input ref={input => this.inputElement = input} > */}
               
+              {/* Component that renders the interactive particles.js: */}
                 <Particles
                   params={particleOpt}
                   style={{ zIndex: 5, position: 'absolute' }}
@@ -230,10 +194,13 @@ class Intro extends Component {
               {/* </input> */}
             </div>
 
+            {/* Rendering the backdrop: */}
             <div >
               <img className={classes.backDrop} src={backDrop} style={{ zIndex: 1, position: 'absolute' }} />
             </div>
           </div>
+
+          {/* Home button: */}
           <Button onClick={() => this.handleExit()}  className={classes.button}>
               <Home/>
           </Button>

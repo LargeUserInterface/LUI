@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Home from '@material-ui/icons/Home';
-import axios from 'axios';
+import Clear from '@material-ui/icons/Clear';
 
 import { css } from 'glamor';
 import { Transition } from 'react-transition-group';
@@ -25,6 +25,7 @@ const zoomIn = css.keyframes({
   '100%': { transform: 'scale(1)' }
 })
 
+//CSS:
 const styles = {
 
   gallery: {
@@ -89,21 +90,13 @@ const styles = {
   hovered: {
     transform: 'scale(1.5)',
     animationDuration: '0.1s',
-    zIndex: '15 !important'
+    zIndex: '15 !important',
+    cursor: 'pointer',
   },
 
   zoomed: {
     maxHeight: '80vh'
   },
-
-  // stepper: {
-  //   height: '7vh',
-  //   margin: '0px',
-  //   padding: '0px',
-  //   backgroundColor: '#CFD8DC',
-  //   position: 'relative',
-  //   zIndex: '1'
-  // },
 
   dots: {
     margin: 'auto',
@@ -124,6 +117,13 @@ const styles = {
     bottom: '10px',
     left: '10px',
     color: "rgba(50,50,50,0.8)",
+  },
+
+  xbutton: {
+    position: 'fixed',
+    top: '10px',
+    right: '10px',
+    color: "rgba(50,50,50,0.8)",
   }
 };
 
@@ -134,6 +134,8 @@ const fadeIn = css.keyframes({
 const slideOut = css.keyframes({
   '100%': { transform: 'translateY(-100%)' },
 })
+
+//Animations entering/exiting this page:
 const Wrapper = glamorous.div(props => ({
   animation: props.isMounted ? `${slideOut} 2.5s` : `${fadeIn} 1.5s`,
   position: 'absolute',
@@ -247,7 +249,12 @@ class PhotosApp extends Component {
   handleClick = (photo) => {
     const index = parseInt(photo.slice(5)) - 1;
     this.setState({ clicked: index })
+<<<<<<< HEAD
     this.setState({ amiclicked: true })
+=======
+    // const clicked = photo
+    // this.setState({ clicked: clicked, hovered: "" });
+>>>>>>> 8b677d988e62c42b4ce8ca116ce98f973d7bfa6b
   }
 
   handleExit = () => {
@@ -299,7 +306,7 @@ class PhotosApp extends Component {
     }
   }
 
-  renderPhoto(index) {
+  renderPhoto(index) { //renders a photo in the grid
     const { classes } = this.props;
     const { hovered } = this.state;
     const ref = "photo" + String(index + 1);
@@ -308,12 +315,13 @@ class PhotosApp extends Component {
       <img
         onMouseEnter={() => { this.setState({hovered: ref}) }}
         onMouseLeave={() => { this.setState({hovered: ""}) }}
+        onClick={() => { this.handleClick(hovered) }}
         className={hovered === ref ? classNames(classes.image, classes.hovered) : classes.image}
         src={ photos[index] } />
     </Grid>);
   }
 
-  renderFullScreenPhoto(index) {
+  renderFullScreenPhoto(index) { //renders the selected photo in full screen view
     const { classes } = this.props;
 
     return (<div className={classes.carousel} justify={"center"}>
@@ -327,7 +335,7 @@ class PhotosApp extends Component {
     </div>);
   }
 
-  renderFullScreen(index) {
+  renderFullScreen(index) { //renders the full screen gallery view for the photos
     const { classes } = this.props;
     console.log(this.state);
     return (<div>
@@ -349,10 +357,37 @@ class PhotosApp extends Component {
         { this.renderFullScreenPhoto(14) }
         { this.renderFullScreenPhoto(15) }
       </SwipeableViews>
+      <div className = "stepper">
+      {/* Stepper at the bottom of the view: */}
+        <MobileStepper
+          variant="dots"
+          steps={16}
+          position="bottom"
+          activeStep={index}
+          className={classes.stepper}
+          classes={{ dots: classes.dots }}
+          nextButton={
+            <Button size="small" onClick={()=>this.handleSwipe("left")} disabled={index === 15}>
+              <KeyboardArrowRight />
+              {/* {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />} */}
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={()=>this.handleSwipe("right")} disabled={index === 0}>
+              {/* {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />} */}
+              <KeyboardArrowLeft />
+            </Button>
+          }
+        />
+      </div>
+      {/* Exit button: */}
+      <Button onClick={() => this.handleSwipeUp()}  className={classes.xbutton}> 
+        <Clear/>
+      </Button>
     </div>);
   }
 
-  renderPhotos() {
+  renderPhotos() { //renders the full grid of photos
     const { classes } = this.props;
     
     return (<div>`
@@ -393,6 +428,7 @@ class PhotosApp extends Component {
         </SwipeableViews>
       </div>
 
+      {/* Stepper at the bottom of the page used to view and change pages */}
       <div className = "stepper">
         <MobileStepper
           variant="dots"
@@ -422,6 +458,7 @@ class PhotosApp extends Component {
     const { classes } = this.props;
     const { clicked } = this.state;
 
+    // Handling whether to go back to the Home page or display the Photos page
     if (this.state.exit) {
       console.log("EXITING")
       return <Redirect to={{ pathname: "/Home", state: {page: "home"} }} />
@@ -442,8 +479,10 @@ class PhotosApp extends Component {
               handleSwipeUp={this.handleSwipeUp}
             />
 
+            {/* Handling whether to render a full screen photo or not */}
             { clicked != -1 ? this.renderFullScreen(clicked) : this.renderPhotos() }
 
+            {/* Home button: */}
             <Button onClick={() => this.handleExit()}  className={classes.button}>
               <Home/>
             </Button>
