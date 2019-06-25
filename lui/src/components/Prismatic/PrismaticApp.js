@@ -81,7 +81,7 @@ class PrismaticApp extends Component {
   //pristest
   //controller stuff
   var whale = document.getElementById("whale");
-  whale.addEventListener('transform-animation-end', (e) => {
+  whale.addEventListener('transform-a nimation-end', (e) => {
     if (e.detail.track === 2) {
       // whale.setAttribute('rotate-by-angles', 'angles: 0 90deg 0; duration: 5s; track: 1');
       this.setState({spin:" "});
