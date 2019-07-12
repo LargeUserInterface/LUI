@@ -5,7 +5,7 @@ import { Redirect } from 'react-router';
 import $ from 'jquery';
 import { withStyles } from '@material-ui/core/styles';
 var FBXLoader = require('three-fbx-loader');
-var fbxUrl = require('./mech-drone/source/Drone.zip/Drone.FBX');
+
 
 const styles = {
   canvas: {
@@ -18,6 +18,20 @@ const styles = {
 };
 
 const fingers = ["#9bcfed", "#B2EBF2", "#80DEEA", "#4DD0E1", "#26C6DA"];
+
+const models = {
+  drone: require('./mech-drone/source/Drone.zip/Drone.FBX'),
+  tokyo: require('./littlest-tokyo/source/Export.fbx'),
+  mill: require('./the-mill/source/ArtTest_Mill_CotmanSam.fbx'),
+  car: require('./1972-datsun-240k-gt-non-commercial-use-only/source/datsun240k.fbx'),
+  rock: require('./gray-big-rock/source/sutr_tmave_sedy/sutr_tmave_sedy.FBX'),
+  fox: require('./low-poly-fox/source/fox.zip/animations.FBX'),
+  ship: require('./ship-in-a-bottle/source/full_scene.fbx'),
+  biped: require('./biped-robot/source/Robot.zip/Robot.FBX'),
+  sportscar: require('./zis-101a-sport-1938/source/ZIS101Sport.fbx'),
+  oldman: require('./old-face-caricature/source/Tete.zip/OldFace.FBX'),
+  axe: require('./medieval-axe-01/source/Axe.fbx')
+}
 
 class ModelApp extends React.Component {
   constructor(props) {
@@ -38,7 +52,9 @@ class ModelApp extends React.Component {
     this.onWindowResize = this.onWindowResize.bind(this);
     this.showCursor = this.showCursor.bind(this);
     this.LeapCameraControls = this.LeapCameraControls.bind(this);
-
+    console.log(this.props.match.params.name)
+    this.fbxUrl = models[this.props.match.params.name]
+    console.log(this.fbxUrl);
   }
 
   traceFingers(frame) {
@@ -134,15 +150,15 @@ class ModelApp extends React.Component {
     // mech drone
     var loader = new FBXLoader();
     var _this = this;
-    loader.load(fbxUrl, function (object) {
+    loader.load(this.fbxUrl, function (object) {
 
-      object.receiveShadow = true;
-      object.traverse( function ( child ) {
-						if ( child.isMesh ) {
-							child.castShadow = true;
-							child.receiveShadow = true;
-						}
-					} );
+      // object.receiveShadow = true;
+      // object.traverse( function ( child ) {
+			// 			if ( child.isMesh ) {
+			// 				child.castShadow = true;
+			// 				child.receiveShadow = true;
+			// 			}
+			// 		} );
 
       scene.add(object);
       objects.push(object);
@@ -542,7 +558,7 @@ class ModelApp extends React.Component {
     const { classes } = this.props;
 
     if (this.state.exit) {
-      return <Redirect to={{ pathname: "/" }} />
+      return <Redirect to={{ pathname: "/Model" }} />
     }
 
     return (
