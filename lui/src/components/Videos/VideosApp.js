@@ -13,11 +13,33 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Home from '@material-ui/icons/Home';
+//add firebase
+import * as firebase from "firebase/app";
+import "firebase/database";
+import Clear from '@material-ui/icons/Clear';
+
 
 const zoomIn = css.keyframes({
   '0%': { transform: 'scale(0.5)' },
   '100%': { transform: 'scale(1)' }
 })
+//firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDjM37_DSv2RvPQzl5YiVzmgRHfpd4rJFU",
+  authDomain: "lui-medialab.firebaseapp.com",
+  databaseURL: "https://lui-medialab.firebaseio.com",
+  projectId: "lui-medialab",
+  storageBucket: "lui-medialab.appspot.com",
+  messagingSenderId: "247289397118",
+  appId: "1:247289397118:web:eb2bcb0076d4bb4d"
+};
+
+if (!firebase.apps.length) {
+firebase.initializeApp(firebaseConfig);
+}
+var database = firebase.database();
+var currentRef = database.ref('voice');
+//end
 
 const styles = {
 
@@ -77,6 +99,9 @@ const styles = {
     // border: '2px solid #37474F',
     boxShadow: '0px 0px 10px 2px #999',
     overflow: 'hidden',
+    position: 'relative',
+    zIndex: 5
+    // pointerEvents: 'none'
   },
 
   zoomed: {
@@ -114,7 +139,36 @@ const styles = {
     bottom: '10px',
     left: '10px',
     color: "rgba(50,50,50,0.8)",
-  }
+  },
+
+  xbutton: {
+    position: 'fixed',
+    bottom: '10px',
+    right: '10px',
+    color: "rgba(50,50,50,0.8)",
+  },
+
+  cover: {
+    display: 'block',
+    width: '25vw',
+    height: '27px',
+    // verticalAlign: 'middle',
+    // boxSizing: 'border-box',
+    padding: '0px',
+    // margin: '1.5vw',
+    // transform: 'scale(1)',
+    // transition: '200ms',
+    // border: '2px solid #37474F',
+    boxShadow: '0px 0px 10px 2px #999',
+    overflow: 'hidden',
+    zIndex: 50,
+    position: 'absolute',
+    pointerEvents: 'none'
+  },
+
+  // row: {
+  //   pointerEvents: "none"
+  // }
 
 };
 
@@ -177,6 +231,26 @@ class VideosApp extends Component {
     componentDidMount() {
         console.log("MOUNTED");
         this.getVideos();
+        //google home
+    currentRef.update({"current":"videos"});
+    var something = this;
+    currentRef.on('value', function(snapshot) {
+      console.log(snapshot.val());
+      var db = snapshot.val();
+      var name = db.goto;
+      if (db.update){
+        if (name === "home") {
+            something.setState({ exit: true });
+            currentRef.update({"update":false});
+        }
+      }
+      if(db.back){
+        something.setState({ exit: true });
+        currentRef.update({"back":false});
+      }
+
+    });
+    //end
     }
 
     getVideos = () => {
@@ -302,22 +376,27 @@ class VideosApp extends Component {
 
     renderVideo(index) {
       const { classes } = this.props;
+      const { hovered } = this.state;
       const ref = "video" + String(index + 1);
 
       return (
+        
         <Grid onMouseEnter={() => { this.setState({hovered: ref}) }}
               onMouseLeave={() => { this.setState({hovered: ""}) }}
+              onClick={() => { this.handleClick(hovered) }}
               item
               className={classes.cell}
               xs={12} sm={ 4 }>
-          <YouTube ref={ref} item
-            className={this.getVideoClass(ref)}
-            videoId={videos[index].id}
-            key={index}
-            opts={opts}
-            onReady={this._onReady}
-            onPause={this._onPause}
-          />
+          <div className="cover">
+            <YouTube ref={ref} item
+              className={this.getVideoClass(ref)}
+              videoId={videos[index].id}
+              key={index}
+              opts={opts}
+              onReady={this._onReady}
+              onPause={this._onPause}
+            />
+          </div>
         </Grid>);
     }
 
@@ -414,6 +493,29 @@ class VideosApp extends Component {
           { this.renderFullScreenVideo(10) }
           { this.renderFullScreenVideo(11) }
         </SwipeableViews>
+        <div className = "stepper">
+        <MobileStepper
+          variant="dots"
+          steps={12}
+          position="bottom"
+          activeStep={index}
+          className={classes.stepper}
+          classes={{ dots: classes.dots }}
+          nextButton={
+            <Button size="small" onClick={()=>this.handleSwipe("left")} disabled={index === 11}>
+              <KeyboardArrowRight />
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={()=>this.handleSwipe("right")} disabled={index === 0}>
+              <KeyboardArrowLeft />
+            </Button>
+          }
+        />
+      </div>
+      <Button onClick={() => this.handleSwipeUp()}  className={classes.xbutton}>
+        <Clear/>
+      </Button>
       </div>);
     }
 

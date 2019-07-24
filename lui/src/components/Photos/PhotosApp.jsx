@@ -11,16 +11,21 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Home from '@material-ui/icons/Home';
+import Clear from '@material-ui/icons/Clear';
 
 import { css } from 'glamor';
 import { Transition } from 'react-transition-group';
 import Carousel from 'react-responsive-carousel';
+//firebase
+import * as firebase from "firebase/app";
+import "firebase/database";
 
 const zoomIn = css.keyframes({
   '0%': { transform: 'scale(0.5)' },
   '100%': { transform: 'scale(1)' }
 })
 
+//CSS:
 const styles = {
 
   gallery: {
@@ -85,21 +90,13 @@ const styles = {
   hovered: {
     transform: 'scale(1.5)',
     animationDuration: '0.1s',
-    zIndex: '15 !important'
+    zIndex: '15 !important',
+    cursor: 'pointer',
   },
 
   zoomed: {
     maxHeight: '80vh'
   },
-
-  // stepper: {
-  //   height: '7vh',
-  //   margin: '0px',
-  //   padding: '0px',
-  //   backgroundColor: '#CFD8DC',
-  //   position: 'relative',
-  //   zIndex: '1'
-  // },
 
   dots: {
     margin: 'auto',
@@ -120,6 +117,13 @@ const styles = {
     bottom: '10px',
     left: '10px',
     color: "rgba(50,50,50,0.8)",
+  },
+
+  xbutton: {
+    position: 'fixed',
+    top: '10px',
+    right: '10px',
+    color: "rgba(50,50,50,0.8)",
   }
 };
 
@@ -130,6 +134,8 @@ const fadeIn = css.keyframes({
 const slideOut = css.keyframes({
   '100%': { transform: 'translateY(-100%)' },
 })
+
+//Animations entering/exiting this page:
 const Wrapper = glamorous.div(props => ({
   animation: props.isMounted ? `${slideOut} 2.5s` : `${fadeIn} 1.5s`,
   position: 'absolute',
@@ -156,6 +162,23 @@ const photos = ['https://images.unsplash.com/photo-1531752074002-abf991376d04?ix
                 'https://images.unsplash.com/photo-1533247094082-709d7257cb7b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=03d0175eccb69353cf2cc77869902e4f&auto=format&fit=crop&w=800&q=60',
                 'https://images.unsplash.com/photo-1531686888376-83ee7d64f5eb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2d03c403992f2433e3bc7900db49834f&auto=format&fit=crop&w=800&q=60']
 
+//firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDjM37_DSv2RvPQzl5YiVzmgRHfpd4rJFU",
+  authDomain: "lui-medialab.firebaseapp.com",
+  databaseURL: "https://lui-medialab.firebaseio.com",
+  projectId: "lui-medialab",
+  storageBucket: "lui-medialab.appspot.com",
+  messagingSenderId: "247289397118",
+  appId: "1:247289397118:web:eb2bcb0076d4bb4d"
+};
+
+if (!firebase.apps.length) {
+firebase.initializeApp(firebaseConfig);
+}
+var database = firebase.database();
+var currentRef = database.ref('voice');
+//end
 class PhotosApp extends Component {
   constructor(props) {
     super(props);
@@ -166,6 +189,7 @@ class PhotosApp extends Component {
       clicked: -1,
       index: 0,
       exit: false,
+      amiclicked:false
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -173,7 +197,40 @@ class PhotosApp extends Component {
 
   componentDidMount() {
     this.getPhotos();
+    
+    //google home
+    currentRef.update({"current":"photos"});
+    var something = this;
+    currentRef.on('value', function(snapshot) {
+      console.log(snapshot.val());
+      var db = snapshot.val();
+      var name = db.goto;
+      if (db.update){
+        if (name === "home") {
+            something.setState({ exit: true });
+            currentRef.update({"update":false});
+        }
+        
+      }
+      if(db.clicked){
+        currentRef.update({"clicked":false});
+        something.gestureDetected = true;
+        console.log(db.hovered);
+        something.handleClick(db.hovered);
+      }
+      if (db.back){
+        if (something.state.amiclicked){
+          something.handleSwipeUp();
+        }
+        else{
+          something.setState({ exit: true });
+            
+        }
+        currentRef.update({"back":false});
+      }
+    });
   }
+  
 
   getPhotos = () => {
     const photos = [this.refs.photo1, this.refs.photo2, this.refs.photo3, this.refs.photo4,
@@ -186,11 +243,15 @@ class PhotosApp extends Component {
 
   handleHover = (photo) => {
     this.setState({ hovered: photo })
+    currentRef.update({"hovered": photo}); 
   }
 
   handleClick = (photo) => {
     const index = parseInt(photo.slice(5)) - 1;
     this.setState({ clicked: index })
+    this.setState({ amiclicked: true })
+    // const clicked = photo
+    // this.setState({ clicked: clicked, hovered: "" });
   }
 
   handleExit = () => {
@@ -235,13 +296,14 @@ class PhotosApp extends Component {
     let { clicked } = this.state;
     if (clicked != -1) {
       this.setState({ clicked: -1 });
+      this.setState({ amiclicked: false });
       this.getPhotos();
     } else {
       this.setState({ exit: true });
     }
   }
 
-  renderPhoto(index) {
+  renderPhoto(index) { //renders a photo in the grid
     const { classes } = this.props;
     const { hovered } = this.state;
     const ref = "photo" + String(index + 1);
@@ -250,12 +312,13 @@ class PhotosApp extends Component {
       <img
         onMouseEnter={() => { this.setState({hovered: ref}) }}
         onMouseLeave={() => { this.setState({hovered: ""}) }}
+        onClick={() => { this.handleClick(hovered) }}
         className={hovered === ref ? classNames(classes.image, classes.hovered) : classes.image}
         src={ photos[index] } />
     </Grid>);
   }
 
-  renderFullScreenPhoto(index) {
+  renderFullScreenPhoto(index) { //renders the selected photo in full screen view
     const { classes } = this.props;
 
     return (<div className={classes.carousel} justify={"center"}>
@@ -269,9 +332,9 @@ class PhotosApp extends Component {
     </div>);
   }
 
-  renderFullScreen(index) {
+  renderFullScreen(index) { //renders the full screen gallery view for the photos
     const { classes } = this.props;
-
+    console.log(this.state);
     return (<div>
       <SwipeableViews className={classes.gallery} index={index} >
         { this.renderFullScreenPhoto(0) }
@@ -291,13 +354,40 @@ class PhotosApp extends Component {
         { this.renderFullScreenPhoto(14) }
         { this.renderFullScreenPhoto(15) }
       </SwipeableViews>
+      <div className = "stepper">
+      {/* Stepper at the bottom of the view: */}
+        <MobileStepper
+          variant="dots"
+          steps={16}
+          position="bottom"
+          activeStep={index}
+          className={classes.stepper}
+          classes={{ dots: classes.dots }}
+          nextButton={
+            <Button size="small" onClick={()=>this.handleSwipe("left")} disabled={index === 15}>
+              <KeyboardArrowRight />
+              {/* {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />} */}
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={()=>this.handleSwipe("right")} disabled={index === 0}>
+              {/* {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />} */}
+              <KeyboardArrowLeft />
+            </Button>
+          }
+        />
+      </div>
+      {/* Exit button: */}
+      <Button onClick={() => this.handleSwipeUp()}  className={classes.xbutton}> 
+        <Clear/>
+      </Button>
     </div>);
   }
 
-  renderPhotos() {
+  renderPhotos() { //renders the full grid of photos
     const { classes } = this.props;
-
-    return (<div>
+    
+    return (<div>`
       <div>
         <SwipeableViews className={classes.gallery} index={this.state.index} onTransitionEnd={this.getPhotos}>
 
@@ -335,6 +425,7 @@ class PhotosApp extends Component {
         </SwipeableViews>
       </div>
 
+      {/* Stepper at the bottom of the page used to view and change pages */}
       <div className = "stepper">
         <MobileStepper
           variant="dots"
@@ -364,10 +455,12 @@ class PhotosApp extends Component {
     const { classes } = this.props;
     const { clicked } = this.state;
 
+    // Handling whether to go back to the Home page or display the Photos page
     if (this.state.exit) {
       console.log("EXITING")
       return <Redirect to={{ pathname: "/Home", state: {page: "home"} }} />
     }
+    console.log(this.state.clicked);
 
     return (
       <Wrapper isMounted={this.props.isMounted} exit={this.state.exit}>
@@ -377,12 +470,16 @@ class PhotosApp extends Component {
               photos={this.state.photos}
               handleHover={this.handleHover}
               handleClick={this.handleClick}
+              amiclicked = {this.state.amiclicked}
+              
               handleSwipe={this.handleSwipe}
               handleSwipeUp={this.handleSwipeUp}
             />
 
+            {/* Handling whether to render a full screen photo or not */}
             { clicked != -1 ? this.renderFullScreen(clicked) : this.renderPhotos() }
 
+            {/* Home button: */}
             <Button onClick={() => this.handleExit()}  className={classes.button}>
               <Home/>
             </Button>

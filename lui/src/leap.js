@@ -33,7 +33,7 @@ class Leap extends React.Component {
             hovered: "",
             clicked: "",
             pinch: "",
-            pause: 0
+            pause: 4
         }
     }
 
@@ -60,65 +60,102 @@ class Leap extends React.Component {
                 this.setState({ pause: this.state.pause - 1 });
             }
 
-            var { indexFinger, hovered, rightHand, pinch, pause } = this.state;
-            let gestureDetected = false;
-
-            if (this.props.page == "main") {
+            if (this.state.rightHand) {
+                var { rightHand, thumb, indexFinger, hovered, clicked, pause } = this.state;
 
                 // CONTINUOUS GESTURES
 
                 // hovering
-                const hovered = this.checkHover();
+                hovered = this.checkHover();
                 this.setState({ hovered });
                 this.props.handleHover(hovered);
+                
 
                 // DISCRETE GESTURES
+                let gestureDetected = false;
 
                 if (pause === 0) {
+                    // swipe up
+                    if (rightHand.palmVelocity[1] > 400) {
+                        this.props.handleSwipeUp();
+                        gestureDetected = true;
+                    }
+
                     // airtap
-                    if (indexFinger) {
-                        if (indexFinger.velz < -300 && hovered) {
-                          this.setState({ clicked: hovered })
-                          this.props.handleClick(hovered);
-                          gestureDetected = true;
-                        }
-                    }
-
-                    // bloom
-                    if (rightHand) {
-                        if (this.state.pinch > 0.9 && rightHand.pinchStrength < 0.1) {
-                          this.setState({ pinch: "" });
-                          this.props.handleExit();
-                          gestureDetected = true;
-                        }
-                    }
-                }
-
-            } else {
-                if (rightHand) {
-                    if (pause === 0 && rightHand.palmVelocity[1] > 300) {
-                        console.log("Unlock Intro");
-                        this.props.handleUnlock();
+                    if (indexFinger.vel[2] < -300 && (hovered)) {
+                        this.setState({ clicked: hovered })
+                        this.props.handleClick(hovered);
                         gestureDetected = true;
                     }
                 }
+
+                // update pinch
+                // this.setState({ pinch: rightHand.pinchStrength });
+
+                // pause if gesture detected
+                if (gestureDetected) {
+                  this.setState({ pause: 4 });
+                }
             }
 
-            // update pinch
-            this.setState({ pinch: rightHand.pinchStrength })
+            ///
 
-            // pause if gesture detected
-            if (gestureDetected) {
-                this.setState({ pause: 10 });
-            }
+            // var { indexFinger, rightHand, pinch, pause } = this.state;
+            // let gestureDetected = false;
 
-        }, 10);
+            
+
+            // // DISCRETE GESTURES
+
+            // if (pause === 0) {
+            //     // airtap
+            //     if (indexFinger) {
+            //         if (indexFinger.velz < -300 && hovered) {
+            //             this.setState({ clicked: hovered })
+            //             this.props.handleClick(hovered);
+            //             gestureDetected = true;
+            //         }
+            //     }
+
+            //     // bloom
+            //     if (rightHand) {
+            //         if (this.state.pinch > 0.9 && rightHand.pinchStrength < 0.1) {
+            //             this.setState({ pinch: "" });
+            //             this.props.handleExit();
+            //             gestureDetected = true;
+            //         }
+
+                        
+            //     }
+
+            //     if (rightHand) {
+            //         // swipe up
+            //         if (rightHand.palmVelocity[1] > 400) {
+                        
+            //             this.props.handleSwipeUp();
+            //             gestureDetected = true;
+            //             }
+            //         }
+            //     }
+
+                
+
+            
+            
+
+            // // update pinch
+            // this.setState({ pinch: rightHand.pinchStrength })
+
+            // // pause if gesture detected
+            // if (gestureDetected) {
+            //     this.setState({ pause: 10 });
+            // }
+
+        }, 100);
     }
 
     componentWillUnmount() {
-        if (this.timer) {
-            clearInterval(this.timer);
-        }
+        clearInterval(this.timer);
         this.leap.disconnect();
     }
 
@@ -144,18 +181,12 @@ class Leap extends React.Component {
 
                     if (pointable.type === 0) {
                         this.setState({
-                            thumb: { x, y }
+                            thumb: { x, y, vel: pointable.tipVelocity }
                         })
                     }
-
                     if (pointable.type === 1) {
                         this.setState({
-                            indexFinger: {
-                              x,
-                              y,
-                              vely: pointable.tipVelocity[1],
-                              velz: pointable.tipVelocity[2]
-                            }
+                            indexFinger: { x, y, vel: pointable.tipVelocity }
                         })
                     }
                 });

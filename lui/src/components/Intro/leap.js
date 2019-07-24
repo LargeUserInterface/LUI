@@ -23,6 +23,8 @@ class Leap extends React.Component {
         this.state = {
             frame: {},
             hand: "",
+            indexFinger: "",
+
         }
     }
 
@@ -44,7 +46,15 @@ class Leap extends React.Component {
                 if (this.state.hand.palmVelocity[1] > 400) {
                     this.props.handleExit();
                 }
+                var { frame, hand, indexFinger } = this.state;
+                if (indexFinger.vel < -300) {
+                    console.log("CLICK")
+                    this.props.handleClick();
+                    // gestureDetected = true;
+                }
             }
+
+            
         }, 100);
     }
 
@@ -73,6 +83,11 @@ class Leap extends React.Component {
                     const y = ctx.canvas.height * (1 - normalized[1]);
                     const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
                     this.drawCircle([x, y], radius, color, pointable.type === 1);
+                    if (pointable.type == 1) {
+                        this.setState({
+                            indexFinger: { x, y, vel: pointable.tipVelocity[2] }
+                        })
+                    }
                 });
             }
         } catch (err) { }

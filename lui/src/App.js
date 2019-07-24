@@ -11,10 +11,13 @@ import Prismatic from './components/Prismatic/\\';
 import CandyCrush from './components/CandyCrush';
 import GestureKeyboard from './components/GestureKeyboard';
 import Leap from './leap.js';
-import axios from 'axios';
-import request from 'request';
+// import axios from 'axios';
+// import request from 'request';
 import Model from './components/Model';
 import { I } from 'glamorous';
+//add firebase
+import * as firebase from "firebase/app";
+import "firebase/database";
 
 // const zoomIn = css.keyframes({
 //   '0%': { opacity: 0 },
@@ -43,29 +46,29 @@ const styles = {
 
 };
 
-class DelayedComponent extends React.Component {
-  constructor(props) {
-    super(props);
+// class DelayedComponent extends React.Component {
+//   constructor(props) {
+//     super(props);
 
-    this.state = {
-      shouldRender: false
-    }
-  }
+//     this.state = {
+//       shouldRender: false
+//     }
+//   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   const timeout = 0;
-  //   if (this.props.isMounted && !nextProps.isMounted) { //true -> false
-  //     setTimeout(() => this.setState({ shouldRender: false }), timeout)
-  //   } else if (!this.props.isMounted && nextProps.isMounted) { //false -> true
-  //     this.setState({ shouldRender: true })
-  //   }
-  // }
+//   // componentWillReceiveProps(nextProps) {
+//   //   const timeout = 0;
+//   //   if (this.props.isMounted && !nextProps.isMounted) { //true -> false
+//   //     setTimeout(() => this.setState({ shouldRender: false }), timeout)
+//   //   } else if (!this.props.isMounted && nextProps.isMounted) { //false -> true
+//   //     this.setState({ shouldRender: true })
+//   //   }
+//   // }
 
-  render() {
-    // return this.state.shouldRender ? <Intro {...this.props} /> : null
-    return this.props.page === "intro" ? <Intro {...this.props} /> : null
-  }
-}
+//   render() {
+//     // return this.state.shouldRender ? <Intro {...this.props} /> : null
+//     return this.props.page === "intro" ? <Intro {...this.props} /> : null
+//   }
+// }
 
 const fadeIn = css.keyframes({
   '0%': { opacity: 0 },
@@ -83,10 +86,26 @@ const Wrapper = glamorous.div(props => ({
   height: '100vh',
   zIndex: 5
 }))
+const firebaseConfig = {
+  apiKey: "AIzaSyDjM37_DSv2RvPQzl5YiVzmgRHfpd4rJFU",
+  authDomain: "lui-medialab.firebaseapp.com",
+  databaseURL: "https://lui-medialab.firebaseio.com",
+  projectId: "lui-medialab",
+  storageBucket: "lui-medialab.appspot.com",
+  messagingSenderId: "247289397118",
+  appId: "1:247289397118:web:eb2bcb0076d4bb4d"
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+var database = firebase.database();
+var currentRef = database.ref('voice');
+
 class App extends Component {
 
   constructor(props) {
     super(props);
+    
 
     this.state = {
       cards: [],
@@ -97,6 +116,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    currentRef.update({"current":"home"});
     // const page = localStorage.getItem("page") || "main";
     // const page = "intro";
     const cards = [this.refs.card1, this.refs.card2, this.refs.card3, this.refs.card4, this.refs.card5, this.refs.card6];
@@ -104,62 +124,53 @@ class App extends Component {
       cards,
       exit: false
     })
-
-    // google home
-    this.timer = setInterval(() => {
-      (async () => {
-        let appClicked;
-        try {
-          const apiResponse = await axios.get('https://luibyobm.firebaseio.com/application.json');
-          const response = apiResponse.data;
-          if (response.app === "Photos") {
-            appClicked = "card1";
-          } else if (response.app === "Youtube") {
-            appClicked = "card2";
-          } else if (response.app === "Prismatic") {
-            appClicked = "card3";
-          } else if (response.app === "Gesture Keyboard") {
-            appClicked = "card5";
-          } else if (response.app === "Model") {
-            appClicked = "card6";
-          }
-        } catch (error) {
-          console.log(error);
-        } finally {
-          this.handleClick(appClicked);
-          // this.updateFirebase("None");
+    //firebase cloud (sockets)
+    var something = this;
+    currentRef.on('value', function(snapshot) {
+      let appClicked;
+      var db = snapshot.val();
+      var name = db.goto;
+      if (db.update){
+        if (name === "photos") {
+          appClicked = "card1";
+          something.setState({ clicked: appClicked }); 
+        } else if (name === "videos") {
+          appClicked = "card2";
+          something.setState({ clicked: appClicked });
+        } else if (name === "prismatic") {
+          appClicked = "card3";
+          something.setState({ clicked: appClicked });
+        } else if (name === "game") {
+          appClicked = "card4";
+          something.setState({ clicked: appClicked });
+        }else if (name === "gesture keyboard") {
+          appClicked = "card5";
+          something.setState({ clicked: appClicked });
+        } else if (name === "model") {
+          appClicked = "card6";
+          something.setState({ clicked: appClicked });
+        } else if (name === "landing") {
+          something.setState({ exit: true });
         }
-      })();
-    }, 100);
+        currentRef.update({"update":false});  
+      }
+      if(db.clicked&&db.hovered!=null){
+        something.handleClick(db.hovered);
+        currentRef.update({"clicked":false});
+      }
+      if (db.back){
+        something.setState({ exit: true });
+      }
+    });
+    //voice end
+    
   }
-
-  updateFirebase = (appToSave) => {
-    try {
-      const options = {
-        method: 'PUT',
-        url: 'https://luibyobm.firebaseio.com/application.json',
-        headers:
-        {
-          'Cache-Control': 'no-cache',
-          'Content-Type': 'application/json'
-        },
-        body: { app: appToSave },
-        json: true
-      };
-
-      request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-        // console.log(body);
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  
 
   handleHover = (card) => {
     // console.log("HOVER", card);
     this.setState({ hovered: card })
-
+    currentRef.update({"hovered": card});  
   }
 
   handleClick = (card) => {
@@ -181,9 +192,19 @@ class App extends Component {
     // localStorage.setItem("page", this.state.page);
   }
 
+  handleSwipeUp = () => {
+    this.setState({ exit: true });
+    
+  }
+
   render() {
     const { classes } = this.props;
 
+    if (this.state.exit) {
+      console.log("EXITING")
+      return <Redirect from="/Home" to="/" />
+    }
+    
 
     return (
       <Wrapper isMounted={this.props.isMounted} exit={this.state.exit}>
@@ -193,8 +214,8 @@ class App extends Component {
           clicked={this.state.clicked}
           handleHover={this.handleHover}
           handleClick={this.handleClick}
-          handleExit={this.handleExit}
           handleUnlock={this.handleUnlock}
+          handleSwipeUp={this.handleSwipeUp}
           page={this.state.page}
         />
 
@@ -230,7 +251,7 @@ class App extends Component {
           </Grid>
         </Grid>
 
-        <Intro page = {this.state.page}/>
+        {/* <Intro page = {this.state.page}/> */}
         {/* <DelayedComponent isMounted={this.state.page === "intro"} page={this.state.page} handleUnlock={this.handleUnlock} /> */}
 
       </div>

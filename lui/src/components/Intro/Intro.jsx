@@ -8,9 +8,28 @@ import Particles from 'react-particles-js';
 import { Redirect } from 'react-router';
 import Button from '@material-ui/core/Button';
 import Home from '@material-ui/icons/Home';
-
+import Leap from './leap.js';
 import LeapMotion from 'leapjs';
 // import Leap from './leap.js';
+//firebase
+import * as firebase from "firebase/app";
+import "firebase/database";
+const firebaseConfig = {
+  apiKey: "AIzaSyDjM37_DSv2RvPQzl5YiVzmgRHfpd4rJFU",
+  authDomain: "lui-medialab.firebaseapp.com",
+  databaseURL: "https://lui-medialab.firebaseio.com",
+  projectId: "lui-medialab",
+  storageBucket: "lui-medialab.appspot.com",
+  messagingSenderId: "247289397118",
+  appId: "1:247289397118:web:eb2bcb0076d4bb4d"
+};
+
+if (!firebase.apps.length) {
+firebase.initializeApp(firebaseConfig);
+}
+var database = firebase.database();
+var currentRef = database.ref('voice');
+//end
 
 const particleOpt = require('./particles.json');
 
@@ -38,8 +57,12 @@ const styles = {
     height: '100%',
     width: '100%',
     zIndex: 0,
-    pointerEvents: 'none'
+    pointerEvents: 'none',
   },
+  
+  // "::selection": {
+  //   background: "rgba(0,0,0,0)"
+  // },
 
   button: {
     position: 'fixed',
@@ -51,6 +74,7 @@ const styles = {
   },
 };
 
+//Animations for entering/exiting the page:
 const Wrapper = glamorous.div(props => ({
   animation: props.isMounted ? `${fadeIn} 1s` : props.page === "app" ? '' : `${fadeIn} 4s`,
   position: 'absolute',
@@ -72,7 +96,23 @@ class Intro extends Component {
     };
   }
 
-  // componentDidMount() {
+   componentDidMount() {
+     //google home
+    currentRef.update({"current":"landing"});
+    var something = this;
+    currentRef.on('value', function(snapshot) {
+      console.log(snapshot.val());
+      var db = snapshot.val();
+      var name = db.goto;
+      if (db.update){
+        if (name === "home") {
+            something.setState({ exit: true });
+            currentRef.update({"update":false});
+        }
+      }
+      
+    });
+  }
   //   // console.log("Intro leap is mounted")
   //   this.leap = LeapMotion.loop((frame) => {
 
@@ -103,45 +143,18 @@ class Intro extends Component {
   //   this.leap.disconnect();
   // }
 
-  // traceFingers(frame) {
-  //   try {
-  //     // TODO: make canvas and ctx global
-  //     const canvas = this.refs.canvas;
-  //     canvas.width = canvas.clientWidth;
-  //     canvas.height = canvas.clientHeight;
-  //     const ctx = canvas.getContext("2d");
-  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //     const { frame, hand } = this.state;
-
-  //     if (hand) {
-  //       hand.fingers.forEach((pointable) => {
-  //         const color = fingers[pointable.type];
-  //         const position = pointable.stabilizedTipPosition;
-  //         const normalized = frame.interactionBox.normalizePoint(position);
-  //         const x = ctx.canvas.width * normalized[0];
-  //         const y = ctx.canvas.height * (1 - normalized[1]);
-  //         const radius = Math.min(20 / Math.abs(pointable.touchDistance), 50);
-  //         this.drawCircle([x, y], radius, color, pointable.type === 1);
-  //       });
-  //     }
-  //   } catch (err) { }
-  // }
-
-  // drawCircle(center, radius, color, fill) {
-  //   const canvas = this.refs.canvas;
-  //   const ctx = canvas.getContext("2d");
-  //   ctx.beginPath();
-  //   ctx.arc(center[0], center[1], radius, 0, 2 * Math.PI);
-  //   ctx.closePath();
-  //   ctx.lineWidth = 10;
-  //   if (fill) {
-  //     ctx.fillStyle = color;
-  //     ctx.fill();
-  //   } else {
-  //     ctx.strokeStyle = color;
-  //     ctx.stroke();
-  //   }
-  // }
+  handleClick = () => {
+    console.log("clicked")
+  }
+  handleSwipeUp = () => {
+    let { clicked } = this.state;
+    if (clicked != -1) {
+      this.setState({ clicked: -1 });
+      this.getPhotos();
+    } else {
+      this.setState({ exit: true });
+    }
+  }
   handleExit = () => {
     this.setState({
       exit: true
@@ -151,6 +164,7 @@ class Intro extends Component {
   render() {
     const { classes } = this.props;
 
+    // Handling redirecting to home screen:
     if (this.state.exit) {
       console.log("EXITING")
       return <Redirect to={{ pathname: "/Home", state: {page: "home"} }} />
@@ -160,19 +174,33 @@ class Intro extends Component {
       return (
         <Wrapper isMounted={this.props.isMounted} page={this.props.page}>
           <div>
+            
             {/* <canvas className={classes.canvas} ref="canvas"></canvas> */}
+            <Leap
+              handleClick={this.handleClick}
+              handleSwipeUp={this.handleSwipeUp}
+              handleExit={this.handleExit}
+            />
 
             <div className={classes.backDrop} >
-              <Particles
-                params={particleOpt}
-                style={{ zIndex: 5, position: 'absolute' }}
-              />
+              {/* <input ref={input => this.inputElement = input} > */}
+              
+              {/* Component that renders the interactive particles.js: */}
+                <Particles
+                  params={particleOpt}
+                  style={{ zIndex: 5, position: 'absolute' }}
+                />
+              
+              {/* </input> */}
             </div>
 
+            {/* Rendering the backdrop: */}
             <div >
               <img className={classes.backDrop} src={backDrop} style={{ zIndex: 1, position: 'absolute' }} />
             </div>
           </div>
+
+          {/* Home button: */}
           <Button onClick={() => this.handleExit()}  className={classes.button}>
               <Home/>
           </Button>

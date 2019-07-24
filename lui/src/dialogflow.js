@@ -1,114 +1,127 @@
-// See https://github.com/dialogflow/dialogflow-fulfillment-nodejs
-// for Dialogflow fulfillment library docs, samples, and to report issues
-'use strict';
-
 const functions = require('firebase-functions');
-const DialogFlowApp = require('actions-on-google').DialogFlowApp;
-const { WebhookClient } = require('dialogflow-fulfillment');
-const { Card, Suggestion } = require('dialogflow-fulfillment');
+const {WebhookClient} = require('dialogflow-fulfillment');
+const {Card,Suggestion} = require('dialogflow-fulfillment');
+//added
+const requestNode = require('request');
+const rp = require('request-promise');
+const NUMBER_ARGUMENT = 'number';
 
-const https = require('https');
-const request = require('request');
+//end
 
-// The Firebase Admin SDK to access the Firebase Realtime Database.
-// const admin = require('firebase-admin');
-// admin.initializeApp(functions.config().firebase);
 
 process.env.DEBUG = 'dialogflow:debug'; // enables lib debugging statements
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
-
-    console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
+const agent = new WebhookClient({request,response});
+    console.log('Dialogflow Request headers:  ' + JSON.stringify(request.headers));
     console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
 
-    //   const agent = new WebhookClient({ request, response });
+    function welcome(agent) {
+        agent.add(`Welcome called`);
 
-    // An action is a string used to identify what needs to be done in fulfillment
-    let action = request.body.queryResult.action;
-    // console.log("ACTION", action);
-
-    // Parameters are any entites that Dialogflow has extracted from the request.
-    let parameters = request.body.queryResult.parameters;
-    // console.log("Value", parameters.app);
-
-    if (action === "openApp" && parameters.app) {
-
-        console.log("OPEN APP", parameters.app);
-        saveToDb(parameters.app);
     }
 
-    //   Contexts are objects used to track and store conversation state
-    //   let inputContexts = request.body.queryResult.contexts;
-
-    //   defualt functions
-    //   function welcome(agent) {
-    //     agent.add(`Welcome to my agent!`);
-    //   }
-
-    //   function fallback(agent) {
-    //     agent.add(`I didn't understand`);
-    //     agent.add(`I'm sorry, can you try again?`);
-    //   }
-
-    // Uncomment and edit to make your own intent handler
-    // uncomment `intentMap.set('your intent name here', yourFunctionHandler);`
-    // below to get this function to be run when a Dialogflow intent is matched
-    //   function openApp(agent) {
-    //      agent.add(`This message is from Dialogflow's Cloud Functions for Firebase editor!`);
-    //      agent.add(new Card({
-    //        title: `Title: this is a card title`,
-    //        imageUrl: 'https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png',
-    //        text: `This is the body text of a card.  You can even use line\n  breaks and emoji! 💁`,
-    //        buttonText: 'This is a button',
-    //        buttonUrl: 'https://assistant.google.com/'
-    //      })
-    //  );
-    //    agent.add(new Suggestion(`Quick Reply`));
-    //    agent.add(new Suggestion(`Suggestion`));
-    //    agent.setContext({ name: 'weather', lifespan: 2, parameters: { city: 'Rome' }});
-    //    saveToDb(0);
-    //   }
-
-    // Uncomment and edit to make your own Google Assistant intent handler
-    // uncomment `intentMap.set('your intent name here', googleAssistantHandler);`
-    // below to get this function to be run when a Dialogflow intent is matched
-    // function googleAssistantHandler(agent) {
-    //   let conv = agent.conv(); // Get Actions on Google library conv instance
-    //   conv.ask('Hello from the Actions on Google client library!') // Use Actions on Google library
-    //   agent.add(conv); // Add Actions on Google library responses to your agent's response
-    // }
-
-    // // See https://github.com/dialogflow/dialogflow-fulfillment-nodejs/tree/master/samples/actions-on-google
-    // // for a complete Dialogflow fulfillment library Actions on Google client library v2 integration sample
-
-    //   Run the proper function handler based on the matched Dialogflow intent name
-    //   let intentMap = new Map();
-    //   intentMap.set('Default Welcome Intent', welcome);
-    //   intentMap.set('Default Fallback Intent', fallback);
-    //   intentMap.set('openApp', openApp);
-    //   intentMap.set('your intent name here', googleAssistantHandler);
-    //   agent.handleRequest(intentMap);
-});
-
-function saveToDb(appToSave) {
-    try {
+    function goTo(agent) {
+        return new Promise((resolve,reject) =>{
         const options = {
-            method: 'PUT',
-            url: 'https://luibyobm.firebaseio.com/application.json',
-            headers:
-            {
-                'Cache-Control': 'no-cache',
+            url: 'https://lui-medialab.firebaseio.com/voice.json',
+            method: 'PATCH',
+            headers: {
                 'Content-Type': 'application/json'
             },
-            body: { app: appToSave },
-            json: true
+            body: JSON.stringify({
+                "goto": agent.parameters.noun,
+                "update": true
+            })
         };
-
-        request(options, function (error, response, body) {
-            if (error) throw new Error(error);
-            console.log("update", body);
+        //get stuff
+        rp('https://lui-medialab.firebaseio.com/voice.json')
+            .then(function (body) {
+                const apps = ["photos","videos","prismatic","game","model","landing","gesture"];
+                var content = JSON.parse(body);
+                if ((content.current == "home" && apps.includes(agent.parameters.noun))||(agent.parameters.noun == "home" && apps.includes(content.current))){
+                    //patch
+                    rp(options)
+                        .then(function (body) {
+                      if (agent.parameters.noun =="game"){
+                        agent.add("Game is in development");
+                      }
+                      else{
+                            agent.add(`going to ` + agent.parameters.noun);
+                      }
+                            resolve();
+                        })
+                    .catch(function (err) {
+                        agent.add(`go to failed`);
+                        resolve();
+                    });
+                }
+                else{
+                    rp(options)
+                        .then(function (body) {
+                            agent.add(`Path does not exist`);
+                            console.log(body);
+                            resolve();
+                        })
+                    .catch(function (err) {
+                        agent.add(`go to failed`);
+                        resolve();
+                    });
+                }
+            });
         });
-    } catch (e) {
-        console.log(e);
     }
-}
+
+	function open(agent){
+       const options = {
+            url: 'https://lui-medialab.firebaseio.com/voice.json',
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "clicked":true
+              
+            })
+        };
+      rp(options)
+        .then(function (body) {
+        });
+      agent.add(`opening`);
+    }
+  
+  function back(agent){
+       const options = {
+            url: 'https://lui-medialab.firebaseio.com/voice.json',
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "back":true
+              
+            })
+        };
+      rp(options)
+        .then(function (body) {
+        });
+      agent.add(`going back`);
+    }
+  
+  
+  
+    function fallback(agent) {
+        agent.add(`Invalid command`);
+
+    }
+
+
+    let intentMap = new Map();
+    intentMap.set('Default Welcome Intent', welcome);
+    intentMap.set('Default Fallback Intent', fallback);
+    
+    intentMap.set('Go to', goTo);
+  intentMap.set('open this', open);
+  intentMap.set('go back', back);
+    agent.handleRequest(intentMap);
+});

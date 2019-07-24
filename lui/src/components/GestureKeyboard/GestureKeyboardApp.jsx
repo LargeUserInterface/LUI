@@ -58,13 +58,13 @@ const styles = {
 
 };
 
-const config = {
-  apiKey: "AIzaSyDuiOnplJjjoh9poil-h67uFPUBw7ojJ0c",
-  authDomain: "gesturekeyboard.firebaseapp.com",
-  databaseURL: "https://gesturekeyboard.firebaseio.com",
-  storageBucket: "gs://gesturekeyboard.appspot.com",
-};
-firebase.initializeApp(config);
+// const config = {
+//   apiKey: "AIzaSyDuiOnplJjjoh9poil-h67uFPUBw7ojJ0c",
+//   authDomain: "gesturekeyboard.firebaseapp.com",
+//   databaseURL: "https://gesturekeyboard.firebaseio.com",
+//   storageBucket: "gs://gesturekeyboard.appspot.com",
+// };
+// firebase.initializeApp(config);
 
 class GestureKeyboardApp extends React.Component {
   constructor(props) {
@@ -310,7 +310,7 @@ class GestureKeyboardApp extends React.Component {
     const { classes } = this.props;
 
     if (this.state.exit) {
-      return <Redirect to={{ pathname: "/" }} />
+      return <Redirect to={{ pathname: "/Home" }} />
     }
 
     return (
