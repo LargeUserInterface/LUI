@@ -41,7 +41,7 @@ const styles = {
   rowContainer: {
     width: '100%',
     height: '50%',
-    
+
   }
 
 };
@@ -105,7 +105,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    
+
 
     this.state = {
       cards: [],
@@ -133,7 +133,7 @@ class App extends Component {
       if (db.update){
         if (name === "photos") {
           appClicked = "card1";
-          something.setState({ clicked: appClicked }); 
+          something.setState({ clicked: appClicked });
         } else if (name === "videos") {
           appClicked = "card2";
           something.setState({ clicked: appClicked });
@@ -152,7 +152,7 @@ class App extends Component {
         } else if (name === "landing") {
           something.setState({ exit: true });
         }
-        currentRef.update({"update":false});  
+        currentRef.update({"update":false});
       }
       if(db.clicked&&db.hovered!=null){
         something.handleClick(db.hovered);
@@ -163,14 +163,14 @@ class App extends Component {
       }
     });
     //voice end
-    
+
   }
-  
+
 
   handleHover = (card) => {
     // console.log("HOVER", card);
     this.setState({ hovered: card })
-    currentRef.update({"hovered": card});  
+    currentRef.update({"hovered": card});
   }
 
   handleClick = (card) => {
@@ -194,7 +194,7 @@ class App extends Component {
 
   handleSwipeUp = () => {
     this.setState({ exit: true });
-    
+
   }
 
   render() {
@@ -204,7 +204,7 @@ class App extends Component {
       console.log("EXITING")
       return <Redirect from="/Home" to="/" />
     }
-    
+
 
     return (
       <Wrapper isMounted={this.props.isMounted} exit={this.state.exit}>
@@ -221,32 +221,44 @@ class App extends Component {
 
         <Grid className={classes.mainContainer} container>
           <Grid className={classes.rowContainer} container>
-            <Grid ref="card1" item xs={4} onClick={() => { this.setState({ clicked: "card1" }) }}
-              onMouseEnter={() => { this.setState({ hovered: "card1" }) }} onMouseLeave={() => { this.setState({ hovered: "" }) }} >
+            <Grid ref="card1" item xs={4}
+              onClick={() => { this.setState({ clicked: "card1" }) }}
+              onMouseEnter={() => { this.setState({ hovered: "card1" }) }}
+              onMouseLeave={() => { this.setState({ hovered: "" }) }} >
               <Photos isMounted = {this.state.clicked === "card1"} hovered={this.state.hovered === "card1"} clicked={this.state.clicked === "card1"} />
             </Grid>
-            <Grid ref="card2" item xs={4} onClick={() => { this.setState({ clicked: "card2" }) }}
-              onMouseEnter={() => { this.setState({ hovered: "card2" }) }} onMouseLeave={() => { this.setState({ hovered: "" }) }} >
+            <Grid ref="card2" item xs={4}
+              onClick={() => { this.setState({ clicked: "card2" }) }}
+              onMouseEnter={() => { this.setState({ hovered: "card2" }) }}
+              onMouseLeave={() => { this.setState({ hovered: "" }) }} >
               <Videos hovered={this.state.hovered === "card2"} clicked={this.state.clicked === "card2"} />
             </Grid>
-            <Grid ref="card3" item xs={4} onClick={() => { this.setState({ clicked: "card3" }) }}
-              onMouseEnter={() => { this.setState({ hovered: "card3" }) }} onMouseLeave={() => { this.setState({ hovered: "" }) }} >
-              <Prismatic hovered={this.state.hovered === "card3"} clicked={this.state.clicked === "card3"} />
+            <Grid ref="card3" item xs={4}
+              onClick={() => { this.setState({ clicked: "card3" }) }}
+              onMouseEnter={() => { this.setState({ hovered: "card3" }) }}
+              onMouseLeave={() => { this.setState({ hovered: "" }) }} >
+              <Prismatic hovered={this.state.hovered === "card3"} clicked={false} />
             </Grid>
           </Grid>
 
           <Grid className={classes.rowContainer} container>
-            <Grid ref="card4" item xs={4} onClick={() => { this.setState({ clicked: "card4" }) }}
-              onMouseEnter={() => { this.setState({ hovered: "card4" }) }} onMouseLeave={() => { this.setState({ hovered: "" }) }} >
+            <Grid ref="card4" item xs={4}
+              onClick={() => { this.setState({ clicked: "card4" }) }}
+              onMouseEnter={() => { this.setState({ hovered: "card4" }) }}
+              onMouseLeave={() => { this.setState({ hovered: "" }) }} >
               <CandyCrush hovered={this.state.hovered === "card4"} clicked={false} />
             </Grid>
-            <Grid ref="card5" item xs={4} onClick={() => { this.setState({ clicked: "card5" }) }}
-              onMouseEnter={() => { this.setState({ hovered: "card5" }) }} onMouseLeave={() => { this.setState({ hovered: "" }) }} >
+            <Grid ref="card5" item xs={4}
+              onClick={() => { this.setState({ clicked: "card5" }) }}
+              onMouseEnter={() => { this.setState({ hovered: "card5" }) }}
+              onMouseLeave={() => { this.setState({ hovered: "" }) }} >
               <GestureKeyboard hovered={this.state.hovered === "card5"} clicked={this.state.clicked === "card5"} />
             </Grid>
-            <Grid ref="card6" item xs={4} onClick={() => { this.setState({ clicked: "card6" }) }}
-              onMouseEnter={() => { this.setState({ hovered: "card6" }) }} onMouseLeave={() => { this.setState({ hovered: "" }) }} >
-              <Model hovered={this.state.hovered === "card6"} clicked={this.state.clicked === "card6"} />
+            <Grid ref="card6" item xs={4}
+              onClick={() => { this.setState({ clicked: "card6" }) }}
+              onMouseEnter={() => { this.setState({ hovered: "card6" }) }}
+              onMouseLeave={() => { this.setState({ hovered: "" }) }} >
+              <Model hovered={this.state.hovered === "card6"} clicked={false} />
             </Grid>
           </Grid>
         </Grid>
