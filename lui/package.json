@@ -29,7 +29,7 @@
     "react-transition-group": "^2.4.0",
     "react-youtube": "^7.6.0",
     "request": "^2.88.0",
-    "three": "^0.96.0",
+    "three": "^0.125.0",
     "threeleapcontrols": "^1.0.1"
   },
   "scripts": {
